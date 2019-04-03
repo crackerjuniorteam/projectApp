@@ -8,9 +8,9 @@ import java.sql.Date;
 public class SessionRowDTO {
     private int id;
 
-    private int cardId;
-
     private int answer;
 
     private Date update;
+
+    private CardDTO cardId;
 }

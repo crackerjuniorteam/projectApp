@@ -6,7 +6,7 @@ import lombok.Data;
 public class CardDTO {
     private int id;
 
-    private String ask;
+    private String question;
 
     private String answer;
 

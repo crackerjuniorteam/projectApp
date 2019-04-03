@@ -1,10 +1,10 @@
 package com.crackerStudents.projectApp.domain;
 
-        import lombok.Data;
-        import java.sql.Date;
-        import java.util.ArrayList;
-        import java.util.List;
-        import javax.persistence.*;
+import lombok.Data;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
 
 
 @Entity
@@ -36,6 +36,10 @@ public class Pack {
     @Column(name = "created")
     private Date created;
 
+    @Basic
+    @Column(name = "parent_id")
+    private int parentId;
+
     @ManyToMany
     @JoinTable(name = "user_packs",
             joinColumns = {@JoinColumn(name = "pack_id")},
@@ -47,6 +51,12 @@ public class Pack {
             joinColumns = {@JoinColumn(name = "pack_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private List<Tag> tags = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "card_in_pack",
+            joinColumns = {@JoinColumn(name = "pack_id")},
+            inverseJoinColumns = {@JoinColumn(name = "card_id")})
+    private List<Card> cards = new ArrayList<>();
 
 
 }

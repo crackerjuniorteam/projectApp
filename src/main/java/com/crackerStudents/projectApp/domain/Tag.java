@@ -1,7 +1,6 @@
 package com.crackerStudents.projectApp.domain;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ public class Tag {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id = 0;
+    private int id;
 
     @Basic
     @Column(name = "tag")

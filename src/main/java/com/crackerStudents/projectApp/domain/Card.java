@@ -1,7 +1,6 @@
 package com.crackerStudents.projectApp.domain;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public class Card {
 
     @ManyToMany
     @JoinTable(name = "card_in_pack",
-            joinColumns = {@JoinColumn(name = "pack_id")},
-            inverseJoinColumns = {@JoinColumn(name = "card_id")})
+            joinColumns = {@JoinColumn(name = "card_id")},
+            inverseJoinColumns = {@JoinColumn(name = "pack_id")})
     private List<Pack> packs = new ArrayList<>();
 }

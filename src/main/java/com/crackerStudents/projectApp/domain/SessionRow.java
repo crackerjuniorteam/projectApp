@@ -1,7 +1,6 @@
 package com.crackerStudents.projectApp.domain;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.sql.Date;
 

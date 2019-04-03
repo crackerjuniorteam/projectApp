@@ -16,9 +16,13 @@ public class PackDTO {
 
     private Date created;
 
+    private int parentId;
+
     private CardDTO card;
 
     private TagDTO tag;
 
     private UserDTO user;
+
+    private UserDTO authorId; //зачем мне это?
 }
