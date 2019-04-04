@@ -1,7 +1,7 @@
 package com.crackerStudents.projectApp.controller;
 
 import com.crackerStudents.projectApp.dao.UserRepository;
-import com.crackerStudents.projectApp.domain.Role;
+//import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,6 @@ public class RegistrationController {
             return "registration";
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
       userRepository.save(user);
 
         return "redirect:/login";

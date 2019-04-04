@@ -1,6 +1,7 @@
 package com.crackerStudents.projectApp.service;
 
 
+import com.crackerStudents.projectApp.dao.UserRepository;
 import com.crackerStudents.projectApp.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,10 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserSevice implements UserDetailsService {
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+//        return userRepository.findByLogin(username);
+        return null;
     }
 }

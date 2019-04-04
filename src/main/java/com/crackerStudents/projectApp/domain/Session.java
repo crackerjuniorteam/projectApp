@@ -1,13 +1,11 @@
 package com.crackerStudents.projectApp.domain;
 
-import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "session", schema = "public")
-@Data
 public class Session {
     @Id
     @Column(name = "id")
@@ -24,5 +22,29 @@ public class Session {
             joinColumns = {@JoinColumn(name = "session_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private List<User> users = new ArrayList<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public SessionRow getRow_id() {
+        return row_id;
+    }
+
+    public void setRow_id(SessionRow row_id) {
+        this.row_id = row_id;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }
 

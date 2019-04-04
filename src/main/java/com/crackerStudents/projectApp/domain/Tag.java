@@ -1,13 +1,11 @@
 package com.crackerStudents.projectApp.domain;
 
-import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tag", schema = "public")
-@Data
 public class Tag {
     @Id
     @Column(name = "id")
@@ -24,5 +22,28 @@ public class Tag {
             inverseJoinColumns = {@JoinColumn(name = "pack_id")})
     private List<Pack> packs = new ArrayList<>();
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public List<Pack> getPacks() {
+        return packs;
+    }
+
+    public void setPacks(List<Pack> packs) {
+        this.packs = packs;
+    }
 }
 
