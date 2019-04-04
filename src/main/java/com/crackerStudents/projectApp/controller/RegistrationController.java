@@ -1,5 +1,6 @@
 package com.crackerStudents.projectApp.controller;
 
+import com.crackerStudents.projectApp.dao.UserRepository;
 import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.UserRepo;
@@ -14,7 +15,7 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @GetMapping("/registration")
     public String registration() {
@@ -23,7 +24,7 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
+        User userFromDb = userRepository.findByLogin(user.getLogin());
 
         if (userFromDb != null) {
             model.put("message", "User exists!");
@@ -32,7 +33,7 @@ public class RegistrationController {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
+      userRepository.save(user);
 
         return "redirect:/login";
     }

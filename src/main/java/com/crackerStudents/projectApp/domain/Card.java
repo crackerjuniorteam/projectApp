@@ -1,6 +1,8 @@
 package com.crackerStudents.projectApp.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Card {
@@ -14,6 +16,12 @@ public class Card {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
+  @ManyToMany
+  @JoinTable(name = "card_in_pack",
+      joinColumns = {@JoinColumn(name = "card_id")},
+      inverseJoinColumns = {@JoinColumn(name = "pack_id")})
+  private List<Pack> packs = new ArrayList<>();
 
     public Card() {
     }
