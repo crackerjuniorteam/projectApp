@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<org.mapstruct.version>1.2.0.final</org.mapstruct.version>
+		<org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
 	</properties>
 
 	<dependencies>

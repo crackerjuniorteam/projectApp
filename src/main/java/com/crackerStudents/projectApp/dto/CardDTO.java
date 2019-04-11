@@ -1,8 +1,6 @@
 package com.crackerStudents.projectApp.dto;
 
-import lombok.Data;
 
-@Data
 public class CardDTO {
     private int id;
 
@@ -11,4 +9,36 @@ public class CardDTO {
     private String answer;
 
     private PackDTO pack;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public PackDTO getPack() {
+        return pack;
+    }
+
+    public void setPack(PackDTO pack) {
+        this.pack = pack;
+    }
 }

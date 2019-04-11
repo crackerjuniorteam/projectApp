@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "pack", schema = "memory")
+@Table(name = "pack")
 public class Pack {
     @Id
     @Column(name = "id")
