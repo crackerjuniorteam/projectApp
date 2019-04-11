@@ -21,6 +21,12 @@ public class Card {
     @JoinColumn(name = "user_id")
     private User author;
 
+    @ManyToMany
+    @JoinTable(name = "card_in_pack",
+            joinColumns = {@JoinColumn(name = "card_id")},
+            inverseJoinColumns = {@JoinColumn(name = "pack_id")})
+    private List<Pack> packs = new ArrayList<>();
+
     public Card() {
     }
 
@@ -28,6 +34,14 @@ public class Card {
         this.question = question;
         this.answer = answer;
         this.author = user;
+    }
+
+    public List<Pack> getPacks() {
+        return packs;
+    }
+
+    public void setPacks(List<Pack> packs) {
+        this.packs = packs;
     }
 
     public String getAuthorName() {

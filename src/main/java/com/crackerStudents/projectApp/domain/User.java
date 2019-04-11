@@ -35,12 +35,17 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usr_packs",
             joinColumns = @JoinColumn(name = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "pack_id"))
     private List<Pack> packs = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "user_session",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "session_id")})
+    private List<Session> sessions = new ArrayList<>();
 
     //
     @Override
@@ -79,6 +84,14 @@ public class User implements UserDetails {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(List<Session> sessions) {
+        this.sessions = sessions;
     }
 
     public void setId(Long id) {

@@ -9,5 +9,5 @@
             <button type="submit">Создать</button>
         </form>
     </div>
-
+    ${message!}
 </@c.page>

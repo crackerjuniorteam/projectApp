@@ -27,9 +27,9 @@ public class PackController {
     @PostMapping("/createpack")
     public String createPack(@RequestParam String elem, @AuthenticationPrincipal User user, Model model) {
         Pack pack = new Pack(elem, user.getId(), true);
-        packRepo.save(pack);
         pack.addUser(user);
         user.addPack(pack);
+        packRepo.save(pack);
         return "createpack";
     }
 }

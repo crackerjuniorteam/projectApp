@@ -40,12 +40,43 @@ public class Pack {
         this.isPublic = isPublic;
     }
 
-    @ManyToMany(mappedBy = "packs")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usr_packs",
+            joinColumns = @JoinColumn(name = "pack_id"),
+            inverseJoinColumns = @JoinColumn(name = "usr_id"))
     private List<User> users = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "tag_to_pack",
+            joinColumns = {@JoinColumn(name = "pack_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")})
+    private List<Tag> tags = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "card_in_pack",
+            joinColumns = {@JoinColumn(name = "pack_id")},
+            inverseJoinColumns = {@JoinColumn(name = "card_id")})
+    private List<Card> cards = new ArrayList<>();
 
     //
     public void addUser(User user) {
         users.add(user);
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     public Long getId() {
