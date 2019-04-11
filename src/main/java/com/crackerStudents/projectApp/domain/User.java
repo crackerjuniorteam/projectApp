@@ -13,8 +13,19 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String username;
+
     private String password;
+
+    private String email;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -22,6 +33,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+
+    //
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
@@ -47,6 +60,11 @@ public class User implements UserDetails {
         return isActive();
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    //
     public Long getId() {
         return id;
     }
@@ -71,9 +89,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return active;
-    }
 
     public void setActive(boolean active) {
         this.active = active;
@@ -85,5 +100,29 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

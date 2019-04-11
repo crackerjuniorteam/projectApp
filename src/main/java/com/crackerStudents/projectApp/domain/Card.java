@@ -3,12 +3,16 @@ package com.crackerStudents.projectApp.domain;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "card")
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String question = "";
+    @Column(name = "question")
+    private String question;
+
+    @Column(name = "answer")
     private String answer;
 
     @ManyToOne(fetch = FetchType.EAGER)
