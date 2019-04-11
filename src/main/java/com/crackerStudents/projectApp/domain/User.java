@@ -35,9 +35,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany
-    @JoinTable(name = "user_packs",
-            joinColumns = @JoinColumn(name = "user_id"),
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "usr_packs",
+            joinColumns = @JoinColumn(name = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "pack_id"))
     private List<Pack> packs = new ArrayList<>();
 
@@ -73,6 +73,10 @@ public class User implements UserDetails {
     }
 
     //
+    public void addPack(Pack pack) {
+        packs.add(pack);
+    }
+
     public Long getId() {
         return id;
     }
@@ -132,5 +136,13 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Pack> getPacks() {
+        return packs;
+    }
+
+    public void setPacks(List<Pack> packs) {
+        this.packs = packs;
     }
 }

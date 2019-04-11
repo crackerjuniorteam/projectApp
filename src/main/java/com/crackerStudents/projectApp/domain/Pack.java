@@ -11,14 +11,13 @@ public class Pack {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
-
     @Column(name = "author_id")
-    private int authorId;
+    private Long authorId;
 
     @Column(name = "is_public")
     private boolean isPublic;
@@ -32,18 +31,85 @@ public class Pack {
     @Column(name = "parent_id")
     private int parentId;
 
+
+    public Pack(){}
+
+    public Pack(String name, Long authorId, boolean isPublic) {
+        this.name = name;
+        this.authorId = authorId;
+        this.isPublic = isPublic;
+    }
+
     @ManyToMany(mappedBy = "packs")
     private List<User> users = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "card_in_pack",
-            joinColumns = @JoinColumn(name = "pack_id"),
-            inverseJoinColumns = @JoinColumn(name = "card_id"))
-    private List<Card> cards = new ArrayList<>();
+    //
+    public void addUser(User user) {
+        users.add(user);
+    }
 
-    @ManyToMany
-    @JoinTable(name = "tag_to_pack",
-            joinColumns = @JoinColumn(name = "pack_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private List<Tag> tags = new ArrayList<>();
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
 }

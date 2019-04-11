@@ -21,9 +21,6 @@ public class Card {
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToMany(mappedBy = "cards")
-    private List<Pack> packs = new ArrayList<>();
-
     public Card() {
     }
 

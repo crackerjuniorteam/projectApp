@@ -2,8 +2,13 @@
 <#import "parts/login.ftl" as l>
 
 <@c.page>
+    <@l.logout />
     <div>
-        <@l.logout />
+        <b>Создать Pack</b>
+        <a href="/createpack">Перейти</a>
+    </div>
+
+    <div>
         <span><a href="/user">User List</a></span>
     </div>
     <div>
