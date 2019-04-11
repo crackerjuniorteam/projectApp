@@ -33,6 +33,18 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
 		<!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

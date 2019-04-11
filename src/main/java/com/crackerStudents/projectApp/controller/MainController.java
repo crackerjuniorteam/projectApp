@@ -1,8 +1,10 @@
 package com.crackerStudents.projectApp.controller;
 
 import com.crackerStudents.projectApp.domain.Card;
+import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.CardRepo;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
+@Api
 @Controller
 public class MainController {
     @Autowired
@@ -24,36 +28,10 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+    public String main(Model model, @AuthenticationPrincipal User user) {
         Iterable<Card> cards = cardRepo.findAll();
-
-        if (filter != null && !filter.isEmpty()) {
-            cards = cardRepo.findByAnswer(filter);
-        } else {
-            cards = cardRepo.findAll();
-        }
-
-        model.addAttribute("cards", cards);
-        model.addAttribute("filter", filter);
-
-        return "main";
-    }
-
-    @PostMapping("/main")
-    public String add(
-            @AuthenticationPrincipal User user,
-            @RequestParam String question,
-            @RequestParam String answer, Map<String, Object> model
-    ) {
-        Card card = new Card(question, answer, user);
-
-        cardRepo.save(card);
-
-        Iterable<Card> cards = cardRepo.findAll();
-
-        model.put("cards", cards);
-        model.put("filter", "");
-
+        List<Pack> packs = user.getPacks();
+        model.addAttribute("packs", packs);
         return "main";
     }
 }
