@@ -1,6 +1,5 @@
 package com.crackerStudents.projectApp.controller;
 
-
 import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.PackRepo;
@@ -10,28 +9,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/packs")
-public class PackController {
-
+public class CreatePackController {
     @Autowired
     PackRepo packRepo;
 
-    @GetMapping("{name}")
-    public String main(@PathVariable String name, Model model, @AuthenticationPrincipal User user) {
-        List<Pack> packs = user.getPacks();
-        Pack ob;
-        for(Pack el: packs) {
-            if (el.getName().equals(name)) {
-                ob = el;
-                model.addAttribute("message", ob.getName());
-            }
-        }
-        return "pack";
+    @GetMapping("/createpack")
+    public String view(Model model) {
+
+        return "createpack";
     }
 
+    @PostMapping("/createpack")
+    public String createPack(@RequestParam String elem, @AuthenticationPrincipal User user, Model model) {
+        Pack pack = new Pack(elem, user.getId(), true);
+        pack.addUser(user);
+        user.addPack(pack);
+        packRepo.save(pack);
+        return "createpack";
+    }
 }
