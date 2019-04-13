@@ -14,5 +14,3 @@ spring:
               non_contextual_creation: true
   freemarker:
     expose-request-attributes: true
-
-`
