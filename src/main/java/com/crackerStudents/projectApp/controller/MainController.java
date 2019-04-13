@@ -28,10 +28,7 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(Model model, @AuthenticationPrincipal User user) {
-        Iterable<Card> cards = cardRepo.findAll();
-        List<Pack> packs = user.getPacks();
-        model.addAttribute("packs", packs);
+    public String main(Model model) {
         return "main";
     }
 }
