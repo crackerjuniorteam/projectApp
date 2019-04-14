@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -27,7 +28,7 @@ public class CreatePackController {
 
     @PostMapping("/createpack")
     public String createPack(@RequestParam String elem, @AuthenticationPrincipal User user, Model model) {
-        Pack pack = new Pack(elem, user.getId(), true);
+        Pack pack = new Pack(elem, user.getId(), true, 0, new Date());
         pack.addUser(user);
         user.addPack(pack);
         packRepo.save(pack);

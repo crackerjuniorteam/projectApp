@@ -17,11 +17,6 @@
         <span><a href="/user">User List</a></span>
     </div>
 
-    <div>Ниже находится список ваших паков</div>
-    #list packs as pack>
-        <div>
-            <a href="packs/$pack.name}">$pack.name!}</a>
-        </div>
-    /#list>
+
 
      -->

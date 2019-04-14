@@ -21,6 +21,12 @@ public class PackController {
     @Autowired
     PackRepo packRepo;
 
+    @GetMapping
+    public String view(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("packs", user.getPacks());
+        return "packs";
+    }
+
     @GetMapping("{name}")
     public String main(@PathVariable String name, Model model, @AuthenticationPrincipal User user) {
         List<Pack> packs = user.getPacks();
@@ -28,7 +34,8 @@ public class PackController {
         for(Pack el: packs) {
             if (el.getName().equals(name)) {
                 ob = el;
-                model.addAttribute("message", ob.getName());
+                model.addAttribute("pack", ob);
+                model.addAttribute("time", ob.getCreated().toString());
             }
         }
         return "pack";

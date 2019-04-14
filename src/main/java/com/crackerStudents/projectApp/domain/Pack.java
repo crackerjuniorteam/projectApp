@@ -40,6 +40,14 @@ public class Pack {
         this.isPublic = isPublic;
     }
 
+    public Pack(String name, Long authorId, boolean isPublic, int likes, Date created) {
+        this.name = name;
+        this.authorId = authorId;
+        this.isPublic = isPublic;
+        this.likes = likes;
+        this.created = created;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usr_packs",
             joinColumns = @JoinColumn(name = "pack_id"),
