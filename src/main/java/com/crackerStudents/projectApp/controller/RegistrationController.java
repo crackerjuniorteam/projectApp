@@ -1,7 +1,6 @@
 package com.crackerStudents.projectApp.controller;
 
-import com.crackerStudents.projectApp.dao.UserRepository;
-//import com.crackerStudents.projectApp.domain.Role;
+import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepository userRepository;
+    private UserRepo userRepo;
 
     @GetMapping("/reg")
     public String registration() {
@@ -24,16 +23,17 @@ public class RegistrationController {
 
     @PostMapping("/reg")
     public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepository.findByLogin(user.getLogin());
+        User userFromDb = userRepo.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
             model.put("message", "User exists!");
             return "reg";
         }
 
-      userRepository.save(user);
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+        userRepo.save(user);
 
         return "redirect:/login";
     }
 }
-

@@ -1,10 +1,9 @@
 package com.crackerStudents.projectApp.controller;
 
-//import com.crackerStudents.projectApp.domain.Role;
+import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,7 @@ public class UserController {
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
-     //   model.addAttribute("roles", Role.values());
+        model.addAttribute("roles", Role.values());
         return "userEdit";
     }
 
@@ -40,19 +39,19 @@ public class UserController {
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
     ) {
-//        user.setUsername(username);
-//
-//        Set<String> roles = Arrays.stream(Role.values())
-//                .map(Role::name)
-//                .collect(Collectors.toSet());
-//
-////        user.getRoles().clear();
-////
-////        for (String key : form.keySet()) {
-////            if (roles.contains(key)) {
-////                user.getRoles().add(Role.valueOf(key));
-////            }
-////        }
+        user.setUsername(username);
+
+        Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
+
+        user.getRoles().clear();
+
+        for (String key : form.keySet()) {
+            if (roles.contains(key)) {
+                user.getRoles().add(Role.valueOf(key));
+            }
+        }
 
         userRepo.save(user);
 
