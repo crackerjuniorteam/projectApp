@@ -2,7 +2,6 @@
 <#import "parts/login.ftl" as l>
 
 <@c.page>
-    <@l.logout />
     <div>
         <ul>
             <li><a href="/profile"><b>Профиль</b></a></li>
@@ -11,12 +10,3 @@
         </ul>
     </div>
 </@c.page>
-
-
-<!--  <div>
-        <span><a href="/user">User List</a></span>
-    </div>
-
-
-
-     -->

@@ -9,3 +9,4 @@ spring:
     show-sql: true
   freemarker:
     expose-request-attributes: true
+pathNameUpload: C:/Users/krylo/Documents/projectApp/src/uploads

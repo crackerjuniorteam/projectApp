@@ -1,5 +1,5 @@
 <#import "parts/common.ftl" as c>
-
+<#include "parts/security.ftl">
 
 <@c.page>
     <style type="text/css">
@@ -7,39 +7,63 @@
             width: 300px; /* Ширина таблицы */
             border-collapse: collapse; /* Убираем двойные линии между ячейками */
         }
+
         TD, TH {
             padding: 3px; /* Поля вокруг содержимого таблицы */
             border: 1px solid black; /* Параметры рамки */
         }
+
         TH {
             background: #b0e0e6; /* Цвет фона */
         }
     </style>
-    <h2>User Pack</h2>
-    <b>Name: </b>${pack.name!}<br>
-    <b>Like: </b>${pack.likes!}<br>
-    <b>Date created: </b>${time!}<br>
-    <form method="post">
-        <input type="text" name="question" placeholder="Введите вопрос" size="30"/>
-        <input type="text" name="answer" placeholder="Введите ответ" size="30"/>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button type="submit">Создать карточку</button>
-    </form>
+    <div class="form-group">
+        <h2>User Pack</h2>
+        <b>Name: </b>${pack.name!}<br>
+        <b>Like: </b>${pack.likes!}<br>
+        <b>Date created: </b>${time!}<br>
+    </div>
+    <a class="btn btn-primary my-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        Add new Card
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="form-group mt-3">
+            <form method="post">
+                <div class="form-group">
+                    <input type="text" name="question" class="form-control"
+                           placeholder="Введите вопрос" size="30"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="answer" class="form-control" placeholder="Введите ответ" size="30"/>
+                </div>
+                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Создать карточку</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <br>
-    <table>
-        <thead>
-        <tr>
-            <td><b>Вопрос</b></td>
-            <td><b>Ответ</b></td>
-        </tr>
-        </thead>
+    <div class="card-columns">
         <#list cards as card>
-            <tr>
-            <td>${card.question!}</a></td>
-            <td>${card.answer!}</a></td>
-            </tr>
+            <div class="card my-3">
+                <div class="card my-3">
+                    <div class="card p-1">
+                        <span><b>Вопрос:</b></span>
+                        <span>${card.question!}</span>
+                    </div>
+                    <div class="card p-1">
+                        <span><b>Ответ:</b></span>
+                        <i>${card.answer!}</i>
+                    </div>
+                    <div class="card-footer text-muted">
+                        ${name!}
+                    </div>
+                </div>
+            </div>
         <#else>
-            <b>Карточек нет.</b><br>
+            No Card
         </#list>
-    </table>
+    </div>
 </@c.page>

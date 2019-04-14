@@ -3,9 +3,13 @@
 <@c.page>
     User editor
 
-    <form action="/profileEdit" method="post">
+    <form action="/profileEdit" method="post" enctype="multipart/form-data">
         <table>
             <tbody>
+            <tr>
+                <td><b>Аватар: </b></td>
+                <td><input type="file" name="file"></td>
+            </tr>
             <tr>
                 <td><b>Username: </b></td>
                 <td><input type="text" name="username" value="${user.username}"></td>

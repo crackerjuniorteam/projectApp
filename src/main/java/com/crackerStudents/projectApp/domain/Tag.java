@@ -21,5 +21,4 @@ public class Tag {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "pack_id"))
     private List<Pack> packs = new ArrayList<>();
-
 }
