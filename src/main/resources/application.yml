@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/memory
+    username: postgres
+    password: 1208
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  freemarker:
+    expose-request-attributes: true
