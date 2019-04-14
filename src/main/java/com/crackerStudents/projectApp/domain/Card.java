@@ -5,23 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "card")
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String question = "";
+    @Column(name = "question")
+    private String question;
+
+    @Column(name = "answer")
     private String answer;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 
-  @ManyToMany
-  @JoinTable(name = "card_in_pack",
-      joinColumns = {@JoinColumn(name = "card_id")},
-      inverseJoinColumns = {@JoinColumn(name = "pack_id")})
-  private List<Pack> packs = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "card_in_pack",
+            joinColumns = {@JoinColumn(name = "card_id")},
+            inverseJoinColumns = {@JoinColumn(name = "pack_id")})
+    private List<Pack> packs = new ArrayList<>();
 
     public Card() {
     }
@@ -32,8 +36,16 @@ public class Card {
         this.author = user;
     }
 
+    public List<Pack> getPacks() {
+        return packs;
+    }
+
+    public void setPacks(List<Pack> packs) {
+        this.packs = packs;
+    }
+
     public String getAuthorName() {
-        return author != null ? author.getLogin() : "<none>";
+        return author != null ? author.getUsername() : "<none>";
     }
 
     public Integer getId() {

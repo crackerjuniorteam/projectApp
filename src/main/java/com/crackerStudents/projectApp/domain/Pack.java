@@ -1,10 +1,9 @@
 package com.crackerStudents.projectApp.domain;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.*;
-
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "pack")
@@ -12,56 +11,91 @@ public class Pack {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
-    @Basic
     @Column(name = "name")
     private String name;
 
-    @Basic
     @Column(name = "author_id")
-    private int authorId;
+    private Long authorId;
 
-    @Basic
     @Column(name = "is_public")
     private boolean isPublic;
 
-    @Basic
     @Column(name = "likes")
     private int likes;
 
-    @Basic
     @Column(name = "created")
     private Date created;
 
-    @Basic
     @Column(name = "parent_id")
     private int parentId;
 
-    @ManyToMany
-    @JoinTable(name = "user_packs",
-            joinColumns = {@JoinColumn(name = "pack_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+
+    public Pack(){}
+
+    public Pack(String name, Long authorId, boolean isPublic) {
+        this.name = name;
+        this.authorId = authorId;
+        this.isPublic = isPublic;
+    }
+
+    public Pack(String name, Long authorId, boolean isPublic, int likes, Date created) {
+        this.name = name;
+        this.authorId = authorId;
+        this.isPublic = isPublic;
+        this.likes = likes;
+        this.created = created;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usr_packs",
+            joinColumns = @JoinColumn(name = "pack_id"),
+            inverseJoinColumns = @JoinColumn(name = "usr_id"))
     private List<User> users = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tag_to_pack",
             joinColumns = {@JoinColumn(name = "pack_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private List<Tag> tags = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "card_in_pack",
             joinColumns = {@JoinColumn(name = "pack_id")},
             inverseJoinColumns = {@JoinColumn(name = "card_id")})
     private List<Card> cards = new ArrayList<>();
 
+    //
+    public void addCard(Card card) {
+        cards.add(card);
+    }
 
-    public int getId() {
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,11 +107,11 @@ public class Pack {
         this.name = name;
     }
 
-    public int getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
@@ -121,19 +155,4 @@ public class Pack {
         this.users = users;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public List<Card> getCards() {
-        return cards;
-    }
-
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
 }

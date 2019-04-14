@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "session", schema = "public")
+@Table(name = "session")
 public class Session {
     @Id
     @Column(name = "id")
@@ -23,6 +23,7 @@ public class Session {
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private List<User> users = new ArrayList<>();
 
+    //
     public int getId() {
         return id;
     }
@@ -47,4 +48,3 @@ public class Session {
         this.users = users;
     }
 }
-
