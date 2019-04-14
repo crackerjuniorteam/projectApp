@@ -27,11 +27,16 @@ public class CreatePackController {
     }
 
     @PostMapping("/createpack")
-    public String createPack(@RequestParam String elem, @AuthenticationPrincipal User user, Model model) {
-        Pack pack = new Pack(elem, user.getId(), true, 0, new Date());
-        pack.addUser(user);
-        user.addPack(pack);
-        packRepo.save(pack);
+    public String createPack(@RequestParam String name, @AuthenticationPrincipal User user, Model model) {
+        Pack pack = new Pack(name, user.getId(), true, 0, new Date());
+        Object[] elem = user.getPacks().stream().filter(el -> el.getName().equals(name)).toArray();
+        if (elem.length != 0) {
+            model.addAttribute("message", "Такой пак уже существует");
+        } else {
+            pack.addUser(user);
+            user.addPack(pack);
+            packRepo.save(pack);
+        }
         return "createpack";
     }
 }

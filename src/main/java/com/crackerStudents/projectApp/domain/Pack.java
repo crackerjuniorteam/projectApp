@@ -54,19 +54,23 @@ public class Pack {
             inverseJoinColumns = @JoinColumn(name = "usr_id"))
     private List<User> users = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tag_to_pack",
             joinColumns = {@JoinColumn(name = "pack_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private List<Tag> tags = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "card_in_pack",
             joinColumns = {@JoinColumn(name = "pack_id")},
             inverseJoinColumns = {@JoinColumn(name = "card_id")})
     private List<Card> cards = new ArrayList<>();
 
     //
+    public void addCard(Card card) {
+        cards.add(card);
+    }
+
     public void addUser(User user) {
         users.add(user);
     }
