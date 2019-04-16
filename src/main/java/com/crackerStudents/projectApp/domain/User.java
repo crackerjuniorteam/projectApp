@@ -22,13 +22,14 @@ public class User implements UserDetails {
 
     private String email;
 
+    private String activationCode;
+
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
-
-    @Column(name = "avatar")
+    
     private String avatar;
 
     private boolean active;
@@ -172,5 +173,13 @@ public class User implements UserDetails {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }

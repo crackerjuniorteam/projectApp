@@ -9,4 +9,12 @@ spring:
     show-sql: true
   freemarker:
     expose-request-attributes: true
+  mail:
+    host: smtp.yandex.ru
+    username: sweaterRu@yandex.ru
+    password: sweaterRusweaterRu
+    port: 465
+    protocol: smtps
+
+mail.debug: true
 pathNameUpload: C:/Users/krylo/Documents/projectApp/src/uploads
