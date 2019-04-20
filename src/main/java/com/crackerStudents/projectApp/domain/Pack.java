@@ -1,23 +1,30 @@
 package com.crackerStudents.projectApp.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "pack")
 public class Pack {
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "author_id")
-    private Long authorId;
+    private UUID authorId;
 
     @Column(name = "is_public")
     private boolean isPublic;
@@ -32,20 +39,7 @@ public class Pack {
     private int parentId;
 
 
-    public Pack(){}
-
-    public Pack(String name, Long authorId, boolean isPublic) {
-        this.name = name;
-        this.authorId = authorId;
-        this.isPublic = isPublic;
-    }
-
-    public Pack(String name, Long authorId, boolean isPublic, int likes, Date created) {
-        this.name = name;
-        this.authorId = authorId;
-        this.isPublic = isPublic;
-        this.likes = likes;
-        this.created = created;
+    public Pack() {
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -65,6 +59,14 @@ public class Pack {
             joinColumns = {@JoinColumn(name = "pack_id")},
             inverseJoinColumns = {@JoinColumn(name = "card_id")})
     private List<Card> cards = new ArrayList<>();
+
+    public Pack(String name, UUID authorId, boolean isPublic, int likes, Date date) {
+        this.name = name;
+        this.authorId = authorId;
+        this.isPublic = isPublic;
+        this.likes = likes;
+        this.created = date;
+    }
 
     //
     public void addCard(Card card) {
@@ -91,11 +93,11 @@ public class Pack {
         this.cards = cards;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -107,11 +109,11 @@ public class Pack {
         this.name = name;
     }
 
-    public Long getAuthorId() {
+    public UUID getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Long authorId) {
+    public void setAuthorId(UUID authorId) {
         this.authorId = authorId;
     }
 
