@@ -53,6 +53,15 @@ public class User implements UserDetails {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "session_id")})
     private List<Session> sessions = new ArrayList<>();
+    //
+
+
+    public User() {
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
 
     //
     @Override

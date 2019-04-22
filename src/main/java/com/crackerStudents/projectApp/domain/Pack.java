@@ -35,12 +35,9 @@ public class Pack {
     @Column(name = "created")
     private Date created;
 
+    // Зачем нам это поле?
     @Column(name = "parent_id")
     private int parentId;
-
-
-    public Pack() {
-    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usr_packs",
@@ -60,6 +57,11 @@ public class Pack {
             inverseJoinColumns = {@JoinColumn(name = "card_id")})
     private List<Card> cards = new ArrayList<>();
 
+    //
+
+    public Pack() {
+    }
+
     public Pack(String name, UUID authorId, boolean isPublic, int likes, Date date) {
         this.name = name;
         this.authorId = authorId;
@@ -67,6 +69,7 @@ public class Pack {
         this.likes = likes;
         this.created = date;
     }
+
 
     //
     public void addCard(Card card) {
