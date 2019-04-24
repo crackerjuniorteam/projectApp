@@ -5,8 +5,8 @@ spring:
     password: 1208
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
+    show-sql: false
   freemarker:
     expose-request-attributes: true
   mail:
