@@ -17,4 +17,4 @@ spring:
     protocol: smtps
 
 mail.debug: true
-pathNameUpload: C:/Users/krylo/Documents/projectApp/src/uploads
+pathNameUpload: C:/Users/Sergey/Documents/IT/projectApp/src/uploads

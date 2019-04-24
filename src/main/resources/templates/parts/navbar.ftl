@@ -2,26 +2,47 @@
 <#import "login.ftl" as l>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Memory</a>
+    <div class="navbar-brand">Memory</div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/main">Main</a>
-            </li>
-            <#if isAdmin>
+    <#if name != "Guest">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/user">User list</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
-            </#if>
-    </div>
-    <div class="navbar-text mr-3">${name}</div>
-    <@l.logout />
+                <li class="nav-item">
+                    <a class="nav-link" href="/packs">Packs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/createpack">Create Pack</a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-text mr-1">
+            <div class="nav-item">
+                <a class="nav-link" href="/profile">Profile</a>
+            </div>
+        </div>
+        <@l.logout />
+    <#else>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-text mr-1">
+            <a href="/login">
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </a>
+            <a href="/reg">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </a>
+        </div>
+    </#if>
+
 </nav>
