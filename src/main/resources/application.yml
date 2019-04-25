@@ -1,12 +1,17 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/memory
+    url: jdbc:postgresql://localhost:5432/projectappdb
     username: postgres
-    password: 1208
+    password: 789456
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
   freemarker:
     expose-request-attributes: true
   mail:
