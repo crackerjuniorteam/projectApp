@@ -18,6 +18,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("file:///" + uploadPath + "/");
+
         // это значит что все запросы вида /img/** будут перенаправляться в file///
     }
 }

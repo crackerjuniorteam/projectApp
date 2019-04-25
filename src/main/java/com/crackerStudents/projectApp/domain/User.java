@@ -3,6 +3,7 @@ package com.crackerStudents.projectApp.domain;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -154,7 +155,9 @@ public class User implements UserDetails {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (!StringUtils.isEmpty(email)) {
+            this.email = email;
+        }
     }
 
     public String getFirstName() {

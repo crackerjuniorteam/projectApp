@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <td><b>Password: </b></td>
-                <td><input type="password" name="password" value="${user.password}"></td>
+                <td><input type="password" name="password" placeholder="******"></td>
             </tr>
             <tr>
                 <td><b>Email: </b></td>
