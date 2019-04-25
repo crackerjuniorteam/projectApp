@@ -5,6 +5,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.*;
 
 @Entity
@@ -19,10 +21,14 @@ public class User implements UserDetails {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotBlank(message = "Username cannot be empty!")
     private String username;
 
+    @NotBlank(message = "Password cannot be empty!")
     private String password;
 
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty!")
     private String email;
 
     private String activationCode;

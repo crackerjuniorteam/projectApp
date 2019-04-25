@@ -3,6 +3,7 @@ package com.crackerStudents.projectApp.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,9 +20,11 @@ public class Card {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotBlank(message = "Please fill the question")
     @Column(name = "question")
     private String question;
 
+    @NotBlank(message = "Please fill the answer")
     @Column(name = "answer")
     private String answer;
 

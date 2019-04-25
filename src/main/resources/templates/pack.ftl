@@ -27,15 +27,24 @@
        aria-controls="collapseExample">
         Add new Card
     </a>
-    <div class="collapse" id="collapseExample">
+    <div class="collapse <#if card??>show</#if>" id="collapseExample">
         <div class="form-group mt-3">
             <form method="post">
                 <div class="form-group">
-                    <input type="text" name="question" class="form-control"
-                           placeholder="Введите вопрос" size="30"/>
+                    <input type="text" class="form-control ${(questionError??)?string('is-invalid','')}" value="<#if card??>${card.question}</#if>" name="question" placeholder="Введите вопрос"/>
+                    <#if questionError??>
+                        <div class="invalid-feedback">
+                            ${questionError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="answer" class="form-control" placeholder="Введите ответ" size="30"/>
+                    <input type="text" class="form-control ${(answerError??)?string('is-invalid','')}" value="<#if card??>${card.answer}</#if>" name="answer" placeholder="Введите ответ"/>
+                    <#if answerError??>
+                        <div class="invalid-feedback">
+                            ${answerError}
+                        </div>
+                    </#if>
                 </div>
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                 <div class="form-group">
