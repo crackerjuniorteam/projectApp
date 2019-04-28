@@ -17,8 +17,6 @@ public class CardDTO {
     private User author;
     private List<Pack> packs;
 
-
-
     // setter and getter
     public UUID getId() {
         return id;
@@ -59,4 +57,5 @@ public class CardDTO {
     public void setPacks(List<Pack> packs) {
         this.packs = packs;
     }
+
 }

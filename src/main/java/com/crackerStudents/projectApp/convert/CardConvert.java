@@ -14,13 +14,13 @@ public class CardConvert {
     @Autowired
     ModelMapper modelMapper;
 
-    private CardDTO convertToDto(Card card) {
+    public CardDTO convertToDto(Card card) {
         CardDTO cardDTO = modelMapper.map(card, CardDTO.class);
         return cardDTO;
     }
 
 
-    private Card convertToEntity(CardDTO cardDto) throws ParseException {
+    public Card convertToEntity(CardDTO cardDto) throws ParseException {
         Card card = modelMapper.map(cardDto, Card.class);
         return card;
     }

@@ -90,4 +90,5 @@ public class Card {
     public void setAuthor(User author) {
         this.author = author;
     }
+
 }

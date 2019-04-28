@@ -89,6 +89,12 @@
 			<artifactId>flyway-core</artifactId>
 		</dependency>
 
+		<!-- Jackson JSON Processor -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
 	</dependencies>
 
 
