@@ -1,5 +1,7 @@
 package com.crackerStudents.projectApp.domain;
 
+import com.crackerStudents.projectApp.convert.JSONview;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -8,24 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "card")
 public class Card {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
+    @JsonIgnore
+    @JsonProperty(value = "CardId")
     private UUID id;
 
     @NotBlank(message = "Please fill the question")
     @Column(name = "question")
+    @JsonView(JSONview.QuestionAndAnswer.class)
     private String question;
 
     @NotBlank(message = "Please fill the answer")
     @Column(name = "answer")
+    @JsonView(JSONview.QuestionAndAnswer.class)
     private String answer;
 
     @ManyToOne(fetch = FetchType.EAGER)
