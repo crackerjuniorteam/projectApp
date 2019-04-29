@@ -2,10 +2,7 @@ package com.crackerStudents.projectApp.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -23,9 +20,6 @@ public class Tag {
     @Column(name = "tag")
     private String tag;
 
-    @ManyToMany
-    @JoinTable(name = "tag_to_pack",
-            joinColumns = @JoinColumn(name = "tag_id"),
-            inverseJoinColumns = @JoinColumn(name = "pack_id"))
-    private List<Pack> packs = new ArrayList<>();
+    @ManyToMany(mappedBy = "tags")
+    private Set<Pack> packs = new HashSet<>();
 }

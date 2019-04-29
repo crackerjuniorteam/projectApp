@@ -3,13 +3,12 @@ package com.crackerStudents.projectApp.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -45,23 +44,23 @@ public class Pack {
     @Column(name = "parent_id")
     private int parentId;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usr_packs",
-            joinColumns = @JoinColumn(name = "pack_id"),
-            inverseJoinColumns = @JoinColumn(name = "usr_id"))
-    private List<User> users = new ArrayList<>();
+    @ManyToMany(mappedBy = "packs")
+    //@Fetch(value = FetchMode.SUBSELECT)
+    private Set<User> users = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "tag_to_pack",
             joinColumns = {@JoinColumn(name = "pack_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
-    private List<Tag> tags = new ArrayList<>();
+    @Fetch(value = FetchMode.SUBSELECT)
+    private Set<Tag> tags = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "card_in_pack",
             joinColumns = {@JoinColumn(name = "pack_id")},
             inverseJoinColumns = {@JoinColumn(name = "card_id")})
-    private List<Card> cards = new ArrayList<>();
+    @Fetch(value = FetchMode.SUBSELECT)
+    private Set<Card> cards = new HashSet<>();
 
     //
 
@@ -86,19 +85,19 @@ public class Pack {
         users.add(user);
     }
 
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
-    public List<Card> getCards() {
+    public Set<Card> getCards() {
         return cards;
     }
 
-    public void setCards(List<Card> cards) {
+    public void setCards(Set<Card> cards) {
         this.cards = cards;
     }
 
@@ -158,11 +157,11 @@ public class Pack {
         this.parentId = parentId;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 

@@ -54,18 +54,23 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(name = "usr_packs",
             joinColumns = @JoinColumn(name = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "pack_id"))
-    private List<Pack> packs = new ArrayList<>();
+    private Set<Pack> packs = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(name = "user_session",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "session_id")})
-    private List<Session> sessions = new ArrayList<>();
-    //
+    private Set<Session> sessions = new HashSet<>();
 
 
     public User() {
@@ -118,11 +123,11 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public List<Session> getSessions() {
+    public Set<Session> getSessions() {
         return sessions;
     }
 
-    public void setSessions(List<Session> sessions) {
+    public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
     }
 
@@ -181,11 +186,11 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public List<Pack> getPacks() {
+    public Set<Pack> getPacks() {
         return packs;
     }
 
-    public void setPacks(List<Pack> packs) {
+    public void setPacks(Set<Pack> packs) {
         this.packs = packs;
     }
 

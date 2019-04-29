@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+@Transactional
 @Controller
 public class PackController {
     @Autowired
@@ -35,7 +38,7 @@ public class PackController {
 
     @GetMapping("/packs/{name}")
     public String main(@PathVariable String name, Model model, @AuthenticationPrincipal User user) {
-        List<Pack> packs = user.getPacks();
+        Set<Pack> packs = user.getPacks();
         Pack ob;
         for (Pack el : packs) {
             if (el.getName().equals(name)) {
