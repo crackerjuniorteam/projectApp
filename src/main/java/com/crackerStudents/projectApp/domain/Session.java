@@ -24,10 +24,7 @@ public class Session {
     private SessionRow row_id;
 
 
-    @ManyToMany
-    @JoinTable(name = "user_session",
-            joinColumns = {@JoinColumn(name = "session_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    @ManyToMany(mappedBy = "sessions")
     private List<User> users = new ArrayList<>();
 
     //
