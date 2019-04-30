@@ -36,10 +36,7 @@ public class Card {
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToMany
-    @JoinTable(name = "card_in_pack",
-            joinColumns = {@JoinColumn(name = "card_id")},
-            inverseJoinColumns = {@JoinColumn(name = "pack_id")})
+    @ManyToMany(mappedBy = "cards")
     private List<Pack> packs = new ArrayList<>();
 
     public Card() {

@@ -51,24 +51,24 @@ public class PackController {
     @PostMapping("/packs/{namePack}")
     public String addCard(@Valid Card card, BindingResult bindingResult, Model model, @PathVariable String namePack, @AuthenticationPrincipal User user) {
         Object[] elem = user.getPacks().stream().filter(el -> el.getName().equals(namePack)).toArray();
-        Pack ob = (Pack) elem[0];
+        Pack pack = (Pack) elem[0];
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.addAttribute("card", card);
-            model.addAttribute("pack", ob);
-            model.addAttribute("cards", ob.getCards());
-            model.addAttribute("time", ob.getCreated().toString());
+            model.addAttribute("pack", pack);
+            model.addAttribute("cards", pack.getCards());
+            model.addAttribute("time", pack.getCreated().toString());
             model.mergeAttributes(errors);
             return "pack";
         } else {
             card.setAuthor(user);
             cardRepo.save(card);
-            ob.addCard(card);
-            packRepo.save(ob);
+            pack.addCard(card);
+            packRepo.save(pack);
             model.addAttribute("card", null);
-            model.addAttribute("pack", ob);
-            model.addAttribute("cards", ob.getCards());
-            model.addAttribute("time", ob.getCreated().toString());
+            model.addAttribute("pack", pack);
+            model.addAttribute("cards", pack.getCards());
+            model.addAttribute("time", pack.getCreated().toString());
             return "pack";
         }
     }
