@@ -3,8 +3,8 @@ package com.crackerStudents.projectApp.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +25,7 @@ public class Session {
 
 
     @ManyToMany(mappedBy = "sessions")
-    private List<User> users = new ArrayList<>();
+    private Set<User> users = new HashSet<>();
 
     //
 
@@ -46,11 +46,11 @@ public class Session {
         this.row_id = row_id;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 }

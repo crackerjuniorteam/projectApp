@@ -6,8 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -37,7 +37,7 @@ public class Card {
     private User author;
 
     @ManyToMany(mappedBy = "cards")
-    private List<Pack> packs = new ArrayList<>();
+    private Set<Pack> packs = new HashSet<>();
 
     public Card() {
     }
@@ -48,11 +48,11 @@ public class Card {
         this.author = user;
     }
 
-    public List<Pack> getPacks() {
+    public Set<Pack> getPacks() {
         return packs;
     }
 
-    public void setPacks(List<Pack> packs) {
+    public void setPacks(Set<Pack> packs) {
         this.packs = packs;
     }
 
