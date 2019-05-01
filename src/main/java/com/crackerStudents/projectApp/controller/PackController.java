@@ -6,6 +6,7 @@ import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.CardRepo;
 import com.crackerStudents.projectApp.repos.PackRepo;
+import com.crackerStudents.projectApp.service.PackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class PackController {
@@ -27,6 +28,9 @@ public class PackController {
     @Autowired
     PackRepo packRepo;
 
+    @Autowired
+    PackService packService;
+
     @GetMapping("/packs")
     public String view(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("packs", user.getPacks());
@@ -35,7 +39,7 @@ public class PackController {
 
     @GetMapping("/packs/{name}")
     public String main(@PathVariable String name, Model model, @AuthenticationPrincipal User user) {
-        List<Pack> packs = user.getPacks();
+        Set<Pack> packs = user.getPacks();
         Pack ob;
         for (Pack el : packs) {
             if (el.getName().equals(name)) {
