@@ -26,8 +26,14 @@ public class PackService {
     }
 
     @Transactional
-    public void PackSave(String packName){
-        Hibernate.initialize(packRepo.save(packRepo.findByName(packName)));
+    public void AddCardAndSave(Card card, String packName){
+        Pack pack = packRepo.findByName(packName);
+        pack.addCard(card);
+        packRepo.save(pack);
+    }
+    @Transactional
+    public Pack getPackByName(String packName){
+        return packRepo.findByName(packName);
     }
 
     @Transactional

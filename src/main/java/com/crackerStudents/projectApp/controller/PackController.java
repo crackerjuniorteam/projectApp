@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -54,26 +53,15 @@ public class PackController {
 
     @PostMapping("/packs/{namePack}")
     public String addCard(@Valid Card card, BindingResult bindingResult, Model model, @PathVariable String namePack, @AuthenticationPrincipal User user) {
-        Object[] elem = user.getPacks().stream().filter(el -> el.getName().equals(namePack)).toArray();
-        Pack pack = (Pack) elem[0];
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.addAttribute("card", card);
-            model.addAttribute("pack", pack);
-            model.addAttribute("cards", pack.getCards());
-            model.addAttribute("time", pack.getCreated().toString());
-            model.mergeAttributes(errors);
-            return "pack";
-        } else {
+
             card.setAuthor(user);
-            //cardRepo.save(card);
-            pack.addCard(card);
-            packRepo.save(pack);
+
+            packService.AddCardAndSave(card,namePack);
+            Pack pack = packService.getPackByName(namePack);
             model.addAttribute("card", null);
             model.addAttribute("pack", pack);
             model.addAttribute("cards", pack.getCards());
             model.addAttribute("time", pack.getCreated().toString());
             return "pack";
-        }
     }
 }
