@@ -48,6 +48,7 @@ public class Card {
         this.author = user;
     }
 
+
     public Set<Pack> getPacks() {
         return packs;
     }

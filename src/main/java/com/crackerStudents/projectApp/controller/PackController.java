@@ -66,7 +66,7 @@ public class PackController {
             return "pack";
         } else {
             card.setAuthor(user);
-            cardRepo.save(card);
+            //cardRepo.save(card);
             pack.addCard(card);
             packRepo.save(pack);
             model.addAttribute("card", null);
