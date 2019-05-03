@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PackService {
@@ -55,6 +54,33 @@ public class PackService {
         //Преобразуем сет паков в лист дто-паков
         return ObjectMapperUtils.mapAll(user.getPacks(),PackDTO.class);
     }
+
+    @Transactional
+    public boolean packExists(PackDTO packDTO){
+        return packRepo.existsByName(packDTO.getName());
+    }
+
+    @Transactional
+    public void createPack(PackDTO packDTO, User user){
+
+        Pack pack = modelMapper.map(packDTO, Pack.class);
+
+        pack.addUser(user);
+        user.addPack(pack);
+        packRepo.save(pack);
+    }
+
+    public PackDTO createPackDTO(String packName, UUID uuid){
+        PackDTO packDTO = new PackDTO();
+        packDTO.setName(packName);
+        packDTO.setAuthorId(uuid);
+        packDTO.setPublic(true);
+        packDTO.setLikes(0);
+        packDTO.setCreated(new Date());
+        packDTO.setUsers(new ArrayList<>());
+        return packDTO;
+    }
+
 
 
 }

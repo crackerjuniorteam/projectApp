@@ -2,7 +2,7 @@ package com.crackerStudents.projectApp.controller;
 
 import com.crackerStudents.projectApp.DTO.CaptchaResponseDto;
 import com.crackerStudents.projectApp.domain.User;
-import com.crackerStudents.projectApp.service.UserSevice;
+import com.crackerStudents.projectApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,16 +21,21 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
+
     private final static String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
 
     @Value("${recaptcha.secret}")
     private String secret;
 
-    @Autowired
     private RestTemplate restTemplate;
 
+    private UserService userService;
+
     @Autowired
-    private UserSevice userSevice;
+    public RegistrationController(RestTemplate restTemplate, UserService userService){
+        this.restTemplate = restTemplate;
+        this.userService = userService;
+    }
 
     @GetMapping("/reg")
     public String registration() {
@@ -62,7 +67,7 @@ public class RegistrationController {
             model.mergeAttributes(errors);
             return "reg";
         }
-        if (!userSevice.addUser(user)) {
+        if (!userService.addUser(user)) {
             model.addAttribute("usernameError", "User exists!");
             return "reg";
         }
@@ -71,7 +76,7 @@ public class RegistrationController {
 
     @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code) {
-        boolean isActivated = userSevice.activateUser(code);
+        boolean isActivated = userService.activateUser(code);
 
         if (isActivated) {
             model.addAttribute("messageType", "success");

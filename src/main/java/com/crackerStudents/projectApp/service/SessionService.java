@@ -5,7 +5,6 @@ import com.crackerStudents.projectApp.DTO.CardDTO;
 import com.crackerStudents.projectApp.DTO.PackDTO;
 import com.crackerStudents.projectApp.convert.CustomCardConvert;
 import com.crackerStudents.projectApp.domain.Card;
-import com.crackerStudents.projectApp.repos.CardRepo;
 import com.crackerStudents.projectApp.repos.PackRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,27 +16,25 @@ import java.util.List;
 @Service
 public class SessionService {
 
-    private final CardRepo cardRepo;
     private final PackRepo packRepo;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public SessionService(PackRepo packRepo, CardRepo cardRepo, ModelMapper modelMapper){
-        this.cardRepo = cardRepo;
+    public SessionService(PackRepo packRepo, ModelMapper modelMapper){
         this.packRepo = packRepo;
         this.modelMapper = modelMapper;
     }
 
-    public PackDTO getPackByName(String packName){
+    private PackDTO getPackByName(String packName){
         return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
     }
 
     public List<CardDTO> getDTOCardsFromPack(String packName){
         List<Card> cards = getPackByName(packName).getCards();
-        CustomCardConvert conv = new CustomCardConvert();
+        CustomCardConvert converter = new CustomCardConvert();
         List<CardDTO> cardDTOS = new ArrayList<>();
         for (Card card: cards) {
-            cardDTOS.add(conv.entityToDto(card));
+            cardDTOS.add(converter.entityToDto(card));
         }
         //return ObjectMapperUtils.mapAll(cards,CardDTO.class);
         return cardDTOS;

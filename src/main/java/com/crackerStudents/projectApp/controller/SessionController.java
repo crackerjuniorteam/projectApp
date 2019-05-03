@@ -3,7 +3,6 @@ package com.crackerStudents.projectApp.controller;
 
 import com.crackerStudents.projectApp.DTO.CardDTO;
 import com.crackerStudents.projectApp.convert.JSONview;
-import com.crackerStudents.projectApp.domain.Card;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.SessionService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -19,8 +18,12 @@ import java.util.List;
 @RestController
 public class SessionController {
 
+    private final SessionService sessionService;
+
     @Autowired
-    private SessionService sessionService;
+    public SessionController(SessionService sessionService){
+        this.sessionService = sessionService;
+    }
 
     @GetMapping("session/{name}")
     @JsonView(JSONview.QuestionAndAnswer.class)

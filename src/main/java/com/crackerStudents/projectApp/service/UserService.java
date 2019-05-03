@@ -22,15 +22,19 @@ import java.util.UUID;
 
 
 @Service
-public class UserSevice implements UserDetailsService {
+public class UserService implements UserDetailsService {
     @Value("${pathNameUpload}")
     private String uploadPath;
 
-    @Autowired
     private UserRepo userRepo;
 
-    @Autowired
     private MailSender mailSender;
+
+    @Autowired
+    public UserService(UserRepo userRepo, MailSender mailSender){
+        this.userRepo = userRepo;
+        this.mailSender = mailSender;
+    }
 
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * @Author Krylov Sergey
+ * Author Krylov Sergey
  */
 public class PackDTO {
     private UUID id;
@@ -23,8 +23,13 @@ public class PackDTO {
     private List<Tag> tags;
     private List<Card> cards;
 
-    // getter and setter
 
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+
+    // getters and setters
     public UUID getId() {
         return id;
     }

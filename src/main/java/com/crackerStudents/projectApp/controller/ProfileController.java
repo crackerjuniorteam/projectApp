@@ -1,8 +1,7 @@
 package com.crackerStudents.projectApp.controller;
 
 import com.crackerStudents.projectApp.domain.User;
-import com.crackerStudents.projectApp.repos.UserRepo;
-import com.crackerStudents.projectApp.service.UserSevice;
+import com.crackerStudents.projectApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,11 +16,13 @@ import java.io.IOException;
 
 @Controller
 public class ProfileController {
-    @Autowired
-    UserRepo userRepo;
+
+    private UserService userService;
 
     @Autowired
-    private UserSevice userSevice;
+    public ProfileController(UserService userService){
+        this.userService = userService;
+    }
 
     @Value("${pathNameUpload}")
     private String uploadPath;
@@ -46,7 +47,7 @@ public class ProfileController {
                                 @RequestParam String firstName,
                                 @RequestParam String lastName,
                                 @RequestParam("file") MultipartFile file) throws IOException {
-        userSevice.updateProfile(username, password, email, firstName, lastName, file, user);
+        userService.updateProfile(username, password, email, firstName, lastName, file, user);
         return "redirect:/profile";
     }
 }

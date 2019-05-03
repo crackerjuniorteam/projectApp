@@ -17,7 +17,7 @@
                     <a class="nav-link" href="/packs">Packs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/createpack">Create Pack</a>
+                    <a class="nav-link" href="/createPack">Create Pack</a>
                 </li>
             </ul>
         </div>

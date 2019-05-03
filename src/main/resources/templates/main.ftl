@@ -5,7 +5,7 @@
     <div>
         <ul>
             <li><a href="/profile"><b>Профиль</b></a></li>
-            <li><a href="/createpack"><b>Создать Pack</b></a></li>
+            <li><a href="/createPack"><b>Создать Pack</b></a></li>
             <li><a href="/packs"><b>Паки</b></a></li>
         </ul>
     </div>
