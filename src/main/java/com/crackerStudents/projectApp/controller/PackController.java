@@ -5,8 +5,6 @@ import com.crackerStudents.projectApp.DTO.PackDTO;
 import com.crackerStudents.projectApp.domain.Card;
 import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
-import com.crackerStudents.projectApp.repos.CardRepo;
-import com.crackerStudents.projectApp.repos.PackRepo;
 import com.crackerStudents.projectApp.service.PackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,18 +18,17 @@ import javax.validation.Valid;
 
 @Controller
 public class PackController {
-    @Autowired
-    CardRepo cardRepo;
+
+    private final PackService packService;
 
     @Autowired
-    PackRepo packRepo;
-
-    @Autowired
-    PackService packService;
+    public PackController(PackService packService){
+        this.packService = packService;
+    }
 
     @GetMapping("/packs")
     public String view(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("packs", user.getPacks());
+        model.addAttribute("packs", packService.getUserPacks(user));
         return "packs";
     }
 

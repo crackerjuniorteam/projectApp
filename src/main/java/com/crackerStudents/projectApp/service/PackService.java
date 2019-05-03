@@ -1,17 +1,18 @@
 package com.crackerStudents.projectApp.service;
 
 import com.crackerStudents.projectApp.DTO.PackDTO;
+import com.crackerStudents.projectApp.convert.ObjectMapperUtils;
 import com.crackerStudents.projectApp.domain.Card;
 import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.CardRepo;
 import com.crackerStudents.projectApp.repos.PackRepo;
-import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -29,16 +30,12 @@ public class PackService {
     }
 
     @Transactional
-    public void CardSave(Card card){
-        Hibernate.initialize(cardRepo.save(card));
-    }
-
-    @Transactional
     public void AddCardAndSave(Card card, String packName){
         Pack pack = packRepo.findByName(packName);
         pack.addCard(card);
         packRepo.save(pack);
     }
+
     @Transactional
     public Pack getPackByName(String packName){
         return packRepo.findByName(packName);
@@ -54,6 +51,12 @@ public class PackService {
            }
         }
         return null;
+    }
+
+    @Transactional
+    public List<PackDTO> getUserPacks(User user){
+        //Преобразуем сет паков в лист дто-паков
+        return ObjectMapperUtils.mapAll(user.getPacks(),PackDTO.class);
     }
 
 

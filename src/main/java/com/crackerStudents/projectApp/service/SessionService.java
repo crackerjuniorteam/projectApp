@@ -17,14 +17,16 @@ import java.util.List;
 @Service
 public class SessionService {
 
-    @Autowired
-    private CardRepo cardRepo;
+    private final CardRepo cardRepo;
+    private final PackRepo packRepo;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private PackRepo packRepo;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public SessionService(PackRepo packRepo, CardRepo cardRepo, ModelMapper modelMapper){
+        this.cardRepo = cardRepo;
+        this.packRepo = packRepo;
+        this.modelMapper = modelMapper;
+    }
 
     public PackDTO getPackByName(String packName){
         return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
