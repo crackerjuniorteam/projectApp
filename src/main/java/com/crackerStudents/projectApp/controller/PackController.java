@@ -3,7 +3,6 @@ package com.crackerStudents.projectApp.controller;
 
 import com.crackerStudents.projectApp.DTO.PackDTO;
 import com.crackerStudents.projectApp.domain.Card;
-import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.PackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,18 +40,18 @@ public class PackController {
         return "pack";
     }
 
+    //to do: Binding result сделать красиво
     @PostMapping("/packs/{PackName}")
     public String addCard(@Valid Card card, /*BindingResult bindingResult,*/ Model model,
                           @PathVariable String PackName, @AuthenticationPrincipal User user) {
 
             card.setAuthor(user);
-
             packService.AddCardAndSave(card,PackName);
-            Pack pack = packService.getPackByName(PackName);
+            PackDTO packDTO = packService.getPackDTOByName(PackName);
             model.addAttribute("card", null);
-            model.addAttribute("pack", pack);
-            model.addAttribute("cards", pack.getCards());
-            model.addAttribute("time", pack.getCreated().toString());
+            model.addAttribute("pack", packDTO);
+            model.addAttribute("cards", packDTO.getCards());
+            model.addAttribute("time", packDTO.getCreated().toString());
             return "pack";
     }
 }

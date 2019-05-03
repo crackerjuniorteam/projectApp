@@ -5,7 +5,6 @@ import com.crackerStudents.projectApp.convert.ObjectMapperUtils;
 import com.crackerStudents.projectApp.domain.Card;
 import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
-import com.crackerStudents.projectApp.repos.CardRepo;
 import com.crackerStudents.projectApp.repos.PackRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,11 @@ import java.util.Set;
 @Service
 public class PackService {
 
-    private final CardRepo cardRepo;
     private final PackRepo packRepo;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public PackService(PackRepo packRepo, CardRepo cardRepo, ModelMapper modelMapper){
-        this.cardRepo = cardRepo;
+    public PackService(PackRepo packRepo, ModelMapper modelMapper){
         this.packRepo = packRepo;
         this.modelMapper = modelMapper;
     }
@@ -37,8 +34,8 @@ public class PackService {
     }
 
     @Transactional
-    public Pack getPackByName(String packName){
-        return packRepo.findByName(packName);
+    public PackDTO getPackDTOByName(String packName){
+        return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
     }
 
     @Transactional
