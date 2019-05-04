@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PackService {
@@ -73,7 +70,7 @@ public class PackService {
         packRepo.save(pack);
     }
 
-    public PackDTO createPackDTO(String packName, UUID uuid){
+    public PackDTO createPackDTO(String packName, UUID uuid) {
         PackDTO packDTO = new PackDTO();
         packDTO.setName(packName);
         packDTO.setAuthorId(uuid);
@@ -83,7 +80,6 @@ public class PackService {
         packDTO.setUsers(new ArrayList<>());
         return packDTO;
     }
-
 
 
 }

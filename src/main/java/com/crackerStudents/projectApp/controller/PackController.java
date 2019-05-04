@@ -1,8 +1,8 @@
 package com.crackerStudents.projectApp.controller;
 
 
+import com.crackerStudents.projectApp.DTO.PackDTO;
 import com.crackerStudents.projectApp.domain.Card;
-import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.CardService;
 import com.crackerStudents.projectApp.service.PackService;
@@ -36,29 +36,32 @@ public class PackController {
 
     @GetMapping("/packs/{packName}")
     public String main(@PathVariable String packName, Model model, @AuthenticationPrincipal User user) {
-        Pack pack = packService.getPackByName(packName, user);
-        System.out.println(pack);
-        System.out.println(pack.getName());
-        model.addAttribute("pack", pack);
-        model.addAttribute("cards", pack.getCards());
-        model.addAttribute("time", pack.getCreated().toString());
+        //[TODO]: add user as arguement
+        PackDTO packDTO = packService.getPackDTOByName(packName);
+        System.out.println(packDTO);
+        System.out.println(packDTO.getName());
+        model.addAttribute("pack", packDTO);
+        model.addAttribute("cards", packDTO.getCards());
+        model.addAttribute("time", packDTO.getCreated().toString());
         return "pack";
     }
 
     //[TODO]: Binding result сделать красиво
-    @PostMapping("/packs/{namePack}")
+    @PostMapping("/packs/{packName}")
     public String addCard(Card card, Model model,
-                          @PathVariable String namePack, @AuthenticationPrincipal User user) {
+                          @PathVariable String packName, @AuthenticationPrincipal User user) {
 
         card.setAuthor(user);
-        packService.AddCardAndSave(card, namePack, user);
-        return "redirect:/packs/" + namePack;
+        //[TODO]: Добавить проверку на юзера
+        packService.AddCardAndSave(card, packName);
+        return "redirect:/packs/" + packName;
     }
 
-    @GetMapping("/packs/{namePack}/{idCard}")
-    public String editCardShow(@PathVariable String namePack, @PathVariable String idCard, Model model, @AuthenticationPrincipal User user) {
-        Pack pack = packService.getPackByName(namePack, user);
-        Card card = pack.getCard(idCard);
+    @GetMapping("/packs/{packName}/{idCard}")
+    public String editCardShow(@PathVariable String packName, @PathVariable String idCard, Model model, @AuthenticationPrincipal User user) {
+        //[TODO]: Add user check
+        PackDTO packDTO = packService.getPackDTOByName(packName);
+        Card card = packDTO.getCard(idCard);
         model.addAttribute("card", card);
         model.addAttribute("message", null);
         return "cardEdit";
@@ -66,8 +69,9 @@ public class PackController {
 
     @PostMapping("/packs/{name}/{id}")
     public String editCardDo(@PathVariable String name, @PathVariable String id, @RequestParam String answer, @RequestParam String question, @AuthenticationPrincipal User user, Model model) {
-        Pack pack = packService.getPackByName(name, user);
-        Card card = pack.getCard(id);
+        //[TODO]: Add user check
+        PackDTO packDTO = packService.getPackDTOByName(name);
+        Card card = packDTO.getCard(id);
         if (!StringUtils.isEmpty(answer) && !StringUtils.isEmpty(question)) {
             cardService.updateCard(card, answer, question);
             return "redirect:/packs/"+ name;

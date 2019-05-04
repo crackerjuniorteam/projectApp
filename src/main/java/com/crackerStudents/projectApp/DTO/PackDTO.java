@@ -24,6 +24,15 @@ public class PackDTO {
     private List<Card> cards;
 
 
+    public Card getCard(String id) {
+        for (Card card : cards) {
+            if (card.getId().toString().equals(id)) {
+                return card;
+            }
+        }
+        return null;
+    }
+
     public void addUser(User user) {
         users.add(user);
     }
