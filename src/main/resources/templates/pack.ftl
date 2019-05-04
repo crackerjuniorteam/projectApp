@@ -22,7 +22,8 @@
         <div class="form-group mt-3">
             <form method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control ${(questionError??)?string('is-invalid','')}" value="<#if card??>${card.question}</#if>" name="question" placeholder="Введите вопрос"/>
+                    <input type="text" class="form-control ${(questionError??)?string('is-invalid','')}"
+                           value="<#if card??>${card.question}</#if>" name="question" placeholder="Введите вопрос"/>
                     <#if questionError??>
                         <div class="invalid-feedback">
                             ${questionError}
@@ -30,7 +31,8 @@
                     </#if>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control ${(answerError??)?string('is-invalid','')}" value="<#if card??>${card.answer}</#if>" name="answer" placeholder="Введите ответ"/>
+                    <input type="text" class="form-control ${(answerError??)?string('is-invalid','')}"
+                           value="<#if card??>${card.answer}</#if>" name="answer" placeholder="Введите ответ"/>
                     <#if answerError??>
                         <div class="invalid-feedback">
                             ${answerError}
@@ -46,29 +48,35 @@
     </div>
     <br>
     <div class="card-columns">
-        <#list cards as card>
-            <div class="card my-3">
+        <#if cards??>
+            <#list cards as card>
                 <div class="card my-3">
-                    <div class="card p-1">
-                        <span><b>Вопрос:</b></span>
-                        <span>${card.question!}</span>
-                    </div>
-                    <div class="card p-1">
-                        <span><b>Ответ:</b></span>
-                        <i>${card.answer!}</i>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <table>
-                            <tr>
-                                <td>${name!}</td>
-                                <td><div style="float:right;"><a class="btn btn-outline-info" href="/packs/${pack.name!}/${card.id}" role="button">Edit</a></button></div></td>
-                            </tr>
-                        </table>
+                    <div class="card my-3">
+                        <div class="card p-1">
+                            <span><b>Вопрос:</b></span>
+                            <span>${card.question!}</span>
+                        </div>
+                        <div class="card p-1">
+                            <span><b>Ответ:</b></span>
+                            <i>${card.answer!}</i>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <table>
+                                <tr>
+                                    <td>${name!}</td>
+                                    <td>
+                                        <div style="float:right;"><a class="btn btn-outline-info"
+                                                                     href="/packs/${pack.name!}/${card.id}"
+                                                                     role="button">Edit</a></button></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </#list>
         <#else>
             No Card
-        </#list>
+        </#if>
     </div>
 </@c.page>
