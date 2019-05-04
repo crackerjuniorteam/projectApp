@@ -1,6 +1,5 @@
 package com.crackerStudents.projectApp.controller;
 
-import com.crackerStudents.projectApp.DTO.PackDTO;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.PackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class NewPackController {
-
     private final PackService packService;
+    private int checkCreate = 0; // 1 - успешно создан, 0 - только пришли на страницу, -1 - такой пак уже существует
 
     @Autowired
     public NewPackController(PackService packService){
@@ -23,18 +22,19 @@ public class NewPackController {
 
     @GetMapping("/createPack")
     public String view(Model model) {
-
+        model.addAttribute("checkCreate", checkCreate);
+        checkCreate = 0;
         return "createPack";
     }
 
     @PostMapping("/createPack")
     public String createPack(@RequestParam String packName, @AuthenticationPrincipal User user, Model model) {
-        PackDTO packDTO = packService.createPackDTO(packName, user.getId());
-        if (packService.packExists(packDTO)) {
-            model.addAttribute("message", "Такой пак уже существует");
+        if (packService.packExists(packName, user)) {
+            checkCreate = -1;
         } else {
-            packService.createPack(packDTO, user);
+            packService.createPack(packName, user);
+            checkCreate = 1;
         }
-        return "createPack";
+        return "redirect:/createPack";
     }
 }

@@ -9,5 +9,14 @@
             <button type="submit">Создать</button>
         </form>
     </div>
-    ${message!}
+    <#if (checkCreate = 1)>
+        <div class="alert alert-success m-3" role="alert">
+            Pack successfully created
+        </div>
+    </#if>
+    <#if (checkCreate = -1)>
+        <div class="alert alert-danger m-3" role="alert">
+            Such package already exists
+        </div>
+    </#if>
 </@c.page>
