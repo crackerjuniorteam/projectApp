@@ -47,18 +47,6 @@ public class PackService {
     }
 
     @Transactional
-    public PackDTO getPackByUserAndName(String packName, User user) {
-        Set<Pack> packs = user.getPacks();
-
-        for (Pack pack : packs) {
-            if (pack.getName().equals(packName)) {
-                return modelMapper.map(pack, PackDTO.class);
-            }
-        }
-        return null;
-    }
-
-    @Transactional
     public List<PackDTO> getUserPacks(User user) {
         //Преобразуем сет паков в лист дто-паков
         return ObjectMapperUtils.mapAll(user.getPacks(), PackDTO.class);
@@ -90,5 +78,13 @@ public class PackService {
         return packDTO;
     }
 
-
+    public Pack getPackByName(String packName, User user){
+        // сюда dto не надо засовывать
+        for (Pack pack : user.getPacks()) {
+            if (pack.getName().contains(packName)) {
+                return pack;
+            }
+        }
+        return null;
+    }
 }
