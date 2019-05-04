@@ -31,9 +31,17 @@ public class PackService {
     }
 
     @Transactional
-    public void addCardAndSave(Card card, Pack pack) {
+    public void AddCardAndSave(Card card, String packName, User user) {
         cardRepo.save(card);
-        pack.addCard(card);
+        Pack pack; // заготовка
+        for(Pack el: user.getPacks()) {
+            if (el.getName().equals(packName)){
+                pack = el;
+                pack.addCard(card);
+                packRepo.save(pack);
+                break;
+            }
+        }
     }
 
     @Transactional
@@ -73,7 +81,7 @@ public class PackService {
         return packDTO;
     }
 
-    public Pack getPackByName(String packName, User user) {
+    public Pack getPackByName(String packName, User user){
         // сюда dto не надо засовывать
         for (Pack pack : user.getPacks()) {
             if (pack.getName().contains(packName)) {

@@ -9,5 +9,5 @@ import java.util.UUID;
 @Repository
 public interface PackRepo extends JpaRepository<Pack, UUID> {
     Pack findByName(String name);
-    boolean existsByName(String name);
+    Boolean existsByName(String name);
 }

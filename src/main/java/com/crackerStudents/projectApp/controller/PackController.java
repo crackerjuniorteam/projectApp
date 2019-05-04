@@ -1,7 +1,6 @@
 package com.crackerStudents.projectApp.controller;
 
 
-import com.crackerStudents.projectApp.DTO.PackDTO;
 import com.crackerStudents.projectApp.domain.Card;
 import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
@@ -12,13 +11,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.validation.Valid;
 
 @Controller
 public class PackController {
@@ -41,6 +37,7 @@ public class PackController {
     @GetMapping("/packs/{packName}")
     public String main(@PathVariable String packName, Model model, @AuthenticationPrincipal User user) {
         Pack pack = packService.getPackByName(packName, user);
+        System.out.println(pack);
         System.out.println(pack.getName());
         model.addAttribute("pack", pack);
         model.addAttribute("cards", pack.getCards());
@@ -50,11 +47,11 @@ public class PackController {
 
     //[TODO]: Binding result сделать красиво
     @PostMapping("/packs/{namePack}")
-    public String addCard(Card card,
+    public String addCard(Card card, Model model,
                           @PathVariable String namePack, @AuthenticationPrincipal User user) {
+
         card.setAuthor(user);
-        Pack pack = packService.getPackByName(namePack, user);
-        packService.addCardAndSave(card, pack);
+        packService.AddCardAndSave(card, namePack, user);
         return "redirect:/packs/" + namePack;
     }
 
