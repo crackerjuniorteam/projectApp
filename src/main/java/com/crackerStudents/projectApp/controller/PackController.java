@@ -41,7 +41,6 @@ public class PackController {
     @GetMapping("/packs/{packName}")
     public String main(@PathVariable String packName, Model model, @AuthenticationPrincipal User user) {
         Pack pack = packService.getPackByName(packName, user);
-        System.out.println(pack);
         System.out.println(pack.getName());
         model.addAttribute("pack", pack);
         model.addAttribute("cards", pack.getCards());
@@ -51,11 +50,11 @@ public class PackController {
 
     //[TODO]: Binding result сделать красиво
     @PostMapping("/packs/{namePack}")
-    public String addCard(Card card, Model model,
+    public String addCard(Card card,
                           @PathVariable String namePack, @AuthenticationPrincipal User user) {
-
         card.setAuthor(user);
-        packService.AddCardAndSave(card, namePack, user);
+        Pack pack = packService.getPackByName(namePack, user);
+        packService.addCardAndSave(card, pack);
         return "redirect:/packs/" + namePack;
     }
 
