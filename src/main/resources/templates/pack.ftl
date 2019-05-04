@@ -7,6 +7,15 @@
             width: 300px; /* Ширина таблицы */
             border-collapse: collapse; /* Убираем двойные линии между ячейками */
         }
+
+        TD, TH {
+            padding: 3px; /* Поля вокруг содержимого таблицы */
+            border: 1px solid black; /* Параметры рамки */
+        }
+
+        TH {
+            background: #b0e0e6; /* Цвет фона */
+        }
     </style>
     <div class="form-group">
         <h2>User Pack</h2>
@@ -48,33 +57,22 @@
     </div>
     <br>
     <div class="card-columns">
-        <#if cards??>
-            <#list cards as card>
+        <#list cards as card>
+            <div class="card my-3">
                 <div class="card my-3">
-                    <div class="card my-3">
-                        <div class="card p-1">
-                            <span><b>Вопрос:</b></span>
-                            <span>${card.question!}</span>
-                        </div>
-                        <div class="card p-1">
-                            <span><b>Ответ:</b></span>
-                            <i>${card.answer!}</i>
-                        </div>
-                        <div class="card-footer text-muted">
-                            <table>
-                                <tr>
-                                    <td>${name!}</td>
-                                    <td>
-                                        <div style="float:right;"><a class="btn btn-outline-info"
-                                                                     href="/packs/${pack.name!}/${card.id}"
-                                                                     role="button">Edit</a></button></div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                    <div class="card p-1">
+                        <span><b>Вопрос:</b></span>
+                        <span>${card.question!}</span>
+                    </div>
+                    <div class="card p-1">
+                        <span><b>Ответ:</b></span>
+                        <i>${card.answer!}</i>
+                    </div>
+                    <div class="card-footer text-muted">
+                        ${name!}
                     </div>
                 </div>
-            </#list>
+            </div>
         <#else>
             No Card
         </#if>
