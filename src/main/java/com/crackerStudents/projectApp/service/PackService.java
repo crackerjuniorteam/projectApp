@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PackService {
@@ -45,19 +48,15 @@ public class PackService {
     }
 
     @Transactional
-    public boolean packExists(String packName, User user) {
-        Set<Pack> packs = user.getPacks();
-        for(Pack pack: packs) {
-            if (pack.getName().equals(packName)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean packExists(PackDTO packDTO) {
+        return packRepo.existsByName(packDTO.getName());
     }
 
     @Transactional
-    public void createPack(String packName, User user) {
-        Pack pack = new Pack(packName,user.getId(),true,0,new Date());
+    public void createPack(PackDTO packDTO, User user) {
+
+        Pack pack = modelMapper.map(packDTO, Pack.class);
+
         pack.addUser(user);
         user.addPack(pack);
         packRepo.save(pack);
