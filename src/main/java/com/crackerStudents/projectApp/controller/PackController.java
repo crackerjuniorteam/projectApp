@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class PackController {
     private final PackService packService;
 
     @Autowired
-    public PackController(PackService packService){
+    public PackController(PackService packService) {
         this.packService = packService;
     }
 
@@ -41,17 +42,12 @@ public class PackController {
     }
 
     //to do: Binding result сделать красиво
-    @PostMapping("/packs/{PackName}")
-    public String addCard(@Valid Card card, /*BindingResult bindingResult,*/ Model model,
-                          @PathVariable String PackName, @AuthenticationPrincipal User user) {
+    @PostMapping("/packs/{namePack}")
+    public String addCard(Card card, BindingResult bindingResult, Model model,
+                          @PathVariable String namePack, @AuthenticationPrincipal User user) {
 
-            card.setAuthor(user);
-            packService.AddCardAndSave(card,PackName);
-            PackDTO packDTO = packService.getPackDTOByName(PackName);
-            model.addAttribute("card", null);
-            model.addAttribute("pack", packDTO);
-            model.addAttribute("cards", packDTO.getCards());
-            model.addAttribute("time", packDTO.getCreated().toString());
-            return "pack";
+        card.setAuthor(user);
+        packService.AddCardAndSave(card, namePack, user);
+        return "redirect:/packs/" + namePack;
     }
 }
