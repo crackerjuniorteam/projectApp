@@ -53,7 +53,7 @@ public class PackController {
 
         card.setAuthor(user);
         //[TODO]: Добавить проверку на юзера
-        packService.AddCardAndSave(card, packName);
+        packService.addCardAndSave(card, packName);
         return "redirect:/packs/" + packName;
     }
 

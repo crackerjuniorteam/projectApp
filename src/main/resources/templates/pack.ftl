@@ -7,15 +7,6 @@
             width: 300px; /* Ширина таблицы */
             border-collapse: collapse; /* Убираем двойные линии между ячейками */
         }
-
-        TD, TH {
-            padding: 3px; /* Поля вокруг содержимого таблицы */
-            border: 1px solid black; /* Параметры рамки */
-        }
-
-        TH {
-            background: #b0e0e6; /* Цвет фона */
-        }
     </style>
     <div class="form-group">
         <h2>User Pack</h2>
@@ -69,12 +60,17 @@
                         <i>${card.answer!}</i>
                     </div>
                     <div class="card-footer text-muted">
-                        ${name!}
+                        <table>
+                            <tr>
+                                <td>${name!}</td>
+                                <td><div style="float:right;"><a class="btn btn-outline-info" href="/packs/${pack.name!}/${card.id}" role="button">Edit</a></button></div></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
         <#else>
             No Card
-        </#if>
+        </#list>
     </div>
 </@c.page>

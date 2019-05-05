@@ -26,7 +26,7 @@ public class PackService {
     }
 
     @Transactional
-    public void AddCardAndSave(Card card, String packName){
+    public void addCardAndSave(Card card, String packName){
         Pack pack = packRepo.findByName(packName);
         pack.addCard(card);
         packRepo.save(pack);
