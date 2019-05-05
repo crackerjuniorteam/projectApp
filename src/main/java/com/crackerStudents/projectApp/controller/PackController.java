@@ -48,12 +48,11 @@ public class PackController {
 
     //[TODO]: Binding result сделать красиво
     @PostMapping("/packs/{packName}")
-    public String addCard(Card card, Model model,
+    public String addCard(Card card,
                           @PathVariable String packName, @AuthenticationPrincipal User user) {
 
         card.setAuthor(user);
-        //[TODO]: Добавить проверку на юзера
-        packService.AddCardAndSave(card, packName);
+        packService.addCardAndSave(card, packName, user);
         return "redirect:/packs/" + packName;
     }
 

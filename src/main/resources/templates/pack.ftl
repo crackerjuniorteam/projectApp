@@ -75,6 +75,6 @@
             </div>
         <#else>
             No Card
-        </#if>
+        </#list>
     </div>
 </@c.page>

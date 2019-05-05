@@ -26,10 +26,10 @@ public class PackService {
     }
 
     @Transactional
-    public void AddCardAndSave(Card card, String packName){
-        Pack pack = packRepo.findByName(packName);
-        pack.addCard(card);
-        packRepo.save(pack);
+    public void addCardAndSave(Card card, String packName, User user){
+        Optional<Pack> pack = user.getPacks().stream().filter(el-> el.getName().equals(packName)).findFirst();
+        pack.get().addCard(card);
+        packRepo.save(pack.get());
     }
 
     @Transactional
