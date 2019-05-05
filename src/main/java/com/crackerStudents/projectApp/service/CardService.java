@@ -21,7 +21,7 @@ public class CardService {
         this.cardRepo = cardRepo;
     }
 
-    public void updateCard(Card card, String answer, String question){
+    public void updateCard(Card card, String answer, String question) {
         card.setAnswer(answer);
         card.setQuestion(question);
         cardRepo.save(card);

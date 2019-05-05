@@ -20,48 +20,53 @@ public class PackService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public PackService(PackRepo packRepo, ModelMapper modelMapper){
+    public PackService(PackRepo packRepo, ModelMapper modelMapper) {
         this.packRepo = packRepo;
         this.modelMapper = modelMapper;
     }
 
     @Transactional
-    public void addCardAndSave(Card card, String packName, User user){
-        Optional<Pack> pack = user.getPacks().stream().filter(el-> el.getName().equals(packName)).findFirst();
+    public void addCardAndSave(Card card, String packName, User user) {
+        Optional<Pack> pack = getPackByNameByUser(packName, user);
         pack.get().addCard(card);
         packRepo.save(pack.get());
     }
 
     @Transactional
-    public PackDTO getPackDTOByName(String packName){
-        return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
+    public Optional<Pack> getPackByNameByUser(String packName, User user) {
+        return user.getPacks().stream().filter(el -> el.getName().equals(packName)).findFirst();
     }
 
     @Transactional
-    public PackDTO getPackByUserAndName(String packName, User user){
+    public PackDTO getPackDTOByName(String packName) {
+        return modelMapper.map(packRepo.findByName(packName), PackDTO.class);
+    }
+
+    @Transactional
+    public PackDTO getPackByUserAndName(String packName, User user) {
         Set<Pack> packs = user.getPacks();
 
         for (Pack pack : packs) {
-           if (pack.getName().equals(packName)){
-               return modelMapper.map(pack, PackDTO.class);
-           }
+            if (pack.getName().equals(packName)) {
+                return modelMapper.map(pack, PackDTO.class);
+            }
         }
         return null;
     }
 
     @Transactional
-    public List<PackDTO> getUserPacks(User user){
+    public List<PackDTO> getUserPacks(User user) {
         //Преобразуем сет паков в лист дто-паков
-        return ObjectMapperUtils.mapAll(user.getPacks(),PackDTO.class);
+        return ObjectMapperUtils.mapAll(user.getPacks(), PackDTO.class);
     }
 
     @Transactional
-    public boolean packExists(PackDTO packDTO){
+    public boolean packExists(PackDTO packDTO) {
         return packRepo.existsByName(packDTO.getName());
     }
 
     @Transactional
-    public void createPack(PackDTO packDTO, User user){
+    public void createPack(PackDTO packDTO, User user) {
 
         Pack pack = modelMapper.map(packDTO, Pack.class);
 

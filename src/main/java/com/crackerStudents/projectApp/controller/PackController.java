@@ -73,7 +73,7 @@ public class PackController {
         Card card = packDTO.getCard(id);
         if (!StringUtils.isEmpty(answer) && !StringUtils.isEmpty(question)) {
             cardService.updateCard(card, answer, question);
-            return "redirect:/packs/"+ name;
+            return "redirect:/packs/" + name;
         } else {
             model.addAttribute("card", card);
             model.addAttribute("message", "Заполните оба поля");
