@@ -166,6 +166,13 @@ public class Pack {
         this.users = users;
     }
 
-
+    public Card getCard(String id) {
+        for (Card card : cards) {
+            if (card.getId().toString().equals(id)) {
+                return card;
+            }
+        }
+        return null;
+    }
 
 }
