@@ -23,7 +23,8 @@
         </div>
         <div class="navbar-text mr-1">
             <div class="nav-item">
-                <a class="nav-link" href="/profile">Profile</a>
+                <!-- user.name это из security.ftl-->
+                <a class="nav-link" href="/profile/${name}">Profile</a>
             </div>
         </div>
         <@l.logout />
