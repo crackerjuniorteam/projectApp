@@ -1,5 +1,6 @@
 package com.crackerStudents.projectApp.controller;
 
+import com.crackerStudents.projectApp.DTO.UserDTO;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ProfileController {
 
     private UserService userService;
 
+
     @Autowired
     public ProfileController(UserService userService){
         this.userService = userService;
@@ -30,8 +32,8 @@ public class ProfileController {
 
     @GetMapping("/profile/{username}")
     public String view(Model model, @PathVariable String username) {
-        User user = userService.getUserByName(username);
-        model.addAttribute("userByProfile", user);
+        UserDTO userDTO = userService.getUserDTOByName(username);
+        model.addAttribute("userByProfile", userDTO);
         return "profile";
     }
 

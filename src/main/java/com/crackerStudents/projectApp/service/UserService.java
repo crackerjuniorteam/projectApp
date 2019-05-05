@@ -1,9 +1,11 @@
 package com.crackerStudents.projectApp.service;
 
 
+import com.crackerStudents.projectApp.DTO.UserDTO;
 import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.UserRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,13 +29,14 @@ public class UserService implements UserDetailsService {
     private String uploadPath;
 
     private UserRepo userRepo;
-
     private MailSender mailSender;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public UserService(UserRepo userRepo, MailSender mailSender){
+    public UserService(UserRepo userRepo, MailSender mailSender, ModelMapper modelMapper){
         this.userRepo = userRepo;
         this.mailSender = mailSender;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -134,7 +137,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public User getUserByName(String username) {
-        return userRepo.findByUsername(username);
+    public UserDTO getUserDTOByName(String username) {
+        return modelMapper.map(userRepo.findByUsername(username), UserDTO.class);
     }
 }
