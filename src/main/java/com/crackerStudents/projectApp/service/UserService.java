@@ -133,4 +133,8 @@ public class UserService implements UserDetailsService {
             sendMessage(user);
         }
     }
+
+    public User getUserByName(String username) {
+        return userRepo.findByUsername(username);
+    }
 }

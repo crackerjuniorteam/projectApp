@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +28,10 @@ public class ProfileController {
     @Value("${pathNameUpload}")
     private String uploadPath;
 
-    @GetMapping("/profile")
-    public String view(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
+    @GetMapping("/profile/{username}")
+    public String view(Model model, @PathVariable String username) {
+        User user = userService.getUserByName(username);
+        model.addAttribute("userByProfile", user);
         return "profile";
     }
 
@@ -48,6 +50,6 @@ public class ProfileController {
                                 @RequestParam String lastName,
                                 @RequestParam("file") MultipartFile file) throws IOException {
         userService.updateProfile(username, password, email, firstName, lastName, file, user);
-        return "redirect:/profile";
+        return "redirect:/profile/"+user.getUsername();
     }
 }
