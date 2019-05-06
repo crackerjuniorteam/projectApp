@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -146,6 +147,7 @@ public class UserService implements UserDetailsService {
      * @param currentUser
      * @param user
      */
+    @Transactional
     public void subscribe(User currentUser, User user) {
         user.getSubscribers().add(currentUser);
         userRepo.save(user);
@@ -156,6 +158,7 @@ public class UserService implements UserDetailsService {
      * @param currentUser - это пользователь @AuthenticationPrincipal
      * @param user - это на чьем мы профиле сейчас
      */
+    @Transactional
     public void unsubscribe(User currentUser, User user) {
         user.getSubscribers().remove(currentUser);
         System.out.println("getSubscribers:");
