@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserService(UserRepo userRepo, MailSender mailSender, ModelMapper modelMapper){
+    public UserService(UserRepo userRepo, MailSender mailSender, ModelMapper modelMapper) {
         this.userRepo = userRepo;
         this.mailSender = mailSender;
         this.modelMapper = modelMapper;
@@ -139,5 +139,29 @@ public class UserService implements UserDetailsService {
 
     public UserDTO getUserDTOByName(String username) {
         return modelMapper.map(userRepo.findByUsername(username), UserDTO.class);
+    }
+
+    /**
+     * Тут мы добавляем подписчика к user.
+     * @param currentUser
+     * @param user
+     */
+    public void subscribe(User currentUser, User user) {
+        user.getSubscribers().add(currentUser);
+        userRepo.save(user);
+    }
+
+    /**
+     * Тут мы удаляем подписчика у пользователя user.
+     * @param currentUser - это пользователь @AuthenticationPrincipal
+     * @param user - это на чьем мы профиле сейчас
+     */
+    public void unsubscribe(User currentUser, User user) {
+        user.getSubscribers().remove(currentUser);
+        System.out.println("getSubscribers:");
+        for(User el: user.getSubscribers()) {
+            System.out.println(el.getUsername());
+        }
+        userRepo.save(user);
     }
 }

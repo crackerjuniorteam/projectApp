@@ -23,7 +23,7 @@ public class ProfileController {
 
 
     @Autowired
-    public ProfileController(UserService userService){
+    public ProfileController(UserService userService) {
         this.userService = userService;
     }
 
@@ -31,9 +31,12 @@ public class ProfileController {
     private String uploadPath;
 
     @GetMapping("/profile/{username}")
-    public String view(Model model, @PathVariable String username) {
-        UserDTO userDTO = userService.getUserDTOByName(username);
-        model.addAttribute("userByProfile", userDTO);
+    public String view(Model model, @PathVariable String username, @AuthenticationPrincipal User user) {
+        UserDTO userByProfileDTO = userService.getUserDTOByName(username);
+        model.addAttribute("subscriptionsCount", userByProfileDTO.getSubscriptions().size());
+        model.addAttribute("subscribersCount", userByProfileDTO.getSubscribers().size());
+        model.addAttribute("isSubscriber", userByProfileDTO.getSubscribers().contains(user));
+        model.addAttribute("userByProfile", userByProfileDTO);
         return "profile";
     }
 
@@ -52,6 +55,6 @@ public class ProfileController {
                                 @RequestParam String lastName,
                                 @RequestParam("file") MultipartFile file) throws IOException {
         userService.updateProfile(username, password, email, firstName, lastName, file, user);
-        return "redirect:/profile/"+user.getUsername();
+        return "redirect:/profile/" + user.getUsername();
     }
 }

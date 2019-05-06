@@ -3,6 +3,7 @@ package com.crackerStudents.projectApp.DTO;
 import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.Session;
+import com.crackerStudents.projectApp.domain.User;
 
 import java.util.List;
 import java.util.Set;
@@ -22,8 +23,10 @@ public class UserDTO {
     private String avatar;
     private boolean active;
     private Set<Role> roles;
-    private List<Pack> packs;
-    private List<Session> sessions;
+    private Set<Pack> packs;
+    private Set<Session> sessions;
+    private Set<User> subscribers;
+    private Set<User> subscriptions;
 
     public UUID getId() {
         return id;
@@ -97,19 +100,35 @@ public class UserDTO {
         this.roles = roles;
     }
 
-    public List<Pack> getPacks() {
+    public Set<Pack> getPacks() {
         return packs;
     }
 
-    public void setPacks(List<Pack> packs) {
+    public void setPacks(Set<Pack> packs) {
         this.packs = packs;
     }
 
-    public List<Session> getSessions() {
+    public Set<Session> getSessions() {
         return sessions;
     }
 
-    public void setSessions(List<Session> sessions) {
+    public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    public Set<User> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(Set<User> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public Set<User> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<User> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }

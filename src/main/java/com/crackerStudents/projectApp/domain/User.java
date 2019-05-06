@@ -72,6 +72,16 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "session_id")})
     private Set<Session> sessions = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = {@JoinColumn(name="channel_id")},
+            inverseJoinColumns = {@JoinColumn(name="subscriber_id")}
+    )
+    private Set<User> subscribers = new HashSet<>();  // подписчики
+
+    @ManyToMany(mappedBy = "subscribers")
+    private Set<User> subscriptions = new HashSet<>();  // мои подписки
 
     public User() {
     }
@@ -212,5 +222,34 @@ public class User implements UserDetails {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public Set<User> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(Set<User> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public Set<User> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<User> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
