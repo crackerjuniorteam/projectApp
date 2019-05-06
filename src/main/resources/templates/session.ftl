@@ -34,6 +34,10 @@
     <#else>
         No Card
     </#list>
+
+    <div id="app">
+        {{cards}}
+    </div>
 </div>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -50,6 +54,27 @@
             el: '#Answer',
             data: {
                 visible: true
+            }
+        });
+    </script>
+    <script>
+        const url = "/rest/session/test";
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                cards: []
+
+            },
+
+            mounted() {
+
+                axios.get(url).then(response => {
+
+                    this.cards = response.data
+                    for (var i = 0;i<this.cards.length;i++){
+                        this.cards[i].flipped = false;
+                    }
+                })
             }
         });
     </script>
