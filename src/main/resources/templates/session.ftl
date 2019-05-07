@@ -34,9 +34,9 @@
 
 
     <div  v-if="card.flipped">
-        <button class="button-card btn btn-success" id="remember" onclick="next ()">Remember</button>
-        <button class="button-card btn btn-danger" id="don't" onclick="next ()">Don't Remember</button>
-        <button class="button-card btn btn-warning" id="!sure" onclick="next ()">Not Sure</button>
+        <button class="button-card btn btn-success" id="remember" v-on:click="next()">Remember</button>
+        <button class="button-card btn btn-danger" id="don't" v-on:click="next()">Don't Remember</button>
+        <button class="button-card btn btn-warning" id="!sure" v-on:click="next()">Not Sure</button>
     </div>
     {{cards}}
 

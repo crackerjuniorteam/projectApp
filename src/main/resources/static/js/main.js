@@ -5,29 +5,29 @@ const cards = [
         flipped: false,
     },
     {
-        question: 'Invented the "Clarke Calculator"',
-        answer: 'Edith Clarke',
+        question: 'Question2',
+        answer: 'Answer2',
         flipped: false,
 
     },
     {
-        question: 'Famous World War II Enigma code breaker',
-        answer: 'Alan Turing',
+        question: 'Question3',
+        answer: 'Answer3',
         flipped: false,
     },
     {
-        question: 'Created satellite orbit analyzation software for NASA',
-        answer: 'Dr. Evelyn Boyd Granville',
+        question: 'Question4',
+        answer: 'Answer4',
         flipped: false,
     },
 ];
 const url = "/rest/session/test";
-
+var index = 0;
 
 const vm = new Vue({
     el: '#flashcard-app',
     data: {
-        card : cards[0],
+        card : cards[index],
         cards: cards,
         newFront: '',
         newBack: '',
@@ -60,6 +60,13 @@ const vm = new Vue({
                 this.newBack = '';
                 this.error = false;
             }
+        },
+        next: function(){
+            if (index > cards.length) {
+                alert("Карты кончились")
+            }
+            index = index + 1;
+            this.card = cards[index];
         }
     }
 });
