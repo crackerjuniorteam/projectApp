@@ -22,7 +22,7 @@
     <ul class="flashcard-list" style="user-select: none">
         <li v-on:click="toggleCard(card)" id="list">
             <transition name="flip">
-                <p class="card" v-if="!card.flipped" key="question">
+                <p class="card" v-if="!this.flipped" key="question">
                     {{card.question}}
                 </p>
                 <p class="card" v-else key="answer">
@@ -33,7 +33,7 @@
     </ul>
 
 
-    <div  v-if="card.flipped">
+    <div  v-if="this.flipped">
         <button class="button-card btn btn-success" id="remember" v-on:click="next()">Remember</button>
         <button class="button-card btn btn-danger" id="don't" v-on:click="next()">Don't Remember</button>
         <button class="button-card btn btn-warning" id="!sure" v-on:click="next()">Not Sure</button>
