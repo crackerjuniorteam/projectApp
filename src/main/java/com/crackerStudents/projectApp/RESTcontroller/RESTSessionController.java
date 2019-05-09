@@ -7,6 +7,8 @@ import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.SessionService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +29,8 @@ public class RESTSessionController {
 
     @GetMapping("rest/session/{name}")
     @JsonView(JSONview.QuestionAndAnswer.class)
-    public List<CardDTO> allCards(@PathVariable String name, Model model, @AuthenticationPrincipal User user) {
-        return sessionService.getDTOCardsFromPack(name);
+    public ResponseEntity<List<CardDTO>> allCards(@PathVariable String name, Model model, @AuthenticationPrincipal User user) {
+        return new ResponseEntity<>(sessionService.getDTOCardsFromPack(name), HttpStatus.OK);
     }
 
 
