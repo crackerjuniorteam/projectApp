@@ -46,7 +46,6 @@ public class PackController {
         return "pack";
     }
 
-    //[TODO]: Binding result сделать красиво
     @PostMapping("/packs/{packName}")
     public String addCard(Card card, Model model,
                           @PathVariable String packName, @AuthenticationPrincipal User user) {

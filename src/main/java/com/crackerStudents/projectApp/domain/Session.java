@@ -3,6 +3,7 @@ package com.crackerStudents.projectApp.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -23,11 +24,12 @@ public class Session {
     @JoinColumn
     private SessionRow row_id;
 
-
     @ManyToMany(mappedBy = "sessions")
     private Set<User> users = new HashSet<>();
 
-    //
+    private Date startTime;
+    private Date finishTime;
+    private Boolean isActive;
 
 
     public UUID getId() {
@@ -52,5 +54,29 @@ public class Session {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

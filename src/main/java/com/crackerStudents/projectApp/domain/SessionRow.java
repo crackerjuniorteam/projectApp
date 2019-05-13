@@ -27,8 +27,8 @@ public class SessionRow {
     private int answer;
 
     @Basic
-    @Column(name = "updated")
-    private Date updated;
+    @Column(name = "answered")
+    private Date answered;
 
     @OneToOne(mappedBy = "row_id")
     private Session session;

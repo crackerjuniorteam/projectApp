@@ -1,29 +1,11 @@
-// const cards = [
-//     {
-//         question: 'Question',
-//         answer: 'Answer',
-//         flipped: false,
-//     },
-//     {
-//         question: 'Question2',
-//         answer: 'Answer2',
-//         flipped: false,
-//
-//     },
-//     {
-//         question: 'Question3',
-//         answer: 'Answer3',
-//         flipped: false,
-//     },
-//     {
-//         question: 'Question4',
-//         answer: 'Answer4',
-//         flipped: false,
-//     },
-// ];
+let token = document.querySelector("[name~=_csrf][content]").content;
+
+axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-TOKEN': token,
+};
 const url = "/rest/session/test";
 let index = 0;
-
 const vm = new Vue({
     el: '#flashcard-app',
     data: {
@@ -31,7 +13,9 @@ const vm = new Vue({
         newFront: '',
         newBack: '',
         error: false,
-        flipped: false
+        flipped: false,
+        postBody: '',
+        errors: []
     },
     computed:{
         card: function () {
@@ -52,28 +36,41 @@ const vm = new Vue({
         toggleCard: function(card){
             this.flipped = !this.flipped;
         },
-        addNew: function(){
-            if(!this.newFront.length || !this.newBack.length){
-                this.error = true;
-            } else {
-                this.cards.push({
-                    front: this.newFront,
-                    back: this.newBack,
-                    flipped: false
-                });
-                this.newFront = '';
-                this.newBack = '';
-                this.error = false;
-            }
+        saveRemember: function () {
+            console.log("SaveRemember");
+            this.post(1);
+            this.next();
+        },
+        saveDoubt: function () {
+            console.log("SaveDoubt");
+            this.post(2);
+            this.next();
+        },
+        saveDontRemember: function () {
+            console.log("SaveDontRemember");
+            this.post(3);
+            this.next();
         },
         next: function(){
-            if (index > this.cards.length) {
+            console.log(index);
+            if (index > this.cards.length - 2) {
                 alert("Карты кончились")
             }
-            this.flipped = !this.flipped;
-            index = index + 1;
-            this.card = this.cards[index];
+            else {
+                this.flipped = !this.flipped;
+                index = index + 1;
+                this.card = this.cards[index];
+            }
 
+        },
+        post: function (reply) {
+            axios.post(url,{
+                id: this.card.id,
+                answer: reply
+            }).then(response => {}).catch(e => {
+                this.errors.push(e)
+            })
         }
+
     }
 });
