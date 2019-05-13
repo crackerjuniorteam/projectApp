@@ -2,18 +2,17 @@ package com.crackerStudents.projectApp.RESTcontroller;
 
 
 import com.crackerStudents.projectApp.DTO.CardDTO;
+import com.crackerStudents.projectApp.DTO.SessionRowDTO;
 import com.crackerStudents.projectApp.convert.JSONview;
 import com.crackerStudents.projectApp.domain.User;
+import com.crackerStudents.projectApp.repos.SessionRepo;
 import com.crackerStudents.projectApp.service.SessionService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,17 +20,27 @@ import java.util.List;
 public class RESTSessionController {
 
     private final SessionService sessionService;
+    private final SessionRepo sessionRepo;
 
     @Autowired
-    public RESTSessionController(SessionService sessionService){
+    public RESTSessionController(SessionService sessionService, SessionRepo sessionRepo){
         this.sessionService = sessionService;
+        this.sessionRepo = sessionRepo;
     }
 
-    @GetMapping("rest/session/{name}")
+    @GetMapping("rest/session/{packName}")
     @JsonView(JSONview.QuestionAndAnswer.class)
-    public ResponseEntity<List<CardDTO>> allCards(@PathVariable String name, Model model, @AuthenticationPrincipal User user) {
-        return new ResponseEntity<>(sessionService.getDTOCardsFromPack(name), HttpStatus.OK);
+    public ResponseEntity<List<CardDTO>> allCards(@PathVariable String packName, @AuthenticationPrincipal User user) {
+
+        return new ResponseEntity<>(sessionService.getDTOCardsFromPack(packName), HttpStatus.OK);
     }
 
+    @PostMapping("rest/session/{packName}")
+    public void saveSessionStats(@PathVariable String packName,
+                                 @RequestBody SessionRowDTO sessionRowDTO,
+                                 @AuthenticationPrincipal User user)
+    {
+
+    }
 
 }
