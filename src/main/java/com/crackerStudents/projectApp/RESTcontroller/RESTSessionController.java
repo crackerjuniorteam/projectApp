@@ -20,12 +20,10 @@ import java.util.List;
 public class RESTSessionController {
 
     private final SessionService sessionService;
-    private final SessionRepo sessionRepo;
 
     @Autowired
     public RESTSessionController(SessionService sessionService, SessionRepo sessionRepo){
         this.sessionService = sessionService;
-        this.sessionRepo = sessionRepo;
     }
 
     @GetMapping("rest/session/{packName}")

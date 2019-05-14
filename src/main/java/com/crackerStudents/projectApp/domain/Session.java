@@ -40,11 +40,11 @@ public class Session {
         this.id = id;
     }
 
-    public SessionRow getRow_id() {
+    public SessionRow getrow_id() {
         return row_id;
     }
 
-    public void setRow_id(SessionRow row_id) {
+    public void setrow_id(SessionRow row_id) {
         this.row_id = row_id;
     }
 

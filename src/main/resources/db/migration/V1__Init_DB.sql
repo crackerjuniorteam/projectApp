@@ -23,7 +23,7 @@
  create table card (id uuid not null, answer varchar(255), question varchar(255), user_id uuid, primary key (id));
  create table card_in_pack (pack_id uuid not null, card_id uuid not null, primary key (pack_id, card_id));
  create table pack (id uuid not null, author_id uuid, created timestamp, is_public boolean, likes int4, name varchar(255), parent_id int4, primary key (id));
- create table session (id uuid not null, row_id uuid, start_time timestamp, finish_time timestamp, isActive boolean, primary key (id));
+ create table session (id uuid not null, row_id_id uuid, start_time timestamp, finish_time timestamp, is_Active boolean, primary key (id));
  create table session_row (id uuid not null, answer int4, card_id int4, answered timestamp, primary key (id));
  create table tag (id uuid not null, tag varchar(255), primary key (id));
  create table tag_to_pack (pack_id uuid not null, tag_id uuid not null, primary key (pack_id, tag_id));
