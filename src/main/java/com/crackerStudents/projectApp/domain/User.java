@@ -1,6 +1,5 @@
 package com.crackerStudents.projectApp.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
@@ -63,13 +62,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "pack_id"))
     private Set<Pack> packs = new HashSet<>();
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "user_session",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "session_id")})
+    @OneToMany(mappedBy = "users")
     private Set<Session> sessions = new HashSet<>();
 
     @ManyToMany

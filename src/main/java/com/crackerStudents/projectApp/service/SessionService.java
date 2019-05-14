@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -59,7 +60,10 @@ public class SessionService {
 
     public void createSession(User user){
         Session session = new Session();
-
+        session.setActive(true);
+        session.setStartTime(new Date());
+        session.setUsers(user);
+        sessionRepo.save(session);
     }
 
     //public void createSessionRow()

@@ -4,8 +4,10 @@ axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
     'X-CSRF-TOKEN': token,
 };
+
 const url = "/rest/session/test";
 let index = 0;
+
 const vm = new Vue({
     el: '#flashcard-app',
     data: {

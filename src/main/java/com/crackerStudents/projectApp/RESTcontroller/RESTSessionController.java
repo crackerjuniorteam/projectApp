@@ -29,7 +29,7 @@ public class RESTSessionController {
     @GetMapping("rest/session/{packName}")
     @JsonView(JSONview.QuestionAndAnswer.class)
     public ResponseEntity<List<CardDTO>> allCards(@PathVariable String packName, @AuthenticationPrincipal User user) {
-
+        sessionService.createSession(user);
         return new ResponseEntity<>(sessionService.getDTOCardsFromPack(packName), HttpStatus.OK);
     }
 

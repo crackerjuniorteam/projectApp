@@ -30,6 +30,7 @@ public class SessionRow {
     @Column(name = "answered")
     private Date answered;
 
-    @OneToOne(mappedBy = "row_id")
+    @ManyToOne
+    @JoinColumn(name = "session_id")
     private Session session;
 }
