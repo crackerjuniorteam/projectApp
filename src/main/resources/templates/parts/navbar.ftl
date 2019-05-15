@@ -19,6 +19,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/createPack">Create Pack</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/global">Global Packs</a>
+                </li>
             </ul>
         </div>
         <div class="navbar-text mr-1">

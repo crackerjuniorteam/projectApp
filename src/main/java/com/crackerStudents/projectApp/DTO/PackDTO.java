@@ -15,6 +15,7 @@ public class PackDTO {
     private UUID id;
     private String name;
     private UUID authorId;
+    private String authorName;
     private boolean isPublic;
     private int likes;
     private Date created;
@@ -36,7 +37,6 @@ public class PackDTO {
     public void addUser(User user) {
         users.add(user);
     }
-
 
     // getters and setters
     public UUID getId() {
@@ -117,5 +117,13 @@ public class PackDTO {
 
     public void setCards(List<Card> cards) {
         this.cards = cards;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }
