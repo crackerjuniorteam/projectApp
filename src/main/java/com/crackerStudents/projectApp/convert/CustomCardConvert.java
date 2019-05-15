@@ -9,8 +9,6 @@ public class CustomCardConvert {
         cardDTO.setAnswer(cardEntity.getAnswer());
         cardDTO.setQuestion(cardEntity.getQuestion());
         cardDTO.setId(cardEntity.getId());
-        //cardDTO.setAuthor(cardEntity.getAuthor());
-        //cardDTO.setPacks(cardEntity.getPacks());
         return cardDTO;
     }
 
@@ -19,8 +17,6 @@ public class CustomCardConvert {
         card.setAnswer(cardDTO.getAnswer());
         card.setQuestion(cardDTO.getQuestion());
         card.setId(cardDTO.getId());
-        //card.setAuthor(cardDTO.getAuthor());
-        //card.setPacks(cardDTO.getPacks());
         return card;
     }
 

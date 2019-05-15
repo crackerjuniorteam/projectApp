@@ -23,8 +23,8 @@
  create table card (id uuid not null, answer varchar(255), question varchar(255), user_id uuid, primary key (id));
  create table card_in_pack (pack_id uuid not null, card_id uuid not null, primary key (pack_id, card_id));
  create table pack (id uuid not null, author_id uuid, created timestamp, is_public boolean, likes int4, name varchar(255), parent_id int4, primary key (id));
- create table session (id uuid not null, user_id uuid not null, row_id_id uuid, start_time timestamp, finish_time timestamp, is_Active boolean, primary key (id));
- create table session_row (id uuid not null, answer int4, card_id int4, answered timestamp, session_id uuid not null , primary key (id));
+ create table session (id uuid not null, user_id uuid not null, start_time timestamp, finish_time timestamp, is_Active boolean, primary key (id));
+ create table session_row (id uuid not null, answer int4, card_id uuid, answered timestamp, session_id uuid, primary key (id));
  create table tag (id uuid not null, tag varchar(255), primary key (id));
  create table tag_to_pack (pack_id uuid not null, tag_id uuid not null, primary key (pack_id, tag_id));
  create table user_role (user_id uuid not null, roles varchar(255));
@@ -34,7 +34,6 @@
  alter table if exists card add constraint FKfklks4pup2r1ni8v0g5in9ee8 foreign key (user_id) references usr;
  alter table if exists card_in_pack add constraint FKrsjil4hq0xpxsiy1xs11i65er foreign key (card_id) references card;
  alter table if exists card_in_pack add constraint FKfo28ky9uraomydkh9c5x02bdy foreign key (pack_id) references pack;
- alter table if exists session add constraint FK3swxrl73d4cfo8wxmecldctce foreign key (row_id_id) references session_row;
  alter table if exists session add constraint FK3swxrl73d4cfo8wxmecldct2e foreign key (user_id) references usr;
 
  alter table if exists tag_to_pack add constraint FKyos7oeenm0u8bxcnxp64m7q foreign key (tag_id) references tag;

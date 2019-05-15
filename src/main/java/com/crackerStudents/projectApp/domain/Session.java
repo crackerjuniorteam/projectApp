@@ -20,12 +20,12 @@ public class Session {
     private UUID id;
 
 
-    @OneToMany(mappedBy = "session")
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
     private Set<SessionRow> row_id;
 
 
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User users;
 
@@ -34,13 +34,14 @@ public class Session {
     private Boolean isActive;
 
 
+    public void addRow(SessionRow sessionRow){
+        this.row_id.add(sessionRow);
+    }
+
     public User getUsers() {
         return users;
     }
 
-    public void addRow(SessionRow sessionRow){
-        this.row_id.add(sessionRow);
-    }
     public void setUsers(User users) {
         this.users = users;
     }

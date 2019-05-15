@@ -5,6 +5,7 @@ import com.crackerStudents.projectApp.DTO.CardDTO;
 import com.crackerStudents.projectApp.DTO.PackDTO;
 import com.crackerStudents.projectApp.DTO.SessionRowDTO;
 import com.crackerStudents.projectApp.convert.CustomCardConvert;
+import com.crackerStudents.projectApp.convert.SessionRowConverter;
 import com.crackerStudents.projectApp.domain.*;
 import com.crackerStudents.projectApp.repos.PackRepo;
 import com.crackerStudents.projectApp.repos.SessionRepo;
@@ -84,7 +85,9 @@ public class SessionService {
     public void saveSessionRow(SessionRowDTO sessionRowDTO, User user){
         System.out.println("sessionRowDTO");
         Session session = getActiveSessionForUser(user);
-        session.addRow(modelMapper.map(sessionRowDTO, SessionRow.class));
+        SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionRowDTO);
+        sessionRow.setSession(session);
+        session.addRow(sessionRow);
         sessionRepo.save(session);
 
     }
