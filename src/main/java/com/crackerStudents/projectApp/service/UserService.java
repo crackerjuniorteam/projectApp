@@ -167,4 +167,12 @@ public class UserService implements UserDetailsService {
         }
         userRepo.save(user);
     }
+
+    public String getUserNameById(UUID authorId) {
+        return userRepo.findById(authorId).get().getUsername();
+    }
+
+    public void saveUser(User user) {
+        userRepo.save(user);
+    }
 }

@@ -8,6 +8,8 @@ import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.PackRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,50 +20,53 @@ public class PackService {
 
     private final PackRepo packRepo;
     private final ModelMapper modelMapper;
+    private final UserService userService;
 
     @Autowired
-    public PackService(PackRepo packRepo, ModelMapper modelMapper){
+    public PackService(PackRepo packRepo, ModelMapper modelMapper, UserService userService) {
         this.packRepo = packRepo;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
+
     @Transactional
-    public void addCardAndSave(Card card, String packName){
+    public void addCardAndSave(Card card, String packName) {
         Pack pack = packRepo.findByName(packName);
         pack.addCard(card);
         packRepo.save(pack);
     }
 
     @Transactional
-    public PackDTO getPackDTOByName(String packName){
-        return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
+    public PackDTO getPackDTOByName(String packName) {
+        return modelMapper.map(packRepo.findByName(packName), PackDTO.class);
     }
 
     @Transactional
-    public PackDTO getPackByUserAndName(String packName, User user){
+    public PackDTO getPackByUserAndName(String packName, User user) {
         Set<Pack> packs = user.getPacks();
 
         for (Pack pack : packs) {
-           if (pack.getName().equals(packName)){
-               return modelMapper.map(pack, PackDTO.class);
-           }
+            if (pack.getName().equals(packName)) {
+                return modelMapper.map(pack, PackDTO.class);
+            }
         }
         return null;
     }
 
     @Transactional
-    public List<PackDTO> getUserPacks(User user){
+    public List<PackDTO> getUserPacks(User user) {
         //Преобразуем сет паков в лист дто-паков
-        return ObjectMapperUtils.mapAll(user.getPacks(),PackDTO.class);
+        return ObjectMapperUtils.mapAll(user.getPacks(), PackDTO.class);
     }
 
     @Transactional
-    public boolean packExists(PackDTO packDTO){
+    public boolean packExists(PackDTO packDTO) {
         return packRepo.existsByName(packDTO.getName());
     }
 
     @Transactional
-    public void createPack(PackDTO packDTO, User user){
+    public void createPack(PackDTO packDTO, User user) {
 
         Pack pack = modelMapper.map(packDTO, Pack.class);
 
@@ -82,4 +87,26 @@ public class PackService {
     }
 
 
+    public List<PackDTO> getAllPacksDTO() {
+        List<Pack> packs = packRepo.findAll();
+        List<PackDTO> packsDTO = new ArrayList<>();
+        for (Pack pack : packs) {
+            PackDTO packDTO = modelMapper.map(pack, PackDTO.class);
+            UUID authorId = packDTO.getAuthorId();
+            String name = userService.getUserNameById(authorId);
+            packDTO.setAuthorName(name);
+            packsDTO.add(packDTO);
+        }
+        return packsDTO;
+    }
+
+    public Page<PackDTO> getAllPackDTO(Pageable pageable) {
+        Page<Pack> all = packRepo.findAll(pageable);
+        Page<PackDTO> allDTO = all.map(x -> modelMapper.map(x, PackDTO.class));
+        return allDTO;
+    }
+
+    public Pack getPackById(UUID id) {
+        return packRepo.findById(id).get();
+    }
 }
