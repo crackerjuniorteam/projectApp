@@ -4,8 +4,8 @@ axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
     'X-CSRF-TOKEN': token,
 };
-
-const url = "/rest/session/test";
+let url = "/rest/session/" + document.querySelector("[name~=pack][content]").content;
+//const url = "/rest/session/test";
 let index = 0;
 
 const vm = new Vue({

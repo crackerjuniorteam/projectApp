@@ -38,6 +38,9 @@ public class Session {
         return users;
     }
 
+    public void addRow(SessionRow sessionRow){
+        this.row_id.add(sessionRow);
+    }
     public void setUsers(User users) {
         this.users = users;
     }

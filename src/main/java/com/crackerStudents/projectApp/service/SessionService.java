@@ -3,11 +3,9 @@ package com.crackerStudents.projectApp.service;
 
 import com.crackerStudents.projectApp.DTO.CardDTO;
 import com.crackerStudents.projectApp.DTO.PackDTO;
+import com.crackerStudents.projectApp.DTO.SessionRowDTO;
 import com.crackerStudents.projectApp.convert.CustomCardConvert;
-import com.crackerStudents.projectApp.domain.Card;
-import com.crackerStudents.projectApp.domain.Pack;
-import com.crackerStudents.projectApp.domain.Session;
-import com.crackerStudents.projectApp.domain.User;
+import com.crackerStudents.projectApp.domain.*;
 import com.crackerStudents.projectApp.repos.PackRepo;
 import com.crackerStudents.projectApp.repos.SessionRepo;
 import org.modelmapper.ModelMapper;
@@ -18,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class SessionService {
@@ -58,14 +57,38 @@ public class SessionService {
         return false;
     }
 
-    public void createSession(User user){
+    @Transactional
+    public Session createSession(User user){
         Session session = new Session();
         session.setActive(true);
         session.setStartTime(new Date());
         session.setUsers(user);
-        sessionRepo.save(session);
+        return sessionRepo.save(session);
     }
 
-    //public void createSessionRow()
+    /**
+     * Searches for active sessions for user, if not found creates and returns one
+     * @param user
+     * @return Session entity object, with active status.
+     */
+    @Transactional
+    public Session getActiveSessionForUser(User user){
+        Set<Session> user_sessions = sessionRepo.findByUsers(user);
+        for (Session session: user_sessions) {
+            if (session.getActive()) return session;
+        }
+        return createSession(user);
+    }
+
+    @Transactional
+    public void saveSessionRow(SessionRowDTO sessionRowDTO, User user){
+        System.out.println("sessionRowDTO");
+        Session session = getActiveSessionForUser(user);
+        session.addRow(modelMapper.map(sessionRowDTO, SessionRow.class));
+        sessionRepo.save(session);
+
+    }
+
+
 
 }

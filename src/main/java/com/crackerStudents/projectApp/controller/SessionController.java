@@ -1,7 +1,6 @@
 package com.crackerStudents.projectApp.controller;
 
 
-import com.crackerStudents.projectApp.DTO.CardDTO;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
 
 @Controller
 public class SessionController {
@@ -26,9 +23,12 @@ public class SessionController {
     @GetMapping("/session/{packName}")
     public String sessionStart(@PathVariable String packName, Model model, @AuthenticationPrincipal User user) {
         if (sessionService.userHasAccessToPack(user, packName)){
-            List<CardDTO> cardDTOS = sessionService.getDTOCardsFromPack(packName);
-            model.addAttribute("cards", cardDTOS);
+            model.addAttribute("packName", packName);
+            return "session";
         }
-        return "session";
+        else {
+
+            return "error";
+        }
     }
 }
