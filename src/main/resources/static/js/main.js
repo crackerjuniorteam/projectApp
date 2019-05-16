@@ -27,9 +27,7 @@ const vm = new Vue({
     },
     created() {
         axios.get(url).then(response => {
-
             this.cards = response.data
-
         });
     },
 
@@ -50,7 +48,7 @@ const vm = new Vue({
             this.post(3);
         },
         next: function(){
-            console.log(this.isActive);
+
             if (index > this.cards.length - 2) {
                 this.isActive = !this.isActive;
                 this.End = !this.End;
@@ -61,6 +59,9 @@ const vm = new Vue({
                 index = index + 1;
                 this.card = this.cards[index];
             }
+            console.log(this.isActive);
+            console.log(index);
+            console.log(this.cards.length);
         },
         post: function (reply) {
             axios.post(url,{

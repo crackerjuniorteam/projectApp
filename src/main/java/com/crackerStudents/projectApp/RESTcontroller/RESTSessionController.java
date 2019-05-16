@@ -50,7 +50,9 @@ public class RESTSessionController {
                                  @AuthenticationPrincipal User user)
     {
         if (sessionService.userHasAccessToPack(user, packName)) {
-            System.out.println(sessionRowDTO.getActive());
+            System.out.println(sessionRowDTO.getAnswer());
+            System.out.println(sessionRowDTO.getId());
+            System.out.println(sessionRowDTO.getIsActive());
             sessionRowDTO.setAnswered(new Date());
             sessionService.saveSessionRow(sessionRowDTO, user);
         }

@@ -85,6 +85,7 @@ public class SessionService {
     public void saveSessionRow(SessionRowDTO sessionRowDTO, User user){
         Session session = getActiveSessionForUser(user);
         SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionRowDTO);
+        if (!sessionRowDTO.getIsActive()) session.setActive(false);
         sessionRow.setSession(session);
         session.addRow(sessionRow);
         sessionRepo.save(session);

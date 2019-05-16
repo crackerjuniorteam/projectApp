@@ -23,7 +23,7 @@
     <div v-if="this.End">
         <div class="jumbotron">
             <h1 class="display-4">You have memorized all the cards!</h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <p class="lead">Now you can press "Main Page" to get back to new page</p>
             <p class="lead">
                 <a class="btn btn-primary btn-lg" href="/" role="button">Main Page</a>
             </p>
