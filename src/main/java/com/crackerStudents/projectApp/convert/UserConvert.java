@@ -11,8 +11,13 @@ import java.text.ParseException;
  * @Author Krylov Sergey
  */
 public class UserConvert {
+
+    private final ModelMapper modelMapper;
+
     @Autowired
-    ModelMapper modelMapper;
+    public UserConvert(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     private UserDTO convertToDto(User user) {
         UserDTO packDTO = modelMapper.map(user, UserDTO.class);

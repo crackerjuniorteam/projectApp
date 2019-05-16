@@ -32,11 +32,11 @@ public class RESTSessionController {
     @GetMapping("rest/session/{packName}")
     @JsonView(JSONview.QuestionAndAnswer.class)
     public ResponseEntity<List<CardDTO>> allCards(@PathVariable String packName, @AuthenticationPrincipal User user) {
+
         if (sessionService.userHasAccessToPack(user, packName)){
             sessionService.getActiveSessionForUser(user);
             return new ResponseEntity<>(sessionService.getDTOCardsFromPack(packName), HttpStatus.OK);
         }
-        //else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         else {
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(URI.create("/error"));
@@ -50,6 +50,7 @@ public class RESTSessionController {
                                  @AuthenticationPrincipal User user)
     {
         if (sessionService.userHasAccessToPack(user, packName)) {
+            System.out.println(sessionRowDTO.getActive());
             sessionRowDTO.setAnswered(new Date());
             sessionService.saveSessionRow(sessionRowDTO, user);
         }

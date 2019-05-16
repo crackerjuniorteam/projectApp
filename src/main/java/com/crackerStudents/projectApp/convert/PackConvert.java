@@ -10,9 +10,15 @@ import java.text.ParseException;
 /**
  * @Author Krylov Sergey
  */
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 public class PackConvert {
+
+    private final ModelMapper modelMapper;
+
     @Autowired
-    ModelMapper modelMapper;
+    public PackConvert(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     private PackDTO convertToDto(Pack pack) {
         PackDTO packDTO = modelMapper.map(pack, PackDTO.class);

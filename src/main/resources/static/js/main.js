@@ -14,15 +14,14 @@ const vm = new Vue({
         cards: [],
         newFront: '',
         newBack: '',
-        error: false,
+        End: false,
         flipped: false,
         postBody: '',
-        errors: []
+        errors: [],
+        isActive: true
     },
     computed:{
         card: function () {
-            console.log(this.flipped);
-            console.log(this.cards);
             return this.cards[index];
         }
     },
@@ -39,36 +38,35 @@ const vm = new Vue({
             this.flipped = !this.flipped;
         },
         saveRemember: function () {
-            console.log("SaveRemember");
-            this.post(1);
             this.next();
+            this.post(1);
         },
         saveDoubt: function () {
-            console.log("SaveDoubt");
-            this.post(2);
             this.next();
+            this.post(2);
         },
         saveDontRemember: function () {
-            console.log("SaveDontRemember");
-            this.post(3);
             this.next();
+            this.post(3);
         },
         next: function(){
-            console.log(index);
+            console.log(this.isActive);
             if (index > this.cards.length - 2) {
-                alert("Карты кончились")
+                this.isActive = !this.isActive;
+                this.End = !this.End;
+                //alert("Карты кончились")
             }
             else {
                 this.flipped = !this.flipped;
                 index = index + 1;
                 this.card = this.cards[index];
             }
-
         },
         post: function (reply) {
             axios.post(url,{
                 id: this.card.id,
-                answer: reply
+                answer: reply,
+                isActive: this.isActive
             }).then(response => {}).catch(e => {
                 this.errors.push(e)
             })

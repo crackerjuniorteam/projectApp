@@ -83,7 +83,6 @@ public class SessionService {
 
     @Transactional
     public void saveSessionRow(SessionRowDTO sessionRowDTO, User user){
-        System.out.println("sessionRowDTO");
         Session session = getActiveSessionForUser(user);
         SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionRowDTO);
         sessionRow.setSession(session);

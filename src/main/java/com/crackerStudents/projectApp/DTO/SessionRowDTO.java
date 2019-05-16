@@ -9,6 +9,7 @@ public class SessionRowDTO {
     private UUID id;
     private int answer;
     private Date answered;
+    private boolean isActive;
 
     public UUID getId() {
         return id;
@@ -34,5 +35,11 @@ public class SessionRowDTO {
         this.answered = answered;
     }
 
+    public Boolean getActive() {
+        return isActive;
+    }
 
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

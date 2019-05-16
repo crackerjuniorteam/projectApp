@@ -10,5 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface SessionRepo extends JpaRepository<Session, UUID> {
-    public Set<Session> findByUsers(User user);
+    Set<Session> findByUsers(User user);
 }
