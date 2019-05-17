@@ -18,18 +18,60 @@ public class SessionRow {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Basic
-    @Column(name = "card_id")
-    private int cardId;
+    @Column(name = "card_id", updatable = false, nullable = false)
+    private UUID cardId;
 
     @Basic
     @Column(name = "answer")
     private int answer;
 
     @Basic
-    @Column(name = "updated")
-    private Date updated;
+    @Column(name = "answered")
+    private Date answered;
 
-    @OneToOne(mappedBy = "row_id")
+    @ManyToOne
+    @JoinColumn(name = "session_id")
     private Session session;
+
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+
+    public int getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(int answer) {
+        this.answer = answer;
+    }
+
+    public Date getAnswered() {
+        return answered;
+    }
+
+    public void setAnswered(Date answered) {
+        this.answered = answered;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public UUID getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(UUID cardId) {
+        this.cardId = cardId;
+    }
 }

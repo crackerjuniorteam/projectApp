@@ -3,35 +3,42 @@ package com.crackerStudents.projectApp.service;
 
 import com.crackerStudents.projectApp.DTO.CardDTO;
 import com.crackerStudents.projectApp.DTO.PackDTO;
+import com.crackerStudents.projectApp.DTO.SessionRowDTO;
 import com.crackerStudents.projectApp.convert.CustomCardConvert;
-import com.crackerStudents.projectApp.domain.Card;
-import com.crackerStudents.projectApp.domain.Pack;
-import com.crackerStudents.projectApp.domain.User;
+import com.crackerStudents.projectApp.convert.SessionRowConverter;
+import com.crackerStudents.projectApp.domain.*;
 import com.crackerStudents.projectApp.repos.PackRepo;
+import com.crackerStudents.projectApp.repos.SessionRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class SessionService {
 
     private final PackRepo packRepo;
     private final ModelMapper modelMapper;
+    private final SessionRepo sessionRepo;
 
     @Autowired
-    public SessionService(PackRepo packRepo, ModelMapper modelMapper){
+    public SessionService(PackRepo packRepo, ModelMapper modelMapper, SessionRepo sessionRepo){
         this.packRepo = packRepo;
         this.modelMapper = modelMapper;
+        this.sessionRepo = sessionRepo;
     }
 
-    private PackDTO getPackByName(String packName){
+    @Transactional
+    public PackDTO getPackByName(String packName){
         return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
     }
 
+    @Transactional
     public List<CardDTO> getDTOCardsFromPack(String packName){
         List<Card> cards = getPackByName(packName).getCards();
         CustomCardConvert converter = new CustomCardConvert();
@@ -50,5 +57,41 @@ public class SessionService {
         }
         return false;
     }
+
+    @Transactional
+    public Session createSession(User user){
+        Session session = new Session();
+        session.setActive(true);
+        session.setStartTime(new Date());
+        session.setUsers(user);
+        return sessionRepo.save(session);
+    }
+
+    /**
+     * Searches for active sessions for user, if not found creates and returns one
+     * @param user
+     * @return Session entity object, with active status.
+     */
+    @Transactional
+    public Session getActiveSessionForUser(User user){
+        Set<Session> user_sessions = sessionRepo.findByUsers(user);
+        for (Session session: user_sessions) {
+            if (session.getActive()) return session;
+        }
+        return createSession(user);
+    }
+
+    @Transactional
+    public void saveSessionRow(SessionRowDTO sessionRowDTO, User user){
+        Session session = getActiveSessionForUser(user);
+        SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionRowDTO);
+        if (!sessionRowDTO.getIsActive()) session.setActive(false);
+        sessionRow.setSession(session);
+        session.addRow(sessionRow);
+        sessionRepo.save(session);
+
+    }
+
+
 
 }

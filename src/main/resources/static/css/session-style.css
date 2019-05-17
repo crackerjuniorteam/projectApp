@@ -51,7 +51,7 @@ li:nth-child(-n+3) .card{
 }
 
 li:nth-child(2n+1) .card{
-    background-color: #a17de9;
+    background-color: #51aae5;
 }
 
 li:nth-child(4n) .card{

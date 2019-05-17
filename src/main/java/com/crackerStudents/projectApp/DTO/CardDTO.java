@@ -13,6 +13,8 @@ import java.util.UUID;
  */
 
 public class CardDTO {
+
+    @JsonView(JSONview.QuestionAndAnswer.class)
     private UUID id;
 
     @JsonView(JSONview.QuestionAndAnswer.class)

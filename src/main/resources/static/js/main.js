@@ -1,27 +1,11 @@
-// const cards = [
-//     {
-//         question: 'Question',
-//         answer: 'Answer',
-//         flipped: false,
-//     },
-//     {
-//         question: 'Question2',
-//         answer: 'Answer2',
-//         flipped: false,
-//
-//     },
-//     {
-//         question: 'Question3',
-//         answer: 'Answer3',
-//         flipped: false,
-//     },
-//     {
-//         question: 'Question4',
-//         answer: 'Answer4',
-//         flipped: false,
-//     },
-// ];
-const url = "/rest/session/test";
+let token = document.querySelector("[name~=_csrf][content]").content;
+
+axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-TOKEN': token,
+};
+let url = "/rest/session/" + document.querySelector("[name~=pack][content]").content;
+//const url = "/rest/session/test";
 let index = 0;
 
 const vm = new Vue({
@@ -30,21 +14,20 @@ const vm = new Vue({
         cards: [],
         newFront: '',
         newBack: '',
-        error: false,
-        flipped: false
+        End: false,
+        flipped: false,
+        postBody: '',
+        errors: [],
+        isActive: true
     },
     computed:{
         card: function () {
-            console.log(this.flipped);
-            console.log(this.cards);
             return this.cards[index];
         }
     },
     created() {
         axios.get(url).then(response => {
-
             this.cards = response.data
-
         });
     },
 
@@ -52,28 +35,43 @@ const vm = new Vue({
         toggleCard: function(card){
             this.flipped = !this.flipped;
         },
-        addNew: function(){
-            if(!this.newFront.length || !this.newBack.length){
-                this.error = true;
-            } else {
-                this.cards.push({
-                    front: this.newFront,
-                    back: this.newBack,
-                    flipped: false
-                });
-                this.newFront = '';
-                this.newBack = '';
-                this.error = false;
-            }
+        saveRemember: function () {
+            this.next();
+            this.post(1);
+        },
+        saveDoubt: function () {
+            this.next();
+            this.post(2);
+        },
+        saveDontRemember: function () {
+            this.next();
+            this.post(3);
         },
         next: function(){
-            if (index > this.cards.length) {
-                alert("Карты кончились")
-            }
-            this.flipped = !this.flipped;
-            index = index + 1;
-            this.card = this.cards[index];
 
+            if (index > this.cards.length - 2) {
+                this.isActive = !this.isActive;
+                this.End = !this.End;
+                //alert("Карты кончились")
+            }
+            else {
+                this.flipped = !this.flipped;
+                index = index + 1;
+                this.card = this.cards[index];
+            }
+            console.log(this.isActive);
+            console.log(index);
+            console.log(this.cards.length);
+        },
+        post: function (reply) {
+            axios.post(url,{
+                id: this.card.id,
+                answer: reply,
+                isActive: this.isActive
+            }).then(response => {}).catch(e => {
+                this.errors.push(e)
+            })
         }
+
     }
 });

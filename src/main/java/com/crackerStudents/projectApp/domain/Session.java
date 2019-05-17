@@ -3,7 +3,7 @@ package com.crackerStudents.projectApp.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,16 +19,32 @@ public class Session {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn
-    private SessionRow row_id;
+
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    private Set<SessionRow> row_id;
 
 
-    @ManyToMany(mappedBy = "sessions")
-    private Set<User> users = new HashSet<>();
 
-    //
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private User users;
 
+    private Date startTime;
+    private Date finishTime;
+    private Boolean isActive;
+
+
+    public void addRow(SessionRow sessionRow){
+        this.row_id.add(sessionRow);
+    }
+
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
+    }
 
     public UUID getId() {
         return id;
@@ -38,19 +54,36 @@ public class Session {
         this.id = id;
     }
 
-    public SessionRow getRow_id() {
+    public Set<SessionRow> getRow_id() {
         return row_id;
     }
 
-    public void setRow_id(SessionRow row_id) {
+    public void setRow_id(Set<SessionRow> row_id) {
         this.row_id = row_id;
     }
 
-    public Set<User> getUsers() {
-        return users;
+
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }
