@@ -20,16 +20,14 @@
 <body>
 
 <div id="flashcard-app" class="container">
-    <div v-if="this.End">
-        <div class="jumbotron">
-            <h1 class="display-4">You have memorized all the cards!</h1>
-            <p class="lead">Now you can press "Main Page" to get back to new page</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="/" role="button">Main Page</a>
-            </p>
-        </div>
-    </div>
-    <div v-if="!this.End">
+<#--        <div class="jumbotron">-->
+<#--            <h1 class="display-4">You have memorized all the cards!</h1>-->
+<#--            <p class="lead">Now you can press "Main Page" to get back to new page</p>-->
+<#--            <p class="lead">-->
+<#--                <a class="btn btn-primary btn-lg" href="/" role="button">Main Page</a>-->
+<#--            </p>-->
+<#--        </div>-->
+
         <h1>Flashcard App!</h1>
 
 
@@ -51,7 +49,6 @@
             <button class="btn btn-outline-warning" id="!sure" v-on:click="saveDoubt()">Not Sure</button>
             <button class="btn btn-outline-danger" id="don't" v-on:click="saveDontRemember()">Don't Remember</button>
         </div>
-    </div>
     {{cards}}
 
 </div>
