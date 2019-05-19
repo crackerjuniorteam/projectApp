@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SessionService {
@@ -73,17 +70,17 @@ public class SessionService {
      * @return Session entity object, with active status.
      */
     @Transactional
-    public Session getActiveSessionForUser(User user){
+    public UUID getActiveSessionForUser(User user){
         Set<Session> user_sessions = sessionRepo.findByUsers(user);
         for (Session session: user_sessions) {
-            if (session.getActive()) return session;
+            if (session.getActive()) return session.getId();
         }
-        return createSession(user);
+        return createSession(user).getId();
     }
 
     @Transactional
     public void saveSessionRow(SessionRowDTO sessionRowDTO, User user){
-        Session session = getActiveSessionForUser(user);
+        Session session = sessionRepo.findById(getActiveSessionForUser(user)).orElse(null);
         SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionRowDTO);
         if (!sessionRowDTO.getIsActive()) session.setActive(false);
         sessionRow.setSession(session);

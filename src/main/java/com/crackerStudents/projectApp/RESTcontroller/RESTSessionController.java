@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class RESTSessionController {
@@ -34,7 +35,7 @@ public class RESTSessionController {
     public ResponseEntity<List<CardDTO>> allCards(@PathVariable String packName, @AuthenticationPrincipal User user) {
 
         if (sessionService.userHasAccessToPack(user, packName)){
-            sessionService.getActiveSessionForUser(user);
+            UUID uuid = sessionService.getActiveSessionForUser(user);
             return new ResponseEntity<>(sessionService.getDTOCardsFromPack(packName), HttpStatus.OK);
         }
         else {
@@ -53,6 +54,17 @@ public class RESTSessionController {
             System.out.println(sessionRowDTO.getAnswer());
             System.out.println(sessionRowDTO.getId());
             System.out.println(sessionRowDTO.getIsActive());
+            sessionRowDTO.setAnswered(new Date());
+            sessionService.saveSessionRow(sessionRowDTO, user);
+        }
+    }
+
+    @PostMapping("rest/session/end/{packName}")
+    public void endSession(@PathVariable String packName,
+                                 @RequestBody SessionRowDTO sessionRowDTO,
+                                 @AuthenticationPrincipal User user)
+    {
+        if (sessionService.userHasAccessToPack(user, packName)) {
             sessionRowDTO.setAnswered(new Date());
             sessionService.saveSessionRow(sessionRowDTO, user);
         }

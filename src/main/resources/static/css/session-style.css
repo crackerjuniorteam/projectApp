@@ -9,7 +9,8 @@ ul {
     flex-flow: row wrap;
 }
 
-li {
+
+#list {
     margin: 0 AUTO;
     list-style-type: none;
     padding: 10px 10px;
@@ -46,28 +47,8 @@ li:hover{
     transform: scale(1.1);
 }
 
-li:nth-child(-n+3) .card{
-    background-color: #e65f51;
-}
-
 li:nth-child(2n+1) .card{
     background-color: #51aae5;
-}
-
-li:nth-child(4n) .card{
-    background-color: #feca34;
-}
-
-li:nth-child(5n-2) .card{
-    background-color: #51aae5;
-}
-
-li:nth-child(4n+4) .card{
-    background-color: #feca34;
-}
-
-li:nth-child(-7n+7) .card{
-    background-color: #e46055;
 }
 
 .delete-card {
@@ -77,11 +58,6 @@ li:nth-child(-7n+7) .card{
     padding: 10px 15px;
     opacity: .4;
     transition: all 0.5s ease;
-}
-
-.delete-card:hover, .error {
-    opacity: 1;
-    transform: rotate(360deg);
 }
 
 .flip-enter-active {
@@ -96,12 +72,6 @@ li:nth-child(-7n+7) .card{
     transform: rotateY(180deg);
     opacity: 0;
 
-}
-
-/* Form */
-.flashcard-form{
-    margin: 0 auto;
-    position: relative;
 }
 
 
@@ -135,9 +105,14 @@ button:hover{
     background-color: #70a66f;
 }
 
-.error{
+.button-choice{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0px auto;
     margin-top: 10px;
-    display: block;
-    color: #e44e42;
-    font-weight: 600;
+}
+
+.json_check{
+
 }

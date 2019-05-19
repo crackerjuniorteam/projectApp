@@ -49,18 +49,22 @@ const vm = new Vue({
             this.post(3);
             this.next();
         },
+        endSession: function(){
+            this.isActive = !this.isActive;
+            url = "/rest/session/end/" + document.querySelector("[name~=pack][content]").content;
+            axios.post(url,{
+                id: this.card.id,
+                answer: reply,
+                isActive: this.isActive
+            }).then(response => {}).catch(e => {
+                this.errors.push(e)
+            })
+        },
         next: function(){
             console.log(index);
-            if (index > this.cards.length - 2) {
-                alert("Карты кончились")
-                this.isActive = !this.isActive;
-            }
-            else {
-                this.flipped = !this.flipped;
-                index = index + 1;
-                this.card = this.cards[index];
-            }
-
+            this.flipped = !this.flipped;
+            index = index + 1;
+            this.card = this.cards[index];
         },
         post: function (reply) {
             axios.post(url,{

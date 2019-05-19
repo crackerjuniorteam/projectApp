@@ -13,7 +13,7 @@
 
 
     <link href="/css/session-style.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Memory</title>
 </head>
@@ -43,13 +43,17 @@
                 </transition>
             </li>
         </ul>
-
-        <div  v-if="this.flipped">
-            <button class="btn btn-outline-success" id="remember" v-on:click="saveRemember()">Remember</button>
-            <button class="btn btn-outline-warning" id="!sure" v-on:click="saveDoubt()">Not Sure</button>
-            <button class="btn btn-outline-danger" id="don't" v-on:click="saveDontRemember()">Don't Remember</button>
+        <div class="button-choice">
+            <div  v-if="this.flipped">
+                <button class="btn btn-outline-success" id="remember" v-on:click="saveRemember()">Remember</button>
+                <button class="btn btn-outline-warning" id="!sure" v-on:click="saveDoubt()">Not Sure</button>
+                <button class="btn btn-outline-danger" id="don't" v-on:click="saveDontRemember()">Don't Remember</button>
+            </div>
         </div>
-    {{cards}}
+
+    <div class="json_check">{{cards}}</div>
+
+    <button type="button" class="btn btn-outline-danger" v-on:click="endSession()">End Session</button>
 
 </div>
 
