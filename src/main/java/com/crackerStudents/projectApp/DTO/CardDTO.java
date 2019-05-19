@@ -22,6 +22,7 @@ public class CardDTO {
 
     @JsonView(JSONview.QuestionAndAnswer.class)
     private String answer;
+
     private User author;
     private List<Pack> packs;
 

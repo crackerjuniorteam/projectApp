@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.UUID;
+
 @Controller
 public class SessionController {
 
@@ -20,10 +22,10 @@ public class SessionController {
         this.sessionService = sessionService;
     }
 
-    @GetMapping("/session/{packName}")
-    public String sessionStart(@PathVariable String packName, Model model, @AuthenticationPrincipal User user) {
-        if (sessionService.userHasAccessToPack(user, packName)){
-            model.addAttribute("packName", packName);
+    @GetMapping("/session/{packId}")
+    public String sessionStart(@PathVariable UUID packId, Model model, @AuthenticationPrincipal User user) {
+        if (sessionService.userHasAccessToPack(user, packId)){
+            model.addAttribute("packId", packId);
             return "session";
         }
         else {

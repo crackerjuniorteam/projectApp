@@ -30,13 +30,13 @@ public class RESTSessionController {
         this.sessionService = sessionService;
     }
 
-    @GetMapping("rest/session/{packName}")
+    @GetMapping("rest/session/{packId}")
     @JsonView(JSONview.QuestionAndAnswer.class)
-    public ResponseEntity<List<CardDTO>> allCards(@PathVariable String packName, @AuthenticationPrincipal User user) {
+    public ResponseEntity<List<CardDTO>> allCards(@PathVariable UUID packId, @AuthenticationPrincipal User user) {
 
-        if (sessionService.userHasAccessToPack(user, packName)){
+        if (sessionService.userHasAccessToPack(user, packId)){
             UUID uuid = sessionService.getActiveSessionForUser(user);
-            return new ResponseEntity<>(sessionService.getDTOCardsFromPack(packName), HttpStatus.OK);
+            return new ResponseEntity<>(sessionService.getDTOCardsFromPack(packId), HttpStatus.OK);
         }
         else {
             HttpHeaders headers = new HttpHeaders();
@@ -45,12 +45,12 @@ public class RESTSessionController {
         }
     }
 
-    @PostMapping("rest/session/{packName}")
-    public void saveSessionStats(@PathVariable String packName,
+    @PostMapping("rest/session/{packId}")
+    public void saveSessionStats(@PathVariable UUID packId,
                                  @RequestBody SessionRowDTO sessionRowDTO,
                                  @AuthenticationPrincipal User user)
     {
-        if (sessionService.userHasAccessToPack(user, packName)) {
+        if (sessionService.userHasAccessToPack(user, packId)) {
             System.out.println(sessionRowDTO.getAnswer());
             System.out.println(sessionRowDTO.getId());
             System.out.println(sessionRowDTO.getIsActive());
@@ -59,12 +59,12 @@ public class RESTSessionController {
         }
     }
 
-    @PostMapping("rest/session/end/{packName}")
-    public void endSession(@PathVariable String packName,
+    @PostMapping("rest/session/end/{packId}")
+    public void endSession(@PathVariable UUID packId,
                                  @RequestBody SessionRowDTO sessionRowDTO,
                                  @AuthenticationPrincipal User user)
     {
-        if (sessionService.userHasAccessToPack(user, packName)) {
+        if (sessionService.userHasAccessToPack(user, packId)) {
             sessionRowDTO.setAnswered(new Date());
             sessionService.saveSessionRow(sessionRowDTO, user);
         }

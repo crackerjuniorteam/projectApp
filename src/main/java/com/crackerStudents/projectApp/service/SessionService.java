@@ -31,26 +31,25 @@ public class SessionService {
     }
 
     @Transactional
-    public PackDTO getPackByName(String packName){
+    public PackDTO getPackDTOByName(String packName){
         return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
     }
 
     @Transactional
-    public List<CardDTO> getDTOCardsFromPack(String packName){
-        List<Card> cards = getPackByName(packName).getCards();
+    public List<CardDTO> getDTOCardsFromPack(UUID packId){
+        List<Card> cards = new ArrayList<>(packRepo.findById(packId).orElse(null).getCards());
         CustomCardConvert converter = new CustomCardConvert();
         List<CardDTO> cardDTOS = new ArrayList<>();
         for (Card card: cards) {
             cardDTOS.add(converter.entityToDto(card));
         }
-        //return ObjectMapperUtils.mapAll(cards,CardDTO.class);
         return cardDTOS;
     }
 
     @Transactional
-    public boolean userHasAccessToPack(User user, String packName){
+    public boolean userHasAccessToPack(User user, UUID packId){
         for (Pack pack : user.getPacks()){
-            if (pack.getName().equals(packName)) return true;
+            if (pack.getId().equals(packId)) return true;
         }
         return false;
     }

@@ -9,7 +9,7 @@
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-    <meta name="pack" content="${packName}"/>
+    <meta name="pack" content="${packId}"/>
 
 
     <link href="/css/session-style.css" rel="stylesheet">
