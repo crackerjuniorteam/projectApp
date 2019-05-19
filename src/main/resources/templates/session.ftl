@@ -9,27 +9,25 @@
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-    <meta name="pack" content="${packName}"/>
+    <meta name="pack" content="${packId}"/>
 
 
     <link href="/css/session-style.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Memory</title>
 </head>
 <body>
 
 <div id="flashcard-app" class="container">
-    <div v-if="this.End">
-        <div class="jumbotron">
-            <h1 class="display-4">You have memorized all the cards!</h1>
-            <p class="lead">Now you can press "Main Page" to get back to new page</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="/" role="button">Main Page</a>
-            </p>
-        </div>
-    </div>
-    <div v-if="!this.End">
+<#--        <div class="jumbotron">-->
+<#--            <h1 class="display-4">You have memorized all the cards!</h1>-->
+<#--            <p class="lead">Now you can press "Main Page" to get back to new page</p>-->
+<#--            <p class="lead">-->
+<#--                <a class="btn btn-primary btn-lg" href="/" role="button">Main Page</a>-->
+<#--            </p>-->
+<#--        </div>-->
+
         <h1>Flashcard App!</h1>
 
 
@@ -45,14 +43,17 @@
                 </transition>
             </li>
         </ul>
-
-        <div  v-if="this.flipped">
-            <button class="btn btn-outline-success" id="remember" v-on:click="saveRemember()">Remember</button>
-            <button class="btn btn-outline-warning" id="!sure" v-on:click="saveDoubt()">Not Sure</button>
-            <button class="btn btn-outline-danger" id="don't" v-on:click="saveDontRemember()">Don't Remember</button>
+        <div class="button-choice">
+            <div  v-if="this.flipped">
+                <button class="btn btn-outline-success" id="remember" v-on:click="saveRemember()">Remember</button>
+                <button class="btn btn-outline-warning" id="!sure" v-on:click="saveDoubt()">Not Sure</button>
+                <button class="btn btn-outline-danger" id="don't" v-on:click="saveDontRemember()">Don't Remember</button>
+            </div>
         </div>
-    </div>
-    {{cards}}
+
+    <div class="json_check">{{cards}}</div>
+
+    <button type="button" class="btn btn-outline-danger" v-on:click="endSession()">End Session</button>
 
 </div>
 

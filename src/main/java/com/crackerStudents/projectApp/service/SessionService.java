@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SessionService {
@@ -34,26 +31,25 @@ public class SessionService {
     }
 
     @Transactional
-    public PackDTO getPackByName(String packName){
+    public PackDTO getPackDTOByName(String packName){
         return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
     }
 
     @Transactional
-    public List<CardDTO> getDTOCardsFromPack(String packName){
-        List<Card> cards = getPackByName(packName).getCards();
+    public List<CardDTO> getDTOCardsFromPack(UUID packId){
+        List<Card> cards = new ArrayList<>(packRepo.findById(packId).orElse(null).getCards());
         CustomCardConvert converter = new CustomCardConvert();
         List<CardDTO> cardDTOS = new ArrayList<>();
         for (Card card: cards) {
             cardDTOS.add(converter.entityToDto(card));
         }
-        //return ObjectMapperUtils.mapAll(cards,CardDTO.class);
         return cardDTOS;
     }
 
     @Transactional
-    public boolean userHasAccessToPack(User user, String packName){
+    public boolean userHasAccessToPack(User user, UUID packId){
         for (Pack pack : user.getPacks()){
-            if (pack.getName().equals(packName)) return true;
+            if (pack.getId().equals(packId)) return true;
         }
         return false;
     }
@@ -73,17 +69,17 @@ public class SessionService {
      * @return Session entity object, with active status.
      */
     @Transactional
-    public Session getActiveSessionForUser(User user){
+    public UUID getActiveSessionForUser(User user){
         Set<Session> user_sessions = sessionRepo.findByUsers(user);
         for (Session session: user_sessions) {
-            if (session.getActive()) return session;
+            if (session.getActive()) return session.getId();
         }
-        return createSession(user);
+        return createSession(user).getId();
     }
 
     @Transactional
     public void saveSessionRow(SessionRowDTO sessionRowDTO, User user){
-        Session session = getActiveSessionForUser(user);
+        Session session = sessionRepo.findById(getActiveSessionForUser(user)).orElse(null);
         SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionRowDTO);
         if (!sessionRowDTO.getIsActive()) session.setActive(false);
         sessionRow.setSession(session);
