@@ -10,8 +10,6 @@ public class SessionRowDTO {
     private int answer;
     private Date answered;
     private boolean isActive;
-    private UUID session_id;
-
 
     public UUID getId() {
         return id;
@@ -43,13 +41,5 @@ public class SessionRowDTO {
 
     public void setIsActive(boolean active) {
         isActive = active;
-    }
-
-    public UUID getSession_id() {
-        return session_id;
-    }
-
-    public void setSession_id(UUID session_id) {
-        this.session_id = session_id;
     }
 }

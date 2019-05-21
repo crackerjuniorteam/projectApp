@@ -19,8 +19,6 @@
 </head>
 <body>
 
-
-
 <div id="flashcard-app" class="container">
 <#--        <div class="jumbotron">-->
 <#--            <h1 class="display-4">You have memorized all the cards!</h1>-->

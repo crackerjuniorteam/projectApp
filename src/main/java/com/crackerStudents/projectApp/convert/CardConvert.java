@@ -11,8 +11,13 @@ import java.text.ParseException;
  * @Author Krylov Sergey
  */
 public class CardConvert {
+
+    private final ModelMapper modelMapper;
+
     @Autowired
-    ModelMapper modelMapper;
+    public CardConvert(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     public CardDTO convertToDto(Card card) {
         CardDTO cardDTO = modelMapper.map(card, CardDTO.class);

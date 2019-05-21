@@ -13,11 +13,8 @@ import org.springframework.stereotype.Service;
 public class CardService {
 
     private final CardRepo cardRepo;
-    private final ModelMapper modelMapper;
-
     @Autowired
     public CardService(ModelMapper modelMapper, CardRepo cardRepo) {
-        this.modelMapper = modelMapper;
         this.cardRepo = cardRepo;
     }
 

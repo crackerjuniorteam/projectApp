@@ -4,6 +4,7 @@ import com.crackerStudents.projectApp.DTO.PackDTO;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.PackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@PreAuthorize("hasAuthority('USER')")
 public class NewPackController {
 
     private final PackService packService;

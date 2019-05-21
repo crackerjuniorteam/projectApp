@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/memory
     username: postgres
-    password: 789456
+    password: 1208
   jpa:
     hibernate:
       ddl-auto: validate
@@ -22,7 +22,7 @@ spring:
     protocol: smtps
 
 mail.debug: true
-pathNameUpload: C:/Users/Sergey/Documents/projectApp/src/uploads
+pathNameUpload: C:/Users/krylo/Documents/IT/projectApp/src/main/uploads
 
 recaptcha:
   secret: 6Ldftp8UAAAAAF5cwqwOr6A4wzIkK_Is5IZBY0eN

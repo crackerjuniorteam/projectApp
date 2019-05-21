@@ -14,6 +14,8 @@ import java.util.UUID;
  */
 
 public class CardDTO {
+
+    @JsonView(JSONview.QuestionAndAnswer.class)
     private UUID id;
 
     @JsonView(JSONview.QuestionAndAnswer.class)
@@ -21,6 +23,7 @@ public class CardDTO {
 
     @JsonView(JSONview.QuestionAndAnswer.class)
     private String answer;
+
     private User author;
     private List<Pack> packs;
 
