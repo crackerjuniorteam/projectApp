@@ -6,9 +6,11 @@ import com.crackerStudents.projectApp.domain.Card;
 import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.PackRepo;
+import com.sun.java.util.jar.pack.PackerImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -108,5 +110,12 @@ public class PackService {
 
     public Pack getPackById(UUID id) {
         return packRepo.findById(id).get();
+    }
+
+    public Page<PackDTO> getAllByUserPackDTO(Pageable pageable, User user) {
+        ArrayList<Pack> packs = new ArrayList<>(user.getPacks());
+        Page<Pack> all = new PageImpl<>(packs);
+        Page<PackDTO> allDTO = all.map(x -> modelMapper.map(x, PackDTO.class));
+        return allDTO;
     }
 }

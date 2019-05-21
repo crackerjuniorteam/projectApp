@@ -7,6 +7,9 @@ import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.CardService;
 import com.crackerStudents.projectApp.service.PackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +32,11 @@ public class PackController {
     }
 
     @GetMapping("/packs")
-    public String view(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("packs", packService.getUserPacks(user));
+    public String view(@AuthenticationPrincipal User user, Model model, @PageableDefault Pageable pageable) {
+        //model.addAttribute("packs", packService.getUserPacks(user));
+        Page<PackDTO> page = packService.getAllByUserPackDTO(pageable, user);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/packs");
         return "packs";
     }
 
@@ -73,7 +79,7 @@ public class PackController {
         Card card = packDTO.getCard(id);
         if (!StringUtils.isEmpty(answer) && !StringUtils.isEmpty(question)) {
             cardService.updateCard(card, answer, question);
-            return "redirect:/packs/"+ name;
+            return "redirect:/packs/" + name;
         } else {
             model.addAttribute("card", card);
             model.addAttribute("message", "Заполните оба поля");
