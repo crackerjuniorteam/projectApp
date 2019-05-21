@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -38,6 +39,10 @@ public class Card {
 
     @ManyToMany(mappedBy = "cards")
     private Set<Pack> packs = new HashSet<>();
+
+    private Date next_practice_time;
+    private int consecutive_correct_answer;
+    private Date last_time_easy;
 
     public Card() {
     }
@@ -93,4 +98,27 @@ public class Card {
         this.author = author;
     }
 
+    public Date getNext_practice_time() {
+        return next_practice_time;
+    }
+
+    public void setNext_practice_time(Date next_practice_time) {
+        this.next_practice_time = next_practice_time;
+    }
+
+    public int getConsecutive_correct_answer() {
+        return consecutive_correct_answer;
+    }
+
+    public void setConsecutive_correct_answer(int consecutive_correct_answer) {
+        this.consecutive_correct_answer = consecutive_correct_answer;
+    }
+
+    public Date getLast_time_easy() {
+        return last_time_easy;
+    }
+
+    public void setLast_time_easy(Date last_time_easy) {
+        this.last_time_easy = last_time_easy;
+    }
 }

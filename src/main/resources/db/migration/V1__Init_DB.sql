@@ -20,7 +20,7 @@
  drop table if exists user_session cascade;
  drop table if exists usr cascade;
  drop table if exists usr_packs cascade;
- create table card (id uuid not null, answer varchar(255), question varchar(255), user_id uuid, primary key (id));
+ create table card (id uuid not null, answer varchar(255), question varchar(255), user_id uuid, next_practice_time timestamp, last_time_easy timestamp, primary key (id));
  create table card_in_pack (pack_id uuid not null, card_id uuid not null, primary key (pack_id, card_id));
  create table pack (id uuid not null, author_id uuid, created timestamp, is_public boolean, likes int4, name varchar(255), parent_id int4, primary key (id));
  create table session (id uuid not null, row_id_id uuid, primary key (id));
