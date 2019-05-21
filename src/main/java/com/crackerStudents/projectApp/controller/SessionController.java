@@ -4,6 +4,7 @@ package com.crackerStudents.projectApp.controller;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.UUID;
 
 @Controller
+@PreAuthorize("hasAuthority('USER')")
 public class SessionController {
 
     private final SessionService sessionService;
