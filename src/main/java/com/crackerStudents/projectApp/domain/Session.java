@@ -32,6 +32,8 @@ public class Session {
     private Date startTime;
     private Date finishTime;
     private Boolean isActive;
+    private UUID pack_id;
+    private UUID last_card_id;
 
 
     public void addRow(SessionRow sessionRow){
@@ -62,7 +64,6 @@ public class Session {
         this.row_id = row_id;
     }
 
-
     public Date getStartTime() {
         return startTime;
     }
@@ -85,5 +86,13 @@ public class Session {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public UUID getPack_id() {
+        return pack_id;
+    }
+
+    public void setPack_id(UUID pack_id) {
+        this.pack_id = pack_id;
     }
 }

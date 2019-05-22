@@ -11,7 +11,7 @@ let index = 0;
 const vm = new Vue({
     el: '#flashcard-app',
     data: {
-        cards: [],
+        sessionDTO: [],
         error: false,
         flipped: false,
         errors: [],
@@ -20,13 +20,13 @@ const vm = new Vue({
     computed:{
         card: function () {
             console.log(this.flipped);
-            console.log(this.cards);
-            return this.cards[index];
+            console.log(this.sessionDTO);
+            return this.sessionDTO[index];
         }
     },
     created() {
         axios.get(url).then(response => {
-            this.cards = response.data
+            this.sessionDTO = response.data
         });
     },
 
@@ -64,7 +64,7 @@ const vm = new Vue({
             console.log(index);
             this.flipped = !this.flipped;
             index = index + 1;
-            this.card = this.cards[index];
+            this.card = this.sessionDTO[index];
         },
         post: function (reply) {
             axios.post(url,{

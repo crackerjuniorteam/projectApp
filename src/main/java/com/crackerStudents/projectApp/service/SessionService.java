@@ -3,7 +3,7 @@ package com.crackerStudents.projectApp.service;
 
 import com.crackerStudents.projectApp.DTO.CardDTO;
 import com.crackerStudents.projectApp.DTO.PackDTO;
-import com.crackerStudents.projectApp.DTO.SessionRowDTO;
+import com.crackerStudents.projectApp.DTO.SessionDTO;
 import com.crackerStudents.projectApp.convert.CustomCardConvert;
 import com.crackerStudents.projectApp.convert.SessionRowConverter;
 import com.crackerStudents.projectApp.domain.*;
@@ -12,8 +12,8 @@ import com.crackerStudents.projectApp.repos.SessionRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -23,6 +23,11 @@ public class SessionService {
     private final ModelMapper modelMapper;
     private final SessionRepo sessionRepo;
 
+    private final int CONSECUTIVE_CORRECT_TO_REMOVE_FROM_SUBDECK_WHEN_KNOWN = 2;
+    private final int CONSECUTIVE_CORRECT_TO_REMOVE_FROM_SUBDECK_WHEN_WILL_FORGET = 3;
+    private final int SUBDECK_SIZE = 15;
+    private final Double REMINDER_RATE = 1.6;
+
     @Autowired
     public SessionService(PackRepo packRepo, ModelMapper modelMapper, SessionRepo sessionRepo){
         this.packRepo = packRepo;
@@ -30,7 +35,7 @@ public class SessionService {
         this.sessionRepo = sessionRepo;
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
     public PackDTO getPackDTOByName(String packName){
         return modelMapper.map(packRepo.findByName(packName),PackDTO.class);
     }
@@ -78,14 +83,25 @@ public class SessionService {
     }
 
     @Transactional
-    public void saveSessionRow(SessionRowDTO sessionRowDTO, User user){
+    public void saveSessionRow(SessionDTO sessionDTO, User user){
         Session session = sessionRepo.findById(getActiveSessionForUser(user)).orElse(null);
-        SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionRowDTO);
-        if (!sessionRowDTO.getIsActive()) session.setActive(false);
+        SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionDTO);
+        if (!sessionDTO.getIsActive()) session.setActive(false);
         sessionRow.setSession(session);
         session.addRow(sessionRow);
         sessionRepo.save(session);
 
+    }
+
+    public CardDTO getNextCard(UUID packId){
+        List<CardDTO> cards = getDTOCardsFromPack(packId);
+        System.out.println(cards.get(0).getNext_practice_time() + "/n" + cards.get(1).getNext_practice_time() );
+        cards.sort(Comparator.comparing(CardDTO::getNext_practice_time));
+        List<CardDTO> subDeck = cards.subList(0, cards.size() > SUBDECK_SIZE ? SUBDECK_SIZE : cards.size());
+        int rnd = new Random().nextInt(subDeck.size());
+        CardDTO card = subDeck.get(rnd);
+        //TODO check in while scope if the card is the previous card
+        return card;
     }
 
 

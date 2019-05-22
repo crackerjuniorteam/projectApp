@@ -35,10 +35,10 @@
             <li v-on:click="toggleCard(card)" id="list">
                 <transition name="flip">
                     <p class="card" v-if="!this.flipped" key="question">
-                        {{card.question}}
+                        {{sessionDTO.question}}
                     </p>
                     <p class="card" v-else key="answer">
-                        {{card.answer}}
+                        {{sessionDTO.answer}}
                     </p>
                 </transition>
             </li>
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-    <div class="json_check">{{cards}}</div>
+    <div class="json_check">{{sessionDTO}}</div>
 
     <button type="button" class="btn btn-outline-danger" v-on:click="endSession()">End Session</button>
 

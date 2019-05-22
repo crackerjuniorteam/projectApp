@@ -1,15 +1,15 @@
 package com.crackerStudents.projectApp.convert;
 
-import com.crackerStudents.projectApp.DTO.SessionRowDTO;
+import com.crackerStudents.projectApp.DTO.SessionDTO;
 import com.crackerStudents.projectApp.domain.SessionRow;
 
 public class SessionRowConverter {
 
-    public static SessionRow DTOtoEntity(SessionRowDTO sessionRowDTO){
+    public static SessionRow DTOtoEntity(SessionDTO sessionDTO){
         SessionRow sessionRow = new SessionRow();
-        sessionRow.setAnswer(sessionRowDTO.getAnswer());
-        sessionRow.setAnswered(sessionRowDTO.getAnswered());
-        sessionRow.setCardId(sessionRowDTO.getId());
+        sessionRow.setAnswer(sessionDTO.getAnswer());
+        sessionRow.setAnswered(sessionDTO.getAnswered());
+        sessionRow.setCardId(sessionDTO.getId());
         return sessionRow;
     }
 }

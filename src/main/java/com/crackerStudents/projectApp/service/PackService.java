@@ -6,15 +6,14 @@ import com.crackerStudents.projectApp.domain.Card;
 import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.PackRepo;
-import com.sun.java.util.jar.pack.PackerImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -35,6 +34,7 @@ public class PackService {
     @Transactional
     public void addCardAndSave(Card card, String packName) {
         Pack pack = packRepo.findByName(packName);
+        card.setNext_practice_time(new Date());
         pack.addCard(card);
         packRepo.save(pack);
     }
