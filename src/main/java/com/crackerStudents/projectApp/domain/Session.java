@@ -95,4 +95,12 @@ public class Session {
     public void setPack_id(UUID pack_id) {
         this.pack_id = pack_id;
     }
+
+    public UUID getLast_card_id() {
+        return last_card_id;
+    }
+
+    public void setLast_card_id(UUID last_card_id) {
+        this.last_card_id = last_card_id;
+    }
 }

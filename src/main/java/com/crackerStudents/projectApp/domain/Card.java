@@ -53,6 +53,9 @@ public class Card {
         this.author = user;
     }
 
+    public void increment_consecutive_correct_answer(){
+        this.consecutive_correct_answer += 1;
+    }
 
     public Set<Pack> getPacks() {
         return packs;

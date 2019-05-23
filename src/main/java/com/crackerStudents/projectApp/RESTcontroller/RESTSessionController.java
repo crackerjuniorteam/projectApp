@@ -2,7 +2,6 @@ package com.crackerStudents.projectApp.RESTcontroller;
 
 
 import com.crackerStudents.projectApp.DTO.CardDTO;
-import com.crackerStudents.projectApp.DTO.SessionDTO;
 import com.crackerStudents.projectApp.DTO.SessionGETdto;
 import com.crackerStudents.projectApp.domain.User;
 import com.crackerStudents.projectApp.repos.SessionRepo;
@@ -16,7 +15,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Date;
 import java.util.UUID;
 
 @RestController
@@ -33,9 +31,11 @@ public class RESTSessionController {
     @GetMapping("rest/session/{packId}")
     public ResponseEntity<SessionGETdto> allCards(@PathVariable UUID packId, @AuthenticationPrincipal User user) {
         if (sessionService.userHasAccessToPack(user, packId)){
-            UUID uuid = sessionService.getActiveSessionForUser(user);
-            CardDTO cardDTO = sessionService.getNextCard(packId);
-            SessionGETdto sessionGETdto = new SessionGETdto(cardDTO.getQuestion(), cardDTO.getAnswer(), uuid, packId);
+            
+            UUID session_uuid = sessionService.getActiveSessionForUser(user);
+            CardDTO cardDTO = sessionService.getNextCard(packId, session_uuid);
+            SessionGETdto sessionGETdto = new SessionGETdto(cardDTO.getQuestion(), cardDTO.getAnswer(), session_uuid,
+                    packId, cardDTO.getId(), true);
             return new ResponseEntity<>(sessionGETdto, HttpStatus.OK);
         }
         else {
@@ -47,27 +47,27 @@ public class RESTSessionController {
 
     @PostMapping("rest/session/{packId}")
     public void saveSessionStats(@PathVariable UUID packId,
-                                 @RequestBody SessionDTO sessionDTO,
+                                 @RequestBody SessionGETdto sessionGETdto,
                                  @AuthenticationPrincipal User user)
     {
         if (sessionService.userHasAccessToPack(user, packId)) {
-            System.out.println(sessionDTO.getAnswer());
-            System.out.println(sessionDTO.getId());
-            System.out.println(sessionDTO.getIsActive());
-            sessionDTO.setAnswered(new Date());
-            sessionService.saveSessionRow(sessionDTO, user);
+            System.out.println("----------------------------------");
+            System.out.println(sessionGETdto.getAnswer());
+            System.out.println(sessionGETdto.getCard_id());
+            System.out.println(sessionGETdto.getReply());
+            sessionService.saveSessionRow(sessionGETdto, user);
         }
     }
 
-    @PostMapping("rest/session/end/{packId}")
-    public void endSession(@PathVariable UUID packId,
-                                 @RequestBody SessionDTO sessionDTO,
-                                 @AuthenticationPrincipal User user)
-    {
-        if (sessionService.userHasAccessToPack(user, packId)) {
-            sessionDTO.setAnswered(new Date());
-            sessionService.saveSessionRow(sessionDTO, user);
-        }
-    }
+//    @PostMapping("rest/session/end/{packId}")
+//    public void endSession(@PathVariable UUID packId,
+//                                 @RequestBody SessionDTO sessionDTO,
+//                                 @AuthenticationPrincipal User user)
+//    {
+//        if (sessionService.userHasAccessToPack(user, packId)) {
+//            sessionDTO.setAnswered(new Date());
+//            sessionService.saveSessionRow(sessionDTO, user);
+//        }
+//    }
 
 }

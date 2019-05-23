@@ -35,6 +35,8 @@ public class PackService {
     public void addCardAndSave(Card card, String packName) {
         Pack pack = packRepo.findByName(packName);
         card.setNext_practice_time(new Date());
+        card.setConsecutive_correct_answer(0);
+        card.setLast_time_easy(new Date());
         pack.addCard(card);
         packRepo.save(pack);
     }

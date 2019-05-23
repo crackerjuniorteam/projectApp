@@ -67,10 +67,9 @@ const vm = new Vue({
             this.card = this.sessionDTO[index];
         },
         post: function (reply) {
+            this.sessionDTO.reply = reply;
             axios.post(url,{
-                id: this.card.id,
-                answer: reply,
-                isActive: this.isActive
+                sessionDTO: this.sessionDTO,
             }).then(response => {}).catch(e => {
                 this.errors.push(e)
             })
