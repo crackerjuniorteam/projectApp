@@ -6,7 +6,6 @@ axios.defaults.headers.common = {
 };
 
 let url = "/rest/session/" + document.querySelector("[name~=pack][content]").content;
-let index = 0;
 
 const vm = new Vue({
     el: '#flashcard-app',
@@ -15,12 +14,22 @@ const vm = new Vue({
         error: false,
         flipped: false,
         errors: [],
-        isActive: true
+        isActive: true,
+        cardsCount: 0,
+        cardsToRepeat: null,
+        needToRepeat: true
     },
     created() {
         axios.get(url).then(response => {
             this.sessionDTO = response.data
+        }).catch(e => {
+            document.location.href = '/error';
         });
+    },
+    beforeUpdate() {
+        if (this.cardsToRepeat == null) {
+            this.cardsToRepeat = this.sessionDTO.cardsToRepeat;
+        }
     },
     methods: {
         toggleCard: function(card){
@@ -57,12 +66,18 @@ const vm = new Vue({
         getNewCard: function(){
             axios.get(url).then(response => {
                 this.sessionDTO = response.data
+            }).catch(e => {
+                document.location.href = '/error'
             });
         },
         next: function(){
-            console.log(index);
             this.flipped = !this.flipped;
+            this.cardsCount += 1;
             this.getNewCard();
+            if(this.cardsCount === this.cardsToRepeat){
+                alert("You have repeated all the cards planned for today. You can press End Session and take a rest, or continue if you wish.")
+                this.needToRepeat = !this.needToRepeat;
+            }
 
         },
         post: function (reply) {

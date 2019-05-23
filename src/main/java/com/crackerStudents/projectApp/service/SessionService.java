@@ -3,7 +3,7 @@ package com.crackerStudents.projectApp.service;
 
 import com.crackerStudents.projectApp.DTO.CardDTO;
 import com.crackerStudents.projectApp.DTO.PackDTO;
-import com.crackerStudents.projectApp.DTO.SessionGETdto;
+import com.crackerStudents.projectApp.DTO.SessionDTO;
 import com.crackerStudents.projectApp.convert.CustomCardConvert;
 import com.crackerStudents.projectApp.convert.SessionRowConverter;
 import com.crackerStudents.projectApp.domain.*;
@@ -59,11 +59,12 @@ public class SessionService {
     }
 
     @Transactional
-    public Session createSession(User user){
+    public Session createSession(User user, UUID packId){
         Session session = new Session();
         session.setActive(true);
         session.setStartTime(new Date());
         session.setUsers(user);
+        session.setPack_id(packId);
         session.setLast_card_id(UUID.fromString( "00000000-0000-0000-0000-000000000000" ));
         return sessionRepo.save(session);
     }
@@ -74,19 +75,19 @@ public class SessionService {
      * @return Session entity object, with active status.
      */
     @Transactional
-    public UUID getActiveSessionForUser(User user){
+    public UUID getActiveSessionForUser(User user, UUID packId){
         Set<Session> user_sessions = sessionRepo.findByUsers(user);
         for (Session session: user_sessions) {
             if (session.getActive()) return session.getId();
         }
-        return createSession(user).getId();
+        return createSession(user, packId).getId();
     }
 
     @Transactional
-    public void saveSessionRow(SessionGETdto sessionGETdto, User user){
-        Session session = sessionRepo.findById(getActiveSessionForUser(user)).orElse(null);
-        SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionGETdto);
-        if (!sessionGETdto.isActive()) session.setActive(false);
+    public void saveSessionRow(SessionDTO sessionDTO, User user){
+        Session session = sessionRepo.findById(getActiveSessionForUser(user, sessionDTO.getPack_id())).orElse(null);
+        SessionRow sessionRow = SessionRowConverter.DTOtoEntity(sessionDTO);
+        if (!sessionDTO.isActive()) session.setActive(false);
         sessionRow.setSession(session);
         session.addRow(sessionRow);
         sessionRepo.save(session);
@@ -113,15 +114,15 @@ public class SessionService {
         return card;
     }
 
-    public void updateCard(SessionGETdto sessionGETdto){
+    public void updateCard(SessionDTO sessionDTO){
 
         final int CONSECUTIVE_CORRECT_TO_REMOVE_FROM_SUBDECK_WHEN_KNOWN = 2;
         final int CONSECUTIVE_CORRECT_TO_REMOVE_FROM_SUBDECK_WHEN_WILL_FORGET = 3;
         final int DAYS_TO_NEXT_REVIEW_IF_KNOW_WELL = 2;
         final double REMINDER_RATE = 1.6;
 
-        Card card = cardRepo.findById(sessionGETdto.getCard_id()).orElse(null);
-        if (sessionGETdto.getReply() == 1){
+        Card card = cardRepo.findById(sessionDTO.getCard_id()).orElse(null);
+        if (sessionDTO.getReply() == 1){
             card.increment_consecutive_correct_answer();
 
             if (card.getConsecutive_correct_answer() >= CONSECUTIVE_CORRECT_TO_REMOVE_FROM_SUBDECK_WHEN_KNOWN){
@@ -137,7 +138,7 @@ public class SessionService {
                 card.setNext_practice_time(new Date());
             }
         }
-        else if (sessionGETdto.getReply() == 2){
+        else if (sessionDTO.getReply() == 2){
             card.increment_consecutive_correct_answer();
 
             if (card.getConsecutive_correct_answer() >= CONSECUTIVE_CORRECT_TO_REMOVE_FROM_SUBDECK_WHEN_WILL_FORGET){
@@ -149,18 +150,37 @@ public class SessionService {
                 card.setNext_practice_time(new Date());
             }
         }
-        else if (sessionGETdto.getReply() == 3){
+        else if (sessionDTO.getReply() == 3){
             card.setConsecutive_correct_answer(0);
             card.setNext_practice_time(new Date());
         }
         cardRepo.save(card);
     }
 
-    public void endSession(SessionGETdto sessionGETdto){
-        Session session = sessionRepo.findById(sessionGETdto.getSession_id()).orElse(null);
+    public void endSession(SessionDTO sessionDTO){
+        Session session = sessionRepo.findById(sessionDTO.getSession_id()).orElse(null);
         session.setActive(false);
         session.setFinishTime(new Date());
         sessionRepo.save(session);
+    }
+
+    public boolean packHasCards(UUID packId){
+        Pack pack = packRepo.findById(packId).orElse(null);
+        System.out.println("checking....");
+        System.out.println(pack.getCards());
+        return !pack.getCards().isEmpty();
+
+    }
+
+    public Integer cardsToRepeatToday(UUID packId){
+        List<CardDTO> cards = getDTOCardsFromPack(packId);
+        long thiryMinsInMillis = 30 * 60 * 1000;
+        int cardCount = 0;
+        for (CardDTO card: cards) {
+            if (card.getNext_practice_time().getTime() <= new Date().getTime()+ thiryMinsInMillis)
+                cardCount++;
+        }
+        return cardCount;
     }
 
 
