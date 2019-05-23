@@ -3,19 +3,12 @@
 <#import "parts/pager.ftl" as p>
 
 <@c.page>
-    <p>
-        Global Packs
-        Popular categories
-        Languages
-        Art, sciences and trivia
-    </p>
     <@p.pager url page/>
     <div class="card-columns">
         <#list page.content as p>
-            <div class="card m-3">
-                <div class="card-body">
-                    <h5 class="card-title">Название</h5>
-                    <p class="card-text">${p.name}</p>
+            <div class="card m-3" style="width: 18rem;" align="center">
+                <div class="card-header">
+                    <h3 class="card-title">${p.name}</h3>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Likes: ${p.likes!}</li>

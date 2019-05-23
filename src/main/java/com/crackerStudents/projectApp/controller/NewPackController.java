@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+
 @Controller
 @PreAuthorize("hasAuthority('USER')")
 public class NewPackController {
@@ -31,11 +33,15 @@ public class NewPackController {
     }
 
     @PostMapping("/createPack")
-    public String createPack(@RequestParam String packName, @AuthenticationPrincipal User user, Model model) {
+    public String createPack(@RequestParam String packName, @AuthenticationPrincipal User user, Model model, @RequestParam Map<String, String> radios) {
+        boolean packPublic = true;
+        if (!radios.keySet().contains("public")){
+            packPublic = false;
+        }
         if (packService.packExists(packName, user)) {
             checkCreate = -1;
         } else {
-            packService.createPack(packName, user);
+            packService.createPack(packName, user, packPublic);
             checkCreate = 1;
         }
         return "redirect:/createPack";
