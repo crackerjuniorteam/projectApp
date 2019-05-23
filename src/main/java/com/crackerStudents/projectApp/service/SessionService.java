@@ -101,7 +101,6 @@ public class SessionService {
         Session session = sessionRepo.findById(sessionId).orElse(null);
         UUID lastCardId = session.getLast_card_id();
         List<CardDTO> cards = getDTOCardsFromPack(packId);
-        System.out.println(cards.get(0).getNext_practice_time() + "   \n   " + cards.get(1).getNext_practice_time());
         cards.sort(Comparator.comparing(CardDTO::getNext_practice_time));
         List<CardDTO> subDeck = cards.subList(0, cards.size() > SUBDECK_SIZE ? SUBDECK_SIZE : cards.size());
         int rnd = new Random().nextInt(subDeck.size());

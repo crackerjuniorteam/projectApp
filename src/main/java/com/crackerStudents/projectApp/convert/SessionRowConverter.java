@@ -9,8 +9,8 @@ public class SessionRowConverter {
 
     public static SessionRow DTOtoEntity(SessionGETdto sessionGETdto){
         SessionRow sessionRow = new SessionRow();
-        sessionRow.setAnswer(sessionGETdto.getReply());
         sessionRow.setAnswered(new Date());
+        sessionRow.setAnswer(sessionGETdto.getReply());
         sessionRow.setCardId(sessionGETdto.getCard_id());
         return sessionRow;
     }

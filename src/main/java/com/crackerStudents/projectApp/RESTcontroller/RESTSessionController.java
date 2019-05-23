@@ -52,10 +52,10 @@ public class RESTSessionController {
     {
         if (sessionService.userHasAccessToPack(user, packId)) {
             System.out.println("----------------------------------");
-            System.out.println(sessionGETdto.getAnswer());
             System.out.println(sessionGETdto.getCard_id());
             System.out.println(sessionGETdto.getReply());
             sessionService.saveSessionRow(sessionGETdto, user);
+            sessionService.updateCard(sessionGETdto);
         }
     }
 

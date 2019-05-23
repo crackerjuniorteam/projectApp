@@ -60,16 +60,24 @@ const vm = new Vue({
                 this.errors.push(e)
             })
         },
+        getNewCard: function(){
+            axios.get(url).then(response => {
+                this.sessionDTO = response.data
+            });
+        },
         next: function(){
             console.log(index);
             this.flipped = !this.flipped;
-            index = index + 1;
-            this.card = this.sessionDTO[index];
+            this.getNewCard();
+
         },
         post: function (reply) {
-            this.sessionDTO.reply = reply;
             axios.post(url,{
-                sessionDTO: this.sessionDTO,
+                isActive: this.sessionDTO.active,
+                session_id: this.sessionDTO.session_id,
+                pack_id: this.sessionDTO.pack_id,
+                card_id: this.sessionDTO.card_id,
+                reply: reply
             }).then(response => {}).catch(e => {
                 this.errors.push(e)
             })
