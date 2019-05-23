@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,8 +77,8 @@ public class PackService {
     }
 
     @Transactional
-    public void createPack(String packName, User user) {
-        Pack pack = new Pack(packName, user.getId(), true, 0, new Date());
+    public void createPack(String packName, User user, boolean packPublic) {
+        Pack pack = new Pack(packName, user.getId(), packPublic, 0, new Date());
         pack.addUser(user);
         user.addPack(pack);
         packRepo.save(pack);
@@ -123,8 +124,13 @@ public class PackService {
     }
 
     public Page<PackDTO> getAllByUserPackDTO(Pageable pageable, User user) {
-        ArrayList<Pack> packs = new ArrayList<>(user.getPacks());
-        Page<Pack> all = new PageImpl<>(packs);
+        Page<Pack> all = packRepo.findByAuthorId(pageable, user.getId());
+        Page<PackDTO> allDTO = all.map(x -> modelMapper.map(x, PackDTO.class));
+        return allDTO;
+    }
+
+    public Page<PackDTO> getAllPackDTOByPublic(Pageable pageable) {
+        Page<Pack> all = packRepo.findByIsPublicTrue(pageable);
         Page<PackDTO> allDTO = all.map(x -> modelMapper.map(x, PackDTO.class));
         return allDTO;
     }

@@ -33,14 +33,14 @@ public class GlobalMainController {
 
     @GetMapping("/global")
     public String mainPage(Model model, @PageableDefault Pageable pageable) {
-        Page<PackDTO> page = packService.getAllPackDTO(pageable);
+        Page<PackDTO> page = packService.getAllPackDTOByPublic(pageable);
         model.addAttribute("page", page);
-        model.addAttribute("url","/global");
+        model.addAttribute("url", "/global");
         return "global";
     }
 
     @PostMapping("/global")
-    public String addPackByUser(@AuthenticationPrincipal User user, @RequestParam UUID id){
+    public String addPackByUser(@AuthenticationPrincipal User user, @RequestParam UUID id) {
         user.addPack(packService.getPackById(id));
         userService.saveUser(user);
         return "redirect:/main";
