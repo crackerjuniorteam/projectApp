@@ -65,15 +65,19 @@ public class PackService {
     }
 
     @Transactional
-    public boolean packExists(PackDTO packDTO) {
-        return packRepo.existsByName(packDTO.getName());
+    public boolean packExists(String packName, User user) {
+        Set<Pack> packs = user.getPacks();
+        for (Pack pack : packs) {
+            if (pack.getName().equals(packName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Transactional
-    public void createPack(PackDTO packDTO, User user) {
-
-        Pack pack = modelMapper.map(packDTO, Pack.class);
-
+    public void createPack(String packName, User user) {
+        Pack pack = new Pack(packName, user.getId(), true, 0, new Date());
         pack.addUser(user);
         user.addPack(pack);
         packRepo.save(pack);
@@ -114,7 +118,7 @@ public class PackService {
         return packRepo.findById(id).orElse(null);
     }
 
-    public PackDTO getPackDTOByID(UUID packId){
+    public PackDTO getPackDTOByID(UUID packId) {
         return modelMapper.map(packRepo.findById(packId).orElse(null), PackDTO.class);
     }
 

@@ -2,17 +2,17 @@
 <#import "parts/pager.ftl" as p>
 
 <@c.page>
-    <div><h1>Your packs</h1></div>
+    <div><h1  align="center">Your packs</h1></div>
     <div class="card-columns">
         <#list page.content as p>
-            <div class="card m-3">
-                <div class="card-body" align="center">
-                    <h5><p class="card-title">${p.name}</p></h5>
-                    <a class="card-text" href="packs/${p.id}">Edit pack</a>
+            <div class="card m-3" style="width: 18rem;" align="center">
+                <div class="card-header">
+                    <h3 class="card-title">${p.name}</h3>
                 </div>
-                <div class="card-footer" align="center">
-                    <a href="session/${p.id}">Начать сессию!</a>
-                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a class="card-text" href="packs/${p.id}">Edit pack</a></li>
+                    <li class="list-group-item"><a href="session/${p.id}">Начать сессию!</a></li>
+                </ul>
             </div>
         <#else>
             No Card
