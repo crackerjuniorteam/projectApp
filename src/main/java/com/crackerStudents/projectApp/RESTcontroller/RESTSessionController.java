@@ -59,15 +59,14 @@ public class RESTSessionController {
         }
     }
 
-//    @PostMapping("rest/session/end/{packId}")
-//    public void endSession(@PathVariable UUID packId,
-//                                 @RequestBody SessionDTO sessionDTO,
-//                                 @AuthenticationPrincipal User user)
-//    {
-//        if (sessionService.userHasAccessToPack(user, packId)) {
-//            sessionDTO.setAnswered(new Date());
-//            sessionService.saveSessionRow(sessionDTO, user);
-//        }
-//    }
+    @PutMapping("rest/session/{packId}")
+    public void endSession(@PathVariable UUID packId,
+                                 @RequestBody SessionGETdto sessionGETdto,
+                                 @AuthenticationPrincipal User user)
+    {
+        if (sessionService.userHasAccessToPack(user, packId)) {
+            sessionService.endSession(sessionGETdto);
+        }
+    }
 
 }

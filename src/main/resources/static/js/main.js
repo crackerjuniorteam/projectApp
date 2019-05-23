@@ -51,11 +51,12 @@ const vm = new Vue({
         },
         endSession: function(){
             this.isActive = !this.isActive;
-            url = "/rest/session/end/" + document.querySelector("[name~=pack][content]").content;
-            axios.post(url,{
-                id: this.card.id,
-                answer: reply,
-                isActive: this.isActive
+            url = "/rest/session/" + document.querySelector("[name~=pack][content]").content;
+            axios.put(url,{
+                isActive: this.sessionDTO.active,
+                session_id: this.sessionDTO.session_id,
+                pack_id: this.sessionDTO.pack_id,
+                card_id: this.sessionDTO.card_id,
             }).then(response => {}).catch(e => {
                 this.errors.push(e)
             })

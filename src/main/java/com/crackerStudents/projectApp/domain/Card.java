@@ -41,7 +41,7 @@ public class Card {
     private Set<Pack> packs = new HashSet<>();
 
     private Date next_practice_time;
-    private int consecutive_correct_answer;
+    private Integer consecutive_correct_answer;
     private Date last_time_easy;
 
     public Card() {

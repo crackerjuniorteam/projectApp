@@ -156,6 +156,13 @@ public class SessionService {
         cardRepo.save(card);
     }
 
+    public void endSession(SessionGETdto sessionGETdto){
+        Session session = sessionRepo.findById(sessionGETdto.getSession_id()).orElse(null);
+        session.setActive(false);
+        session.setFinishTime(new Date());
+        sessionRepo.save(session);
+    }
+
 
 
 }
