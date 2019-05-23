@@ -24,8 +24,8 @@
 
         <button type="button" class="btn btn-outline-danger end-session" v-on:click="endSession()">End Session</button>
 
-        <h1>Flashcard App!</h1>
-
+        <h3 class="text-muted" v-if="this.needToRepeat" key="counter">Cards remaining: {{cardsToRepeat - cardsCount}}</h3>
+        <h3 class="text-success" v-else key="goodJob">You have repeated all cards planned for today!</h3>
 
         <ul class="flashcard-list">
             <transition name="flip">
