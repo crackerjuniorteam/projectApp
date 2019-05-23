@@ -63,7 +63,7 @@
                         <table>
                             <tr>
                                 <td>${name!}</td>
-                                <td><div style="float:right;"><a class="btn btn-outline-info" href="/packs/${pack.name!}/${card.id}" role="button">Edit</a></button></div></td>
+                                <td><div style="float:right;"><a class="btn btn-outline-info" href="/packs/${pack.id!}/${card.id}" role="button">Edit</a></button></div></td>
                             </tr>
                         </table>
                     </div>

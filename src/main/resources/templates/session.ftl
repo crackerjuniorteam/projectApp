@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta name="_csrf" content="${_csrf.token}"/>
-    <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
     <meta name="pack" content="${packId}"/>
@@ -21,13 +20,6 @@
 <#include "parts/navbar.ftl"/>
 
 <div id="flashcard-app" class="container">
-    <#--        <div class="jumbotron">-->
-    <#--            <h1 class="display-4">You have memorized all the cards!</h1>-->
-    <#--            <p class="lead">Now you can press "Main Page" to get back to new page</p>-->
-    <#--            <p class="lead">-->
-    <#--                <a class="btn btn-primary btn-lg" href="/" role="button">Main Page</a>-->
-    <#--            </p>-->
-    <#--        </div>-->
     <div class="card-div">
 
         <button type="button" class="btn btn-outline-danger end-session" v-on:click="endSession()">End Session</button>
@@ -55,9 +47,9 @@
         </ul>
         <div class="button-choice">
             <div  v-if="this.flipped">
-                <button class="btn btn-outline-success" id="remember" v-on:click="saveRemember()">Remember</button>
-                <button class="btn btn-outline-warning" id="!sure" v-on:click="saveDoubt()">Not Sure</button>
-                <button class="btn btn-outline-danger" id="don't" v-on:click="saveDontRemember()">Don't Remember</button>
+                <button class="btn btn-success" id="remember" v-on:click="saveRemember()">Remember</button>
+                <button class="btn btn-warning" id="!sure" v-on:click="saveDoubt()">Not Sure</button>
+                <button class="btn btn-danger" id="don't" v-on:click="saveDontRemember()">Don't Remember</button>
             </div>
         </div>
 
