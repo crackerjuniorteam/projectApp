@@ -1,4 +1,5 @@
-package com.crackerStudents.projectApp.controller;
+package com.crackerStudents.projectApp.controller.admin;
+
 
 import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.User;
@@ -16,28 +17,19 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('USER')")
-public class UserController {
-
+@PreAuthorize("hasAuthority('ADMIN')")
+public class AdminController {
     private UserRepo userRepo;
 
     @Autowired
-    public UserController(UserRepo userRepo) {
+    public AdminController(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
-
 
     @GetMapping
     public String userList(Model model) {
         model.addAttribute("users", userRepo.findAll());
         return "userList";
-    }
-
-    @GetMapping("{user}")
-    public String userEditForm(@PathVariable User user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
-        return "userEdit";
     }
 
     @PostMapping
@@ -63,5 +55,12 @@ public class UserController {
         userRepo.save(user);
 
         return "redirect:/user";
+    }
+
+    @GetMapping("{user}")
+    public String userEditForm(@PathVariable User user, Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("roles", Role.values());
+        return "userEdit";
     }
 }
