@@ -33,9 +33,9 @@ public class NewPackController {
     }
 
     @PostMapping("/createPack")
-    public String createPack(@RequestParam String packName, @AuthenticationPrincipal User user, Model model, @RequestParam Map<String, String> radios) {
+    public String createPack(@RequestParam String packName, @AuthenticationPrincipal User user, @RequestParam Map<String, String> radios) {
         boolean packPublic = true;
-        if (!radios.keySet().contains("public")){
+        if (!radios.get("packPublic").equals("public")) {
             packPublic = false;
         }
         if (packService.packExists(packName, user)) {

@@ -124,8 +124,13 @@ public class PackService {
     }
 
     public Page<PackDTO> getAllByUserPackDTO(Pageable pageable, User user) {
-        ArrayList<Pack> packs = new ArrayList<>(user.getPacks());
         Page<Pack> all = packRepo.findByAuthorId(pageable, user.getId());
+        Page<PackDTO> allDTO = all.map(x -> modelMapper.map(x, PackDTO.class));
+        return allDTO;
+    }
+
+    public Page<PackDTO> getAllPackDTOByPublic(Pageable pageable) {
+        Page<Pack> all = packRepo.findByIsPublicTrue(pageable);
         Page<PackDTO> allDTO = all.map(x -> modelMapper.map(x, PackDTO.class));
         return allDTO;
     }

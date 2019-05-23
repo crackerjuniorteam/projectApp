@@ -13,7 +13,10 @@ import java.util.UUID;
 @Repository
 public interface PackRepo extends JpaRepository<Pack, UUID> {
     Pack findByName(String name);
+
     Page<Pack> findAll(Pageable pageable);
 
     Page<Pack> findByAuthorId(Pageable pageable, UUID id);
+
+    Page<Pack> findByIsPublicTrue(Pageable pageable);
 }
