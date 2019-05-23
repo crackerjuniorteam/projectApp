@@ -16,7 +16,7 @@
                 </ul>
                 <div class="card-body">
                     <div class="card-link"></div>
-                    <form method="post">
+                    <form method="post" action="/global">
                         <button type="submit" class="btn btn-outline-info">Добавить к себе</button>
                         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                         <input type="hidden" name="id" value="${p.id}"/>

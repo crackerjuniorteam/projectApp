@@ -2,12 +2,16 @@ package com.crackerStudents.projectApp.service;
 
 
 import com.crackerStudents.projectApp.DTO.UserDTO;
+import com.crackerStudents.projectApp.domain.Card;
+import com.crackerStudents.projectApp.domain.Pack;
 import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.User;
+import com.crackerStudents.projectApp.repos.PackRepo;
 import com.crackerStudents.projectApp.repos.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,8 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -30,16 +33,17 @@ public class UserService implements UserDetailsService {
     private String uploadPath;
 
     private UserRepo userRepo;
+    private PackRepo packRepo;
     private MailSender mailSender;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserService(UserRepo userRepo, MailSender mailSender, ModelMapper modelMapper) {
+    public UserService(UserRepo userRepo, @Lazy PackRepo packRepo, MailSender mailSender, ModelMapper modelMapper) {
         this.userRepo = userRepo;
+        this.packRepo = packRepo;
         this.mailSender = mailSender;
         this.modelMapper = modelMapper;
     }
-
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
 
@@ -144,6 +148,7 @@ public class UserService implements UserDetailsService {
 
     /**
      * Тут мы добавляем подписчика к user.
+     *
      * @param currentUser
      * @param user
      */
@@ -155,14 +160,15 @@ public class UserService implements UserDetailsService {
 
     /**
      * Тут мы удаляем подписчика у пользователя user.
+     *
      * @param currentUser - это пользователь @AuthenticationPrincipal
-     * @param user - это на чьем мы профиле сейчас
+     * @param user        - это на чьем мы профиле сейчас
      */
     @Transactional
     public void unsubscribe(User currentUser, User user) {
         user.getSubscribers().remove(currentUser);
         System.out.println("getSubscribers:");
-        for(User el: user.getSubscribers()) {
+        for (User el : user.getSubscribers()) {
             System.out.println(el.getUsername());
         }
         userRepo.save(user);
@@ -173,6 +179,25 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveUser(User user) {
+        userRepo.save(user);
+    }
+
+    @Transactional
+    public void addPackDeepClone(User user, UUID idPack) {
+        Pack packForeign = packRepo.findById(idPack).get();
+        Pack myPack = new Pack();
+        myPack.setAuthorId(user.getId());
+        myPack.setCreated(new Date());
+        myPack.setLikes(0);
+        myPack.setName(packForeign.getName());
+        myPack.setPublic(false);
+        Set<Card> packForeignCards = packForeign.getCards();
+        for (Card el : packForeignCards) {
+            Card card = new Card(el.getQuestion(), el.getAnswer(), user);
+            myPack.addCard(card);
+        }
+        user.addPack(myPack);
+        packRepo.save(myPack);
         userRepo.save(user);
     }
 }

@@ -40,8 +40,9 @@ public class GlobalMainController {
     }
 
     @PostMapping("/global")
-    public String addPackByUser(@AuthenticationPrincipal User user, @RequestParam UUID id) {
-        user.addPack(packService.getPackById(id));
+    public String addPackByUser(@AuthenticationPrincipal User user, @RequestParam("id") UUID idPack) {
+        System.out.println("!!!!!!!!!!!!!!");
+        userService.addPackDeepClone(user, idPack);
         userService.saveUser(user);
         return "redirect:/main";
     }
