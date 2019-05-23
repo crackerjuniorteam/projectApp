@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.UUID;
+
 @Controller
 @PreAuthorize("hasAuthority('USER')")
 public class PackController {
@@ -42,10 +44,9 @@ public class PackController {
         return "packs";
     }
 
-    @GetMapping("/packs/{packName}")
-    public String main(@PathVariable String packName, Model model, @AuthenticationPrincipal User user) {
-        //[TODO]: add user as arguement
-        PackDTO packDTO = packService.getPackDTOByName(packName);
+    @GetMapping("/packs/{packId}")
+    public String main(@PathVariable UUID packId, Model model, @AuthenticationPrincipal User user) {
+        PackDTO packDTO = packService.getPackDTOByID(packId);
         System.out.println(packDTO);
         System.out.println(packDTO.getName());
         model.addAttribute("pack", packDTO);
@@ -54,20 +55,20 @@ public class PackController {
         return "pack";
     }
 
-    @PostMapping("/packs/{packName}")
+    @PostMapping("/packs/{packId}")
     public String addCard(Card card, Model model,
-                          @PathVariable String packName, @AuthenticationPrincipal User user) {
+                          @PathVariable UUID packId, @AuthenticationPrincipal User user) {
 
         card.setAuthor(user);
         //[TODO]: Добавить проверку на юзера
-        packService.addCardAndSave(card, packName);
-        return "redirect:/packs/" + packName;
+        packService.addCardAndSave(card, packId);
+        return "redirect:/packs/" + packId;
     }
 
-    @GetMapping("/packs/{packName}/{idCard}")
-    public String editCardShow(@PathVariable String packName, @PathVariable String idCard, Model model, @AuthenticationPrincipal User user) {
+    @GetMapping("/packs/{packId}/{idCard}")
+    public String editCardShow(@PathVariable UUID packId, @PathVariable UUID idCard, Model model, @AuthenticationPrincipal User user) {
         //[TODO]: Add user check
-        PackDTO packDTO = packService.getPackDTOByName(packName);
+        PackDTO packDTO = packService.getPackDTOByID(packId);
         Card card = packDTO.getCard(idCard);
         model.addAttribute("card", card);
         model.addAttribute("message", null);
@@ -75,9 +76,9 @@ public class PackController {
     }
 
     @PostMapping("/packs/{name}/{id}")
-    public String editCardDo(@PathVariable String name, @PathVariable String id, @RequestParam String answer, @RequestParam String question, @AuthenticationPrincipal User user, Model model) {
+    public String editCardDo(@PathVariable UUID name, @PathVariable UUID id, @RequestParam String answer, @RequestParam String question, @AuthenticationPrincipal User user, Model model) {
         //[TODO]: Add user check
-        PackDTO packDTO = packService.getPackDTOByName(name);
+        PackDTO packDTO = packService.getPackDTOByID(name);
         Card card = packDTO.getCard(id);
         if (!StringUtils.isEmpty(answer) && !StringUtils.isEmpty(question)) {
             cardService.updateCard(card, answer, question);

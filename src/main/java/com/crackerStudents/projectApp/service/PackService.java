@@ -32,8 +32,8 @@ public class PackService {
 
 
     @Transactional
-    public void addCardAndSave(Card card, String packName) {
-        Pack pack = packRepo.findByName(packName);
+    public void addCardAndSave(Card card, UUID packId) {
+        Pack pack = packRepo.findById(packId).orElse(null);
         card.setNext_practice_time(new Date());
         card.setConsecutive_correct_answer(0);
         card.setLast_time_easy(new Date());
@@ -111,7 +111,11 @@ public class PackService {
     }
 
     public Pack getPackById(UUID id) {
-        return packRepo.findById(id).get();
+        return packRepo.findById(id).orElse(null);
+    }
+
+    public PackDTO getPackDTOByID(UUID packId){
+        return modelMapper.map(packRepo.findById(packId).orElse(null), PackDTO.class);
     }
 
     public Page<PackDTO> getAllByUserPackDTO(Pageable pageable, User user) {

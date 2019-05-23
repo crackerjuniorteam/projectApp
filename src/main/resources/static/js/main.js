@@ -17,19 +17,11 @@ const vm = new Vue({
         errors: [],
         isActive: true
     },
-    computed:{
-        card: function () {
-            console.log(this.flipped);
-            console.log(this.sessionDTO);
-            return this.sessionDTO[index];
-        }
-    },
     created() {
         axios.get(url).then(response => {
             this.sessionDTO = response.data
         });
     },
-
     methods: {
         toggleCard: function(card){
             this.flipped = !this.flipped;
