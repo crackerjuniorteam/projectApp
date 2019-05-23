@@ -12,36 +12,46 @@
     <meta name="pack" content="${packId}"/>
 
 
-    <link href="/css/session-style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="/css/session-style.css" rel="stylesheet">
     <title>Memory</title>
 </head>
 <body>
+<#include "parts/navbar.ftl"/>
 
 <div id="flashcard-app" class="container">
-<#--        <div class="jumbotron">-->
-<#--            <h1 class="display-4">You have memorized all the cards!</h1>-->
-<#--            <p class="lead">Now you can press "Main Page" to get back to new page</p>-->
-<#--            <p class="lead">-->
-<#--                <a class="btn btn-primary btn-lg" href="/" role="button">Main Page</a>-->
-<#--            </p>-->
-<#--        </div>-->
+    <#--        <div class="jumbotron">-->
+    <#--            <h1 class="display-4">You have memorized all the cards!</h1>-->
+    <#--            <p class="lead">Now you can press "Main Page" to get back to new page</p>-->
+    <#--            <p class="lead">-->
+    <#--                <a class="btn btn-primary btn-lg" href="/" role="button">Main Page</a>-->
+    <#--            </p>-->
+    <#--        </div>-->
+    <div class="card-div">
+
+        <button type="button" class="btn btn-outline-danger end-session" v-on:click="endSession()">End Session</button>
 
         <h1>Flashcard App!</h1>
 
 
-        <ul class="flashcard-list" style="user-select: none">
-            <li v-on:click="toggleCard(card)" id="list">
-                <transition name="flip">
-                    <p class="card" v-if="!this.flipped" key="question">
+        <ul class="flashcard-list">
+            <transition name="flip">
+                <li v-on:click="toggleCard(card)" id="list" v-if="!this.flipped" key="question">
+
+                    <p class="card" >
                         {{sessionDTO.question}}
                     </p>
-                    <p class="card" v-else key="answer">
+
+                </li>
+                <li v-on:click="toggleCard(card)" id="list" v-else key="answer">
+
+                    <p class="card" >
                         {{sessionDTO.answer}}
                     </p>
-                </transition>
-            </li>
+
+                </li>
+            </transition>
         </ul>
         <div class="button-choice">
             <div  v-if="this.flipped">
@@ -51,10 +61,9 @@
             </div>
         </div>
 
-    <div class="json_check">{{sessionDTO}}</div>
 
-    <button type="button" class="btn btn-outline-danger" v-on:click="endSession()">End Session</button>
 
+    </div>
 </div>
 
 <script src="https://unpkg.com/vue"></script>

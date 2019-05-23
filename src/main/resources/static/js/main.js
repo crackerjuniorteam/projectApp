@@ -51,7 +51,7 @@ const vm = new Vue({
         },
         endSession: function(){
             this.isActive = !this.isActive;
-            url = "/rest/session/" + document.querySelector("[name~=pack][content]").content;
+            url = "/rest/session/   " + document.querySelector("[name~=pack][content]").content;
             axios.put(url,{
                 isActive: this.sessionDTO.active,
                 session_id: this.sessionDTO.session_id,
@@ -59,7 +59,8 @@ const vm = new Vue({
                 card_id: this.sessionDTO.card_id,
             }).then(response => {}).catch(e => {
                 this.errors.push(e)
-            })
+            });
+            document.location.href = '/'
         },
         getNewCard: function(){
             axios.get(url).then(response => {

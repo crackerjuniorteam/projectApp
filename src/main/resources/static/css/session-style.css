@@ -11,36 +11,51 @@ ul {
 
 
 #list {
+    width: 350px;
+    height: 200px;
+
     margin: 0 AUTO;
     list-style-type: none;
     padding: 10px 10px;
     transition: all 0.3s ease;
+    line-height: 200px;
+    text-align: center;
+
+    background-color: #51aae5;
+    border-radius: 7px;
+
+    -webkit-box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
+    -moz-box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
+    box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
+
+    will-change: transform;
 }
 
 .container {
     max-width: 100%;
-    padding: 2em;
+    padding: 1em;
 }
 
 .card {
-    display: block;
-    width: 150px;
-    height: 175px;
-    padding: 80px 50px;
-    background-color: #51aae5;
-    border-radius: 7px;
-    margin: 5px;
-    text-align: center;
+    display: inline-block;
+
+    /*padding: 80px 50px;*/
+
     line-height: 27px;
+
     cursor: pointer;
     position: relative;
+    background-color: #51aae5;
     color: #fff;
     font-weight: 600;
     font-size: 20px;
-    -webkit-box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
-    -moz-box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
-    box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
-    will-change: transform;
+
+
+
+    border: 0px;
+    vertical-align: middle;
+
+
 }
 
 li:hover{
@@ -106,13 +121,30 @@ button:hover{
 }
 
 .button-choice{
-    position: absolute;
+    /*position: absolute;*/
     top: 50%;
     left: 50%;
-    margin: 0px auto;
-    margin-top: 10px;
+    margin: 10px auto 10px auto;
+
+}
+
+.button-choice button{
+    width: 150px;
 }
 
 .json_check{
 
+}
+
+.card-div{
+    display: block;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+}
+
+.end-session{
+    margin-left: 90%;
+    float: right;
 }
