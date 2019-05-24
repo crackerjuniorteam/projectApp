@@ -5,7 +5,6 @@ import com.crackerStudents.projectApp.domain.Role;
 import com.crackerStudents.projectApp.domain.Session;
 import com.crackerStudents.projectApp.domain.User;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,7 +16,6 @@ public class UserDTO {
     private String username;
     private String password;
     private String email;
-    //  activationCode - не нужен
     private String firstName;
     private String lastName;
     private String avatar;

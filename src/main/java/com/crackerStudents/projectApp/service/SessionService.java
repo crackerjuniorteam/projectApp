@@ -166,8 +166,6 @@ public class SessionService {
 
     public boolean packHasCards(UUID packId){
         Pack pack = packRepo.findById(packId).orElse(null);
-        System.out.println("checking....");
-        System.out.println(pack.getCards());
         return !pack.getCards().isEmpty();
 
     }
@@ -182,6 +180,7 @@ public class SessionService {
         }
         return cardCount;
     }
+
 
 
 

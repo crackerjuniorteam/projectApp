@@ -40,7 +40,6 @@ public class Pack {
     @Column(name = "created")
     private Date created;
 
-    // Зачем нам это поле?
     @Column(name = "parent_id")
     private int parentId;
 

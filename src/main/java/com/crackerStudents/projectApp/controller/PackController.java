@@ -47,8 +47,6 @@ public class PackController {
     @GetMapping("/packs/{packId}")
     public String main(@PathVariable UUID packId, Model model, @AuthenticationPrincipal User user) {
         PackDTO packDTO = packService.getPackDTOByID(packId);
-        System.out.println(packDTO);
-        System.out.println(packDTO.getName());
         model.addAttribute("pack", packDTO);
         model.addAttribute("cards", packDTO.getCards());
         model.addAttribute("time", packDTO.getCreated().toString());

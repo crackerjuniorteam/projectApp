@@ -39,7 +39,6 @@ public class PackDTO {
         users.add(user);
     }
 
-    // getters and setters
     public UUID getId() {
         return id;
     }

@@ -30,10 +30,8 @@ public class RESTSessionController {
     @GetMapping("rest/session/{packId}")
     public ResponseEntity<Object> allCards(@PathVariable UUID packId, @AuthenticationPrincipal User user) {
         if (sessionService.userHasAccessToPack(user, packId) && sessionService.packHasCards(packId)){
-            System.out.println("Session created!");
             UUID session_uuid = sessionService.getActiveSessionForUser(user, packId);
             CardDTO cardDTO = sessionService.getNextCard(packId, session_uuid);
-            System.out.println(sessionService.cardsToRepeatToday(packId));
             SessionDTO sessionDTO = new SessionDTO(cardDTO.getQuestion(), cardDTO.getAnswer(), session_uuid,
                     packId, cardDTO.getId(), true, sessionService.cardsToRepeatToday(packId));
             return new ResponseEntity<>(sessionDTO, HttpStatus.OK);
