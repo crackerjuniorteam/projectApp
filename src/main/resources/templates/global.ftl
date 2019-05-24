@@ -1,6 +1,7 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/login.ftl" as l>
 <#import "parts/pager.ftl" as p>
+<#include "parts/security.ftl">
 
 <@c.page>
     <@p.pager url page/>
@@ -17,9 +18,13 @@
                 <div class="card-body">
                     <div class="card-link"></div>
                     <form method="post" action="/global">
-                        <button type="submit" class="btn btn-outline-info">Добавить к себе</button>
-                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                        <input type="hidden" name="id" value="${p.id}"/>
+                        <#if !user.containsPackName(p.name)>
+                            <button type="submit" class="btn btn-outline-info">Добавить к себе</button>
+                            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                            <input type="hidden" name="id" value="${p.id}"/>
+                        <#else>
+                            <button disabled="disabled" type="submit" class="btn btn-success">Уже добавлен</button>
+                        </#if>
                     </form>
                 </div>
             </div>

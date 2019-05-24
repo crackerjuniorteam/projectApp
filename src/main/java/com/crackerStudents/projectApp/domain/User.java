@@ -245,4 +245,13 @@ public class User implements UserDetails {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public boolean containsPackName(String packName) {
+        for(Pack el: packs) {
+            if (el.getName().equals(packName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

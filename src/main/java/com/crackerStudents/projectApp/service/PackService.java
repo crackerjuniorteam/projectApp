@@ -134,4 +134,15 @@ public class PackService {
         Page<PackDTO> allDTO = all.map(x -> modelMapper.map(x, PackDTO.class));
         return allDTO;
     }
+
+
+    public boolean packExistsGlobal(String packName) {
+        Set<Pack> set = packRepo.findByIsPublicTrue();
+        for(Pack el: set) {
+            if (el.getName().equals(packName)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

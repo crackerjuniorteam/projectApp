@@ -38,11 +38,20 @@ public class NewPackController {
         if (!radios.get("packPublic").equals("public")) {
             packPublic = false;
         }
-        if (packService.packExists(packName, user)) {
-            checkCreate = -1;
+        if (packPublic) {
+            if (packService.packExistsGlobal(packName)) {
+                checkCreate = -1;
+            } else {
+                packService.createPack(packName, user, packPublic);
+                checkCreate = 1;
+            }
         } else {
-            packService.createPack(packName, user, packPublic);
-            checkCreate = 1;
+            if (packService.packExists(packName, user)) {
+                checkCreate = -1;
+            } else {
+                packService.createPack(packName, user, packPublic);
+                checkCreate = 1;
+            }
         }
         return "redirect:/createPack";
     }

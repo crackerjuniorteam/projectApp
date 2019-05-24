@@ -6,8 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -19,4 +22,6 @@ public interface PackRepo extends JpaRepository<Pack, UUID> {
     Page<Pack> findByAuthorId(Pageable pageable, UUID id);
 
     Page<Pack> findByIsPublicTrue(Pageable pageable);
+
+    Set<Pack> findByIsPublicTrue();
 }

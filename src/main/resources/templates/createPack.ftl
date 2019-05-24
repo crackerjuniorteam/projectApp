@@ -10,7 +10,7 @@
             <div class="form-check m-2">
                 <input class="form-check-input" type="radio" name="packPublic" value="public" checked>
                 <label class="form-check-label" for="xxx">
-                    <b>Public</b> <i>- будет виден всем пользователям</i>
+                    <b>Public</b> <i>- будет виден всем пользователям(название должно быть уникальным среди всех публичных)</i>
                 </label>
             </div>
             <div class="form-check m-2">
